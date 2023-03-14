@@ -1,5 +1,7 @@
-/Library
-/Logs
-/Temp
-/.vs
+Library/
+Logs/
+Temp/
+.vs/
 .vsconfig
+*.htm
+*.csproj
