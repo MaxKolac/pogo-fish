@@ -1,6 +1,7 @@
 Library/
 Logs/
 Temp/
+obj/
 .vs/
 .vsconfig
 *.htm
