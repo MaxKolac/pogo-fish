@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour {
@@ -14,8 +10,9 @@ public class PlayerScript : MonoBehaviour {
     /// <summary>Amount of horizontal force applied to Player per frame when user is holding down their finger.</summary>
     [SerializeField] private float accelerationRate = 2.0f;
     /// <summary>Multiplier of the Vector3.up, whenever Player jumps.</summary>
-    [SerializeField] private int jumpForce = 12;
+    [SerializeField] private int jumpForce = 10;
 
+    public RaycastHit2D playerRaycast { private set; get; }
     private float rightScreenEdge;
     private float leftScreenEdge;
     private float middleOfTheScreen;
@@ -24,15 +21,18 @@ public class PlayerScript : MonoBehaviour {
     // Start is called before the first frame update
     void Start()
     {
-        leftScreenEdge = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)).x;
-        rightScreenEdge = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
+        leftScreenEdge = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x;
+        rightScreenEdge = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).x;
         middleOfTheScreen = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width / 2, 0)).x;
+        playerRaycast = Physics2D.Raycast(transform.position, Vector3.down, 2f, 6);
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        //Teleport player to the other side when he falls out of the screen bounds
+        Debug.DrawLine(playerRaycast.centroid, playerRaycast.point, Color.red);
+
+        //Teleport player to the other side of screen when he falls out of the screen bounds
         if (transform.position.x < leftScreenEdge)
             transform.position = new Vector3(rightScreenEdge, transform.position.y, transform.position.z);
         
@@ -71,6 +71,4 @@ public class PlayerScript : MonoBehaviour {
         rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
         rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
-
-
 }

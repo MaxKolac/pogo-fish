@@ -1,26 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ScrollerScript : MonoBehaviour
 {
-    public GameObject player;
-    public float height = 0f;
+    /*[SerializeField] private PlatformPooler platformPooler;
+    [SerializeField] private Rigidbody2D playerRigidbody;
 
-    /// <summary>Once the Player reached above this Y coordinate, height will be incremented.</summary>
-    private float heightBarrier;
-    private Vector3 oldPosition = Vector3.zero;
-
-    void Awake()
+    public void ScrollGameObjectsDown(float deltaHeight)
     {
-        heightBarrier = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 4f, 0)).y;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (player.transform.position.y < heightBarrier) return;
-        height += Mathf.Max(0, player.transform.position.y - oldPosition.y);
-        oldPosition = player.transform.position;
-    }
+        foreach (GameObject obj in platformPooler.GetActivePooledObjects())
+            obj.transform.position = new Vector2(obj.transform.position.x, Mathf.Max(0, obj.transform.position.y - deltaHeight));
+        //playerRigidbody.transform.position = new Vector2(
+        //    playerRigidbody.transform.position.x, 
+        //    Mathf.Max(0, playerRigidbody.transform.position.y - deltaHeight)
+        //);
+    }*/
 }
