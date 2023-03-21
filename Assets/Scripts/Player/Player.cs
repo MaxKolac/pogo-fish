@@ -1,15 +1,15 @@
 using UnityEngine;
 
-public class VisualPlayer : MonoBehaviour
+public class Player : MonoBehaviour
 {
     [SerializeField] private GlobalAttributes globalAttributes;
     [SerializeField] private Rigidbody2D ownRigidbody;
-    [SerializeField] private Rigidbody2D ghostRigidbody;
-    [SerializeField] private GhostPlayer ghostPlayer;
+    [SerializeField] private HeightSimulator heightSimulator;
 
-    [SerializeField] private float accelerationRate = 2f;
-    [SerializeField] private float maxHorizontalVelocity = 2f;
+    private float accelerationRate = 2f;
+    private float maxHorizontalVelocity = 10f;
 
+    public bool UpdatesSuspended { private set; get; } = false;
     private Vector3 currentTapPosition;
 
     void FixedUpdate()
@@ -43,14 +43,33 @@ public class VisualPlayer : MonoBehaviour
                 new Vector2(ownRigidbody.velocity.x * 0.99f, ownRigidbody.velocity.y);
         }
 
-        //If platforms are scrolling, stay at heightBarrier
-        if (ghostPlayer.isScrolling) transform.position = new Vector2(transform.position.x, globalAttributes.heightBarrier);
+        if (UpdatesSuspended) return;
+        if (ownRigidbody.position.y > globalAttributes.heightBarrier && ownRigidbody.velocity.y > 0)
+        { 
+            heightSimulator.ResumeUpdates(ownRigidbody.velocity.y);
+            SuspendUpdates(); 
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, 0);
         ownRigidbody.AddForce(Vector2.up * globalAttributes.jumpForce, ForceMode2D.Impulse);
-        ghostPlayer.Jump();
+    }
+
+    public void SuspendUpdates()
+    {
+        if (UpdatesSuspended) return;
+        UpdatesSuspended = true; 
+        ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, 0);
+        ownRigidbody.gravityScale = 0;
+    }
+
+    public void ResumeUpdates(float verticalVelocity)
+    {
+        if (!UpdatesSuspended) return;
+        UpdatesSuspended = false;
+        ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, verticalVelocity);
+        ownRigidbody.gravityScale = 1;
     }
 }

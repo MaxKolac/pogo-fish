@@ -40,7 +40,7 @@ public class PlatformPooler : MonoBehaviour
     {
         foreach (GameObject obj in pooledPlatforms)
         {
-            if (obj.transform.position.y < globalAttributes.platformTeleportBarrier)
+            if (obj.transform.position.y < globalAttributes.lowerScreenEdge)
                 obj.transform.position = new Vector2(Random.Range(minWidth, maxWidth), globalAttributes.upperScreenEdge);
         }
     }

@@ -14,7 +14,7 @@ public class GlobalAttributes : MonoBehaviour
     public Vector2 middleOfScreen { private set; get; }
     
     //PlatformPooler
-    public float platformTeleportBarrier { private set; get; }
+    //public float platformTeleportBarrier { private set; get; }
 
     void Start()
     {
@@ -27,12 +27,12 @@ public class GlobalAttributes : MonoBehaviour
         upperScreenEdge = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
         middleOfScreen = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width / 2f, Screen.height / 2f));
 
-        platformTeleportBarrier = lowerScreenEdge - 5f;
+        // = lowerScreenEdge - 5f;
     }
 
     void Update()
     {
         Debug.DrawLine(new Vector2(-10, heightBarrier), new Vector2(10, heightBarrier), Color.red);
-        Debug.DrawLine(new Vector2(-10, platformTeleportBarrier), new Vector2(10, platformTeleportBarrier), Color.red);
+        //Debug.DrawLine(new Vector2(-10, platformTeleportBarrier), new Vector2(10, platformTeleportBarrier), Color.red);
     }
 }
