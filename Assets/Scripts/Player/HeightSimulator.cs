@@ -15,7 +15,7 @@ public class HeightSimulator : MonoBehaviour
     private Vector2 oldPosition;
     private float lastVerticalVelocity;
 
-    void Start()
+    void OnEnable()
     {
         UpdatesSuspended = false;
         deltaHeight = 0;
@@ -26,10 +26,10 @@ public class HeightSimulator : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (ownRigidbody.position.y > globalAttributes.heightBarrier)
+        if (ownRigidbody.position.y > globalAttributes.HeightBarrier)
         {
             deltaHeight = transform.position.y - oldPosition.y;
-            platformPooler.ScrollPooledPlatformsDown(Mathf.Max(0f, deltaHeight));
+            platformPooler.ScrollPlatformsDown(Mathf.Max(0f, deltaHeight));
             scoreCounter.IncreaseScore(Mathf.Max(0f, deltaHeight));
             oldPosition = transform.position;
         }
@@ -56,7 +56,7 @@ public class HeightSimulator : MonoBehaviour
     {
         if (!UpdatesSuspended) return;
         UpdatesSuspended = false;
-        ownRigidbody.position = new Vector2(ownRigidbody.position.x, globalAttributes.heightBarrier);
+        ownRigidbody.position = new Vector2(ownRigidbody.position.x, globalAttributes.HeightBarrier);
         ownRigidbody.velocity = new Vector2(0, verticalVelocity);
         ownRigidbody.gravityScale = 1;
     }
