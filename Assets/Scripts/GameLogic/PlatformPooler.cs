@@ -1,71 +1,96 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//https://www.youtube.com/watch?v=tdSmKaJvCoA
 public class PlatformPooler : MonoBehaviour
 {
-    [SerializeField] private GlobalAttributes globalAttributes;
-    [SerializeField] private GameObject pooledGameObjectType;
-    [SerializeField] private Ground ground;
-
-    private List<GameObject> pooledPlatforms;
-    private int poolSize = 20;
-    private float maxHeight = 4f;
-    private float minHeight = 2f;
-    private float platformSpawnHeight = 0f;
-
-    void OnEnable()
+    [System.Serializable]
+    public class PlatformPool
     {
-        InitializeNewPool();
+        public Platform.PlatformType platformType;
+        public GameObject platformPrefab;
+        public int size;
     }
 
-    public void InitializeNewPool()
-    {
-        pooledPlatforms = new List<GameObject>();
-        for (int i = 0; i < poolSize; i++)
-        {
-            GameObject temp = Instantiate(pooledGameObjectType);
-            pooledPlatforms.Add(temp);
-        }
-        foreach (GameObject obj in pooledPlatforms)
-        {
-            platformSpawnHeight += Random.Range(minHeight, maxHeight);
-            obj.transform.position = new Vector2(Random.Range(globalAttributes.LeftScreenEdge, globalAttributes.RightScreenEdge), platformSpawnHeight);
-        }
-    }
+    public List<PlatformPool> platformPools;
+    public Dictionary<Platform.PlatformType, Queue<GameObject>> poolDictionary;
 
-    void Update()
+    void Start()
     {
-        foreach (GameObject obj in pooledPlatforms)
+        Actions.OnPlatformDespawn += DespawnPlatform;
+        poolDictionary = new Dictionary<Platform.PlatformType, Queue<GameObject>>();
+        foreach (PlatformPool pool in platformPools)
         {
-            if (obj.transform.position.y < globalAttributes.LowerScreenEdge)
-                RespawnPlatform(obj);
+            Queue<GameObject> queue = new Queue<GameObject>();
+            for (int i = 0; i < pool.size; i++)
+            {
+                GameObject platform = Instantiate(pool.platformPrefab);
+                platform.gameObject.SetActive(false);
+                platform.transform.SetParent(transform);
+                queue.Enqueue(platform);
+            }
+            poolDictionary.Add(pool.platformType, queue);
         }
     }
 
-    public List<GameObject> GetAllPlatforms()
+    public GameObject SpawnPlatform(Platform.PlatformType platformType, Vector2 position)
     {
-        return pooledPlatforms;
+        if (!poolDictionary.ContainsKey(platformType))
+        {
+            Debug.LogWarning("PoolDictionary doesn't contain a PlatformPool of " + platformType + " type.");
+            return null;
+        }
+        GameObject platformToSpawn = poolDictionary[platformType].Dequeue();
+        platformToSpawn.gameObject.SetActive(true);
+        platformToSpawn.transform.SetParent(null);
+        platformToSpawn.transform.position = position;
+        //poolDictionary[platformType].Enqueue(platformToSpawn);
+        return platformToSpawn;
     }
 
-    public List<GameObject> GetActivePlatforms()
+    private void DespawnPlatform(Platform.PlatformType platformType, GameObject platformToDespawn)
     {
-        List<GameObject> list = new List<GameObject>();
-        foreach (GameObject obj in pooledPlatforms)
-            if (obj.activeInHierarchy) list.Add(obj);
-        return list;
+        platformToDespawn.gameObject.SetActive(false);
+        platformToDespawn.transform.SetParent(transform);
+        platformToDespawn.transform.position = Vector2.zero;
+        poolDictionary[platformType].Enqueue(platformToDespawn);
     }
 
-    void RespawnPlatform(GameObject platform)
+    public List<GameObject> GetActivePlatforms(Platform.PlatformType platformType)
     {
-        platform.transform.position = new Vector2(Random.Range(globalAttributes.LeftScreenEdge, globalAttributes.RightScreenEdge), platformSpawnHeight);
-        platform.SetActive(true);
+        if (!poolDictionary.ContainsKey(platformType))
+        {
+            Debug.LogWarning("PoolDictionary doesn't contain a PlatformPool of " + platformType + " type.");
+            return null;
+        }
+        //List<Platform> activePlatforms = new List<Platform>();
+        List<GameObject> activePlatforms = new List<GameObject>();
+        //foreach (Platform platform in poolDictionary[platformType])
+        foreach (GameObject platform in poolDictionary[platformType])
+        {
+            if (platform.gameObject.activeSelf)
+            {
+                activePlatforms.Add(platform);
+            }
+        }
+        return activePlatforms;
     }
 
-    public void ScrollPlatformsDown(float deltaHeight)
+    public List<GameObject> GetAllActivePlatforms()
     {
-        foreach (GameObject obj in pooledPlatforms)
-            obj.transform.position = new Vector2(obj.transform.position.x, Mathf.Max(0, obj.transform.position.y - deltaHeight));
-        if (ground.isActiveAndEnabled)
-            ground.transform.position = new Vector2(ground.transform.position.x, Mathf.Max(0, ground.transform.position.y - deltaHeight));
+        //List<Platform> activePlatforms = new List<Platform>();
+        List<GameObject> activePlatforms = new List<GameObject>();
+        foreach (PlatformPool pool in platformPools)
+        {
+            //foreach (Platform platform in poolDictionary[pool.platformType])
+            foreach (GameObject platform in poolDictionary[pool.platformType])
+            {
+                if (platform.gameObject.activeSelf)
+                {
+                    activePlatforms.Add(platform);
+                } 
+            }
+        }
+        return activePlatforms;
     }
 }

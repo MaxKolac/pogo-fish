@@ -6,3 +6,4 @@ obj/
 .vsconfig
 *.htm
 *.csproj
+*.sln

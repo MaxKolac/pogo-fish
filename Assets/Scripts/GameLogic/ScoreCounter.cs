@@ -6,17 +6,18 @@ public class ScoreCounter : MonoBehaviour
     [SerializeField] TMP_Text scoreText;
     public int currentScore { private set; get; } = 0;
 
-    private void Start()
+    private void OnEnable()
     {
-        ResetScore();
-    }
-
-    public void ResetScore()
-    {
+        Actions.OnDeltaHeightChanged += IncreaseScore;
         currentScore = 0;
     }
 
-    public void IncreaseScore(float deltaHeight)
+    void OnDisable()
+    {
+        Actions.OnDeltaHeightChanged -= IncreaseScore;
+    }
+
+    private void IncreaseScore(float deltaHeight)
     {
         currentScore += Mathf.RoundToInt(deltaHeight * 10f);
     }

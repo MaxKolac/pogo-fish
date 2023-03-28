@@ -2,23 +2,21 @@ using UnityEngine;
 
 public class HeightSimulator : MonoBehaviour
 {
-    [SerializeField] private GlobalAttributes globalAttributes;
-    [SerializeField] private Rigidbody2D ownRigidbody;
     [SerializeField] private Player player;
-
-    [SerializeField] private PlatformPooler platformPooler;
-    [SerializeField] private ScoreCounter scoreCounter;
+    [SerializeField] private Rigidbody2D ownRigidbody;
 
     public bool UpdatesSuspended { private set; get; }
 
-    private float deltaHeight;
     private Vector2 oldPosition;
+    private float deltaHeight;
     private float lastVerticalVelocity;
 
     void OnEnable()
     {
         UpdatesSuspended = false;
         deltaHeight = 0;
+        //GlobalAttributes.DeltaHeight = 0;
+        //GlobalAttributes.LastTotalDeltaHeight = 0;
         oldPosition = transform.position;
         lastVerticalVelocity = 0;
         SuspendUpdates();
@@ -26,11 +24,13 @@ public class HeightSimulator : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (ownRigidbody.position.y > globalAttributes.HeightBarrier)
+        if (ownRigidbody.position.y > GlobalAttributes.HeightBarrier)
         {
+            //GlobalAttributes.DeltaHeight = transform.position.y - oldPosition.y;
             deltaHeight = transform.position.y - oldPosition.y;
-            platformPooler.ScrollPlatformsDown(Mathf.Max(0f, deltaHeight));
-            scoreCounter.IncreaseScore(Mathf.Max(0f, deltaHeight));
+            //GlobalAttributes.LastTotalDeltaHeight = Mathf.Max(GlobalAttributes.LastTotalDeltaHeight, transform.position.y - GlobalAttributes.HeightBarrier);
+            //Actions.OnDeltaHeightChanged?.Invoke(GlobalAttributes.DeltaHeight);
+            Actions.OnDeltaHeightChanged?.Invoke(deltaHeight);
             oldPosition = transform.position;
         }
             
@@ -50,13 +50,14 @@ public class HeightSimulator : MonoBehaviour
         UpdatesSuspended = true;
         ownRigidbody.velocity = Vector2.zero;
         ownRigidbody.gravityScale = 0;
+        //GlobalAttributes.LastTotalDeltaHeight = 0;
     }
 
     public void ResumeUpdates(float verticalVelocity)
     {
         if (!UpdatesSuspended) return;
         UpdatesSuspended = false;
-        ownRigidbody.position = new Vector2(ownRigidbody.position.x, globalAttributes.HeightBarrier);
+        ownRigidbody.position = new Vector2(ownRigidbody.position.x, GlobalAttributes.HeightBarrier);
         ownRigidbody.velocity = new Vector2(0, verticalVelocity);
         ownRigidbody.gravityScale = 1;
     }
