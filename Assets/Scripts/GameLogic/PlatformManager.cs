@@ -3,9 +3,8 @@ using UnityEngine;
 public class PlatformManager : MonoBehaviour
 {
     public PlatformPooler platformPooler;
-    public GameObject ground;
 
-    private float simulatedSpawnHeight;
+    //private float simulatedSpawnHeight;
     private float platformSpawnX;
     private float minX = 1f;
     private float maxX = 1.75f;
@@ -19,14 +18,16 @@ public class PlatformManager : MonoBehaviour
     {
         Actions.OnDeltaHeightChanged += ScrollActivePlatforms;
         Actions.OnDeltaHeightChanged += IncreaseDeltaHeightChange;
-        simulatedSpawnHeight = 0f;
+        //simulatedSpawnHeight = 0f;
         platformSpawnX = 0f;
         platformSpawnY = 0f;
         for (int i = 0; i < 10; i++)
         {
             NewRandomSpawnX();
+            //float newRandomValue = Random.Range(minY, maxY);
+            //platformSpawnY += newRandomValue;
+            //simulatedSpawnHeight += newRandomValue;
             platformSpawnY += Random.Range(minY, maxY);
-            simulatedSpawnHeight += platformSpawnY;
             platformPooler.SpawnPlatform(Platform.PlatformType.Default, new Vector2(platformSpawnX, platformSpawnY));
         }
         deltaHeightChangeSinceLastSpawn = 0;
@@ -44,15 +45,21 @@ public class PlatformManager : MonoBehaviour
         if (deltaHeightChangeSinceLastSpawn <= nextPlatformSpawnHeightTrigger) return;
         deltaHeightChangeSinceLastSpawn = 0;
         NewRandomSpawnX();
-        float platformPosition = platformPooler.LastPlatform.position.y + nextPlatformSpawnHeightTrigger;
-        platformPooler.SpawnPlatform(Platform.PlatformType.Default, new Vector2(platformSpawnX, platformPosition));
+        platformSpawnY = platformPooler.LastPlatformsPosition.y + nextPlatformSpawnHeightTrigger;
+        platformPooler.SpawnPlatform(Platform.PlatformType.Default, new Vector2(platformSpawnX, platformSpawnY));
         nextPlatformSpawnHeightTrigger = Random.Range(minY, maxY);
     }
 
     private void ScrollActivePlatforms(float deltaHeight)
     {
-        if (ground.gameObject.activeSelf)
-            ground.transform.position = new Vector2(ground.transform.position.x, ground.transform.position.y - deltaHeight);
+        foreach (GameObject activePlatform in platformPooler.GetAllActivePlatforms())
+        {
+            activePlatform.transform.position =
+                new Vector2(
+                    activePlatform.transform.position.x,
+                    activePlatform.transform.position.y - Mathf.Max(deltaHeight)
+                );
+        }
     }
 
     private void IncreaseDeltaHeightChange(float deltaHeight) => deltaHeightChangeSinceLastSpawn += deltaHeight;

@@ -11,7 +11,10 @@ public class Player : MonoBehaviour
     private const float maxHorizontalVelocity = 10f;
     private const float jumpForce = 10f;
 
+    ///<summary>Weaker type of freezing. Sets gravity scale to 0 and sets the velocity to 0.</summary>
     public bool IsFrozen { private set; get; }
+    ///<summary>Stronger type of freezing. Completely nulifies any <c>Update()</c> calls and freezes velocity at 0 when <c>true</c>.</summary>
+    public bool IsTitleScreenFrozen { private set; get; }
     private Vector3 currentTapPosition;
 
     void OnEnable()
@@ -22,6 +25,12 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     { 
+        if (IsTitleScreenFrozen)
+        {
+            ownRigidbody.velocity = Vector2.zero;
+            return;
+        }
+
         //Speed limit
         ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, Mathf.Clamp(ownRigidbody.velocity.y, -90, jumpForce));
 
@@ -50,7 +59,7 @@ public class Player : MonoBehaviour
             ownRigidbody.velocity =
                 Mathf.Abs(ownRigidbody.velocity.x) < minHorizontalVelocity ?
                 new Vector2(0, ownRigidbody.velocity.y) :
-                new Vector2(ownRigidbody.velocity.x - decelerationRate, ownRigidbody.velocity.y);
+                new Vector2(ownRigidbody.velocity.x - (Mathf.Sign(ownRigidbody.velocity.x) * decelerationRate), ownRigidbody.velocity.y);
         }
 
         if (IsFrozen) return;
@@ -86,5 +95,19 @@ public class Player : MonoBehaviour
     public void TransferVelocity(float verticalVelocity)
     {
         ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, verticalVelocity);
+    }
+
+    public void TitleScreenFreeze()
+    {
+        if (IsTitleScreenFrozen) return;
+        Freeze();
+        IsTitleScreenFrozen = true;
+    }
+
+    public void TitleScreenUnfreeze()
+    {
+        if (!IsTitleScreenFrozen) return;
+        Unfreeze();
+        IsTitleScreenFrozen = false;
     }
 }

@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public enum GameState { TitleScreen, Playing, Paused, GameOver }
     public static GameState CurrentGameState { private set; get; }
 
-    void OnEnable() => ShowTitleScreen();
+    void Start() => ShowTitleScreen();
 
     public void ShowTitleScreen()
     {
@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
         ground.SetActive(true);
         heightSimulator.SetActive(false);
         platformManager.SetActive(false);
-        playerScript.Freeze();
+        playerScript.TitleScreenFreeze();
         scoreCounter.SetActive(false);
     }
 
@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         ground.SetActive(true);
         heightSimulator.SetActive(true);
         platformManager.SetActive(true);
-        playerScript.Unfreeze();
+        playerScript.TitleScreenUnfreeze();
         scoreCounter.SetActive(true);
     }
 

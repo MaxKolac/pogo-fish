@@ -14,8 +14,6 @@ public class HeightSimulator : MonoBehaviour
     void OnEnable()
     {
         deltaHeight = 0;
-        //GlobalAttributes.DeltaHeight = 0;
-        //GlobalAttributes.LastTotalDeltaHeight = 0;
         oldPosition = transform.position;
         lastVerticalVelocity = 0;
         Freeze();
@@ -25,14 +23,11 @@ public class HeightSimulator : MonoBehaviour
     {
         if (ownRigidbody.position.y > GlobalAttributes.HeightBarrier)
         {
-            //GlobalAttributes.DeltaHeight = transform.position.y - oldPosition.y;
             deltaHeight = transform.position.y - oldPosition.y;
-            //GlobalAttributes.LastTotalDeltaHeight = Mathf.Max(GlobalAttributes.LastTotalDeltaHeight, transform.position.y - GlobalAttributes.HeightBarrier);
-            //Actions.OnDeltaHeightChanged?.Invoke(GlobalAttributes.DeltaHeight);
             Actions.OnDeltaHeightChanged?.Invoke(deltaHeight);
             oldPosition = transform.position;
         }
-            
+
         if (IsFrozen) return;
         //If the GhostPlayer is at the apex of his jump, where the sign of vertical velocity flips from positive to negative
         if (lastVerticalVelocity >= 0f && ownRigidbody.velocity.y <= 0f)
@@ -57,11 +52,11 @@ public class HeightSimulator : MonoBehaviour
         if (!IsFrozen) return;
         IsFrozen = false;
         ownRigidbody.position = new Vector2(ownRigidbody.position.x, GlobalAttributes.HeightBarrier);
-        ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, verticalVelocity);
         ownRigidbody.gravityScale = 1;
     }
 
     public void TransferVelocity(float verticalVelocity)
     {
-        ownRigidbody.velocity = new Vector2(0, verticalVelocity);
+        ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, verticalVelocity);
     }
+}

@@ -5,7 +5,7 @@ using UnityEngine;
 //https://www.youtube.com/watch?v=tdSmKaJvCoA
 public class PlatformPooler : MonoBehaviour
 {
-    [System.Serializable]
+    [Serializable]
     public class PlatformPool
     {
         public Platform.PlatformType platformType;
@@ -13,11 +13,12 @@ public class PlatformPooler : MonoBehaviour
         public int size;
     }
 
-    public List<PlatformPool> platformPools;
-    public Dictionary<Platform.PlatformType, Queue<GameObject>> poolDictionary;
+    [SerializeField] private List<PlatformPool> platformPools;
 
+    private Dictionary<Platform.PlatformType, Queue<GameObject>> poolDictionary;
     private Dictionary<Platform.PlatformType, List<GameObject>> activePlatforms;
-    public Transform LastPlatform { get; private set; }
+    
+    public Vector2 LastPlatformsPosition { get; private set; } = Vector2.zero;
 
     void Start()
     {
@@ -26,11 +27,11 @@ public class PlatformPooler : MonoBehaviour
         activePlatforms = new();
         foreach (PlatformPool pool in platformPools)
         {
-            Queue<GameObject> queue = new Queue<GameObject>();
+            Queue<GameObject> queue = new();
             for (int i = 0; i < pool.size; i++)
             {
                 GameObject platform = Instantiate(pool.platformPrefab);
-                platform.gameObject.SetActive(false);
+                platform.SetActive(false);
                 platform.transform.SetParent(transform);
                 queue.Enqueue(platform);
             }
@@ -45,16 +46,18 @@ public class PlatformPooler : MonoBehaviour
             Debug.LogWarning("PoolDictionary doesn't contain a PlatformPool of " + platformType + " type.");
             return null;
         }
+
         GameObject platformToSpawn = 
             poolDictionary[platformType].Count > 0 ?
             poolDictionary[platformType].Dequeue() :
             InstantiateAdditionalPlatform(platformType);
+
         platformToSpawn.gameObject.SetActive(true);
         platformToSpawn.transform.SetParent(null);
         platformToSpawn.transform.position = position;
 
         activePlatforms[platformType].Add(platformToSpawn);
-        LastPlatform = platformToSpawn.transform;
+        LastPlatformsPosition = platformToSpawn.transform.position;
 
         return platformToSpawn;
     }
@@ -64,6 +67,7 @@ public class PlatformPooler : MonoBehaviour
         platformToDespawn.gameObject.SetActive(false);
         platformToDespawn.transform.SetParent(transform);
         platformToDespawn.transform.position = Vector2.zero;
+
         activePlatforms[platformScript.type].Remove(platformToDespawn);
         poolDictionary[platformScript.type].Enqueue(platformToDespawn);
     }
