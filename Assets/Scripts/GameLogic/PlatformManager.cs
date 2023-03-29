@@ -44,17 +44,15 @@ public class PlatformManager : MonoBehaviour
         if (deltaHeightChangeSinceLastSpawn <= nextPlatformSpawnHeightTrigger) return;
         deltaHeightChangeSinceLastSpawn = 0;
         NewRandomSpawnX();
-        platformSpawnY = simulatedSpawnHeight + nextPlatformSpawnHeightTrigger;
-        platformPooler.SpawnPlatform(Platform.PlatformType.Default, new Vector2(platformSpawnX, platformSpawnY));
+        float platformPosition = platformPooler.LastPlatform.position.y + nextPlatformSpawnHeightTrigger;
+        platformPooler.SpawnPlatform(Platform.PlatformType.Default, new Vector2(platformSpawnX, platformPosition));
         nextPlatformSpawnHeightTrigger = Random.Range(minY, maxY);
     }
 
     private void ScrollActivePlatforms(float deltaHeight)
     {
-        //foreach (GameObject obj in platformPooler.GetAllActivePlatforms())
-        //    obj.transform.position = new Vector2(obj.transform.position.x, Mathf.Max(0, obj.transform.position.y - deltaHeight));
         if (ground.gameObject.activeSelf)
-            ground.transform.position = new Vector2(ground.transform.position.x, Mathf.Max(0, ground.transform.position.y - deltaHeight));
+            ground.transform.position = new Vector2(ground.transform.position.x, ground.transform.position.y - deltaHeight);
     }
 
     private void IncreaseDeltaHeightChange(float deltaHeight) => deltaHeightChangeSinceLastSpawn += deltaHeight;

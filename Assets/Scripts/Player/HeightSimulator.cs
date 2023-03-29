@@ -57,6 +57,7 @@ public class HeightSimulator : MonoBehaviour
         if (!IsFrozen) return;
         IsFrozen = false;
         ownRigidbody.position = new Vector2(ownRigidbody.position.x, GlobalAttributes.HeightBarrier);
+        ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, verticalVelocity);
         ownRigidbody.gravityScale = 1;
     }
 
@@ -64,4 +65,3 @@ public class HeightSimulator : MonoBehaviour
     {
         ownRigidbody.velocity = new Vector2(0, verticalVelocity);
     }
-}

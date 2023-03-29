@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,10 +16,14 @@ public class PlatformPooler : MonoBehaviour
     public List<PlatformPool> platformPools;
     public Dictionary<Platform.PlatformType, Queue<GameObject>> poolDictionary;
 
+    private Dictionary<Platform.PlatformType, List<GameObject>> activePlatforms;
+    public Transform LastPlatform { get; private set; }
+
     void Start()
     {
         Actions.OnPlatformDespawn += DespawnPlatform;
-        poolDictionary = new Dictionary<Platform.PlatformType, Queue<GameObject>>();
+        poolDictionary = new();
+        activePlatforms = new();
         foreach (PlatformPool pool in platformPools)
         {
             Queue<GameObject> queue = new Queue<GameObject>();
@@ -40,14 +45,17 @@ public class PlatformPooler : MonoBehaviour
             Debug.LogWarning("PoolDictionary doesn't contain a PlatformPool of " + platformType + " type.");
             return null;
         }
-        GameObject platformToSpawn = poolDictionary[platformType].Dequeue();
-            //[platformType].Count > 0 ?
-            //poolDictionary[platformType].Dequeue() :
-            //InstantiateAdditionalPlatform(platformType);
+        GameObject platformToSpawn = 
+            poolDictionary[platformType].Count > 0 ?
+            poolDictionary[platformType].Dequeue() :
+            InstantiateAdditionalPlatform(platformType);
         platformToSpawn.gameObject.SetActive(true);
         platformToSpawn.transform.SetParent(null);
         platformToSpawn.transform.position = position;
-        //poolDictionary[platformType].Enqueue(platformToSpawn);
+
+        activePlatforms[platformType].Add(platformToSpawn);
+        LastPlatform = platformToSpawn.transform;
+
         return platformToSpawn;
     }
 
@@ -56,49 +64,29 @@ public class PlatformPooler : MonoBehaviour
         platformToDespawn.gameObject.SetActive(false);
         platformToDespawn.transform.SetParent(transform);
         platformToDespawn.transform.position = Vector2.zero;
+        activePlatforms[platformScript.type].Remove(platformToDespawn);
         poolDictionary[platformScript.type].Enqueue(platformToDespawn);
     }
 
-    /*private GameObject InstantiateAdditionalPlatform(Platform.PlatformType platformType)
+    private GameObject InstantiateAdditionalPlatform(Platform.PlatformType platformType)
     {
-        GameObject platform = Instantiate(pool.platformPrefab);
-        platform.gameObject.SetActive(false);
-        platform.transform.SetParent(transform);
-    }*/
-
-    /*public List<GameObject> GetActivePlatforms(Platform platformScript)
-    {
-        if (!poolDictionary.ContainsKey(platformScript.type))
-        {
-            Debug.LogWarning("PoolDictionary doesn't contain a PlatformPool of " + platformScript.type + " type.");
-            return null;
-        }
-        //List<Platform> activePlatforms = new List<Platform>();
-        List<GameObject> activePlatforms = new List<GameObject>();
-        //foreach (Platform platform in poolDictionary[platformType])
-        foreach (GameObject platform in poolDictionary[platformScript.type])
-        {
-            if (platform.gameObject.activeSelf)
-            {
-                activePlatforms.Add(platform);
-            }
-        }
-        return activePlatforms;
-    }*/
-
-    /*public List<GameObject> GetAllActivePlatforms()
-    {
-        List<GameObject> activePlatforms = new List<GameObject>();
+        Debug.LogWarning($"PlatformPooler ran out of {platformType} platforms! Instantiating additional GameObject...");
         foreach (PlatformPool pool in platformPools)
         {
-            foreach (GameObject platform in poolDictionary[pool.platformType])
-            {
-                if (platform.gameObject.activeSelf)
-                {
-                    activePlatforms.Add(platform);
-                } 
-            }
+            if (pool.platformType == platformType)
+                return Instantiate(pool.platformPrefab);
         }
-        return activePlatforms;
-    }*/
+        Debug.Log($"Couldn't find the {platformType} pool when instantiating additional platform!");
+        return null;
+    }
+
+    public List<GameObject> GetActivePlatforms(Platform.PlatformType platformType) => activePlatforms[platformType];
+
+    public List<GameObject> GetAllActivePlatforms()
+    {
+        List<GameObject> allActivePlatforms = new();
+        foreach (List<GameObject> list in activePlatforms.Values)
+            allActivePlatforms.AddRange(list);
+        return allActivePlatforms;
+    }
 }
