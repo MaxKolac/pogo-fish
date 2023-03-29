@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, Mathf.Clamp(ownRigidbody.velocity.y, -90, jumpForce));
+
         //Teleport player to the other side of screen when he falls out of the screen bounds
         if (transform.position.x < GlobalAttributes.LeftScreenEdge)
             transform.position = new Vector2(GlobalAttributes.RightScreenEdge, transform.position.y);
@@ -34,11 +36,10 @@ public class Player : MonoBehaviour
 
             //If he does, apply proper velocity, unless Player is already at maxVelocity
             if (Mathf.Abs(ownRigidbody.velocity.x) >= maxHorizontalVelocity) return;
-            ownRigidbody.AddForce(
-                currentTapPosition.x < GlobalAttributes.MiddleOfScreen.x ?
-                new Vector2(-1 * accelerationRate, 0) :
-                new Vector2(accelerationRate, 0)
-            );
+            ownRigidbody.velocity =
+                currentTapPosition.x < GlobalAttributes.MiddleOfScreen.x
+                    ? new Vector2(-1 * accelerationRate, ownRigidbody.velocity.y)
+                    : new Vector2(accelerationRate, ownRigidbody.velocity.y);
         }
         else
         {
@@ -68,7 +69,7 @@ public class Player : MonoBehaviour
         if (UpdatesSuspended) return;
         UpdatesSuspended = true; 
         ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, 0);
-        ownRigidbody.gravityScale = 0;
+        //ownRigidbody.gravityScale = 0;
     }
 
     public void ResumeUpdates(float verticalVelocity)
@@ -76,6 +77,6 @@ public class Player : MonoBehaviour
         if (!UpdatesSuspended) return;
         UpdatesSuspended = false;
         ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, verticalVelocity);
-        ownRigidbody.gravityScale = 1;
+        //ownRigidbody.gravityScale = 1;
     }
 }

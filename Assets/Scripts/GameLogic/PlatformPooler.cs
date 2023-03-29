@@ -15,6 +15,9 @@ public class PlatformPooler : MonoBehaviour
     public List<PlatformPool> platformPools;
     public Dictionary<Platform.PlatformType, Queue<GameObject>> poolDictionary;
 
+    private List<GameObject> activePlatforms = new List<GameObject>();
+    public Transform LastPlatform { get; private set; }
+
     void Start()
     {
         Actions.OnPlatformDespawn += DespawnPlatform;
@@ -44,7 +47,10 @@ public class PlatformPooler : MonoBehaviour
         platformToSpawn.gameObject.SetActive(true);
         platformToSpawn.transform.SetParent(null);
         platformToSpawn.transform.position = position;
-        //poolDictionary[platformType].Enqueue(platformToSpawn);
+
+        activePlatforms.Add(platformToSpawn);
+        LastPlatform = platformToSpawn.transform;
+
         return platformToSpawn;
     }
 
@@ -53,6 +59,7 @@ public class PlatformPooler : MonoBehaviour
         platformToDespawn.gameObject.SetActive(false);
         platformToDespawn.transform.SetParent(transform);
         platformToDespawn.transform.position = Vector2.zero;
+        activePlatforms.Remove(platformToDespawn);
         poolDictionary[platformType].Enqueue(platformToDespawn);
     }
 
@@ -78,19 +85,6 @@ public class PlatformPooler : MonoBehaviour
 
     public List<GameObject> GetAllActivePlatforms()
     {
-        //List<Platform> activePlatforms = new List<Platform>();
-        List<GameObject> activePlatforms = new List<GameObject>();
-        foreach (PlatformPool pool in platformPools)
-        {
-            //foreach (Platform platform in poolDictionary[pool.platformType])
-            foreach (GameObject platform in poolDictionary[pool.platformType])
-            {
-                if (platform.gameObject.activeSelf)
-                {
-                    activePlatforms.Add(platform);
-                } 
-            }
-        }
         return activePlatforms;
     }
 }

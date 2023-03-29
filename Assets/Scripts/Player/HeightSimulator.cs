@@ -57,8 +57,8 @@ public class HeightSimulator : MonoBehaviour
     {
         if (!UpdatesSuspended) return;
         UpdatesSuspended = false;
-        ownRigidbody.position = new Vector2(ownRigidbody.position.x, GlobalAttributes.HeightBarrier);
-        ownRigidbody.velocity = new Vector2(0, verticalVelocity);
+        //ownRigidbody.position = new Vector2(ownRigidbody.position.x, GlobalAttributes.HeightBarrier);
+        ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, verticalVelocity);
         ownRigidbody.gravityScale = 1;
     }
 }
