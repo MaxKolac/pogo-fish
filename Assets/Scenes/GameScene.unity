@@ -309,7 +309,7 @@ MonoBehaviour:
   ground: {fileID: 1605665656}
   heightSimulator: {fileID: 442661600}
   platformManager: {fileID: 812099482}
-  player: {fileID: 2058666827}
+  playerScript: {fileID: 2058666832}
   scoreCounter: {fileID: 442246677}
 --- !u!1 &305891536
 GameObject:
@@ -1638,7 +1638,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b527214dae269664cb7c6f0a32b365b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownRenderer: {fileID: 1605665658}
 --- !u!1 &1664152765
 GameObject:
   m_ObjectHideFlags: 0

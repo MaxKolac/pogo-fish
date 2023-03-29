@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class OneJumpPlatform : Platform
 {
-    void Start()
+    void Update()
     {
-        type = PlatformType.OneJump;    
+        CheckPosition();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Player"))
-            Actions.OnPlatformDespawn?.Invoke(type, gameObject);
+            Actions.OnPlatformDespawn?.Invoke(this, gameObject);
     }
 }

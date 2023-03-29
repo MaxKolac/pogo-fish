@@ -51,8 +51,8 @@ public class PlatformManager : MonoBehaviour
 
     private void ScrollActivePlatforms(float deltaHeight)
     {
-        foreach (GameObject obj in platformPooler.GetAllActivePlatforms())
-            obj.transform.position = new Vector2(obj.transform.position.x, Mathf.Max(0, obj.transform.position.y - deltaHeight));
+        //foreach (GameObject obj in platformPooler.GetAllActivePlatforms())
+        //    obj.transform.position = new Vector2(obj.transform.position.x, Mathf.Max(0, obj.transform.position.y - deltaHeight));
         if (ground.gameObject.activeSelf)
             ground.transform.position = new Vector2(ground.transform.position.x, Mathf.Max(0, ground.transform.position.y - deltaHeight));
     }

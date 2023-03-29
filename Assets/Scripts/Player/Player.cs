@@ -6,16 +6,18 @@ public class Player : MonoBehaviour
     [SerializeField] private Rigidbody2D ownRigidbody;
 
     private const float accelerationRate = 3.5f;
+    private const float decelerationRate = 0.25f;
+    private const float minHorizontalVelocity = 0.35f;
     private const float maxHorizontalVelocity = 10f;
     private const float jumpForce = 10f;
 
-    public bool UpdatesSuspended { private set; get; } = false;
+    public bool IsFrozen { private set; get; }
     private Vector3 currentTapPosition;
 
     void OnEnable()
     {
         ownRigidbody.position = new Vector2(0, 1.25f);
-        UpdatesSuspended = false;
+        Unfreeze();
     }
 
     void FixedUpdate()
@@ -26,13 +28,12 @@ public class Player : MonoBehaviour
         if (transform.position.x > GlobalAttributes.RightScreenEdge)
             transform.position = new Vector2(GlobalAttributes.LeftScreenEdge, transform.position.y);
 
-        //Update currentTapPosition if user is holding finger
         if (Input.GetMouseButton(0))
         {
+            //Update currentTapPosition and accelerate if user is holding finger
             currentTapPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             currentTapPosition.z = 0;
 
-            //If he does, apply proper velocity, unless Player is already at maxVelocity
             if (Mathf.Abs(ownRigidbody.velocity.x) >= maxHorizontalVelocity) return;
             ownRigidbody.AddForce(
                 currentTapPosition.x < GlobalAttributes.MiddleOfScreen.x ?
@@ -42,18 +43,19 @@ public class Player : MonoBehaviour
         }
         else
         {
-            //Else, decelerate - round up velocity lower than 0.05 to 0
+            //Else, decelerate - round up velocity lower than minHorizontalVelocity to 0
             ownRigidbody.velocity =
-                Mathf.Abs(ownRigidbody.velocity.x) < 0.25 ?
+                Mathf.Abs(ownRigidbody.velocity.x) < minHorizontalVelocity ?
                 new Vector2(0, ownRigidbody.velocity.y) :
-                new Vector2(ownRigidbody.velocity.x * 0.99f, ownRigidbody.velocity.y);
+                new Vector2(ownRigidbody.velocity.x - decelerationRate, ownRigidbody.velocity.y);
         }
 
-        if (UpdatesSuspended) return;
+        if (IsFrozen) return;
         if (ownRigidbody.position.y > GlobalAttributes.HeightBarrier && ownRigidbody.velocity.y > 0)
         { 
-            heightSimulator.ResumeUpdates(ownRigidbody.velocity.y);
-            SuspendUpdates(); 
+            heightSimulator.Unfreeze();
+            heightSimulator.TransferVelocity(ownRigidbody.velocity.y);
+            Freeze(); 
         }
     }
 
@@ -63,19 +65,23 @@ public class Player : MonoBehaviour
         ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, jumpForce);
     }
 
-    public void SuspendUpdates()
+    public void Freeze()
     {
-        if (UpdatesSuspended) return;
-        UpdatesSuspended = true; 
+        if (IsFrozen) return;
+        IsFrozen = true; 
         ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, 0);
         ownRigidbody.gravityScale = 0;
     }
 
-    public void ResumeUpdates(float verticalVelocity)
+    public void Unfreeze()
     {
-        if (!UpdatesSuspended) return;
-        UpdatesSuspended = false;
-        ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, verticalVelocity);
+        if (!IsFrozen) return;
+        IsFrozen = false;
         ownRigidbody.gravityScale = 1;
+    }
+
+    public void TransferVelocity(float verticalVelocity)
+    {
+        ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, verticalVelocity);
     }
 }

@@ -8,11 +8,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject ground;
     [SerializeField] private GameObject heightSimulator;
     [SerializeField] private GameObject platformManager;
-    [SerializeField] private GameObject player;
+    [SerializeField] private Player playerScript;
     [SerializeField] private GameObject scoreCounter;
 
     public enum GameState { TitleScreen, Playing, Paused, GameOver }
-    public GameState CurrentGameState { private set; get; }
+    public static GameState CurrentGameState { private set; get; }
 
     void OnEnable() => ShowTitleScreen();
 
@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
         ground.SetActive(true);
         heightSimulator.SetActive(false);
         platformManager.SetActive(false);
-        player.SetActive(true);
+        playerScript.Freeze();
         scoreCounter.SetActive(false);
     }
 
@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         ground.SetActive(true);
         heightSimulator.SetActive(true);
         platformManager.SetActive(true);
-        player.SetActive(true);
+        playerScript.Unfreeze();
         scoreCounter.SetActive(true);
     }
 

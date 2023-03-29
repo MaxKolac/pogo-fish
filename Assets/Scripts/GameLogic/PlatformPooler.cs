@@ -41,6 +41,9 @@ public class PlatformPooler : MonoBehaviour
             return null;
         }
         GameObject platformToSpawn = poolDictionary[platformType].Dequeue();
+            //[platformType].Count > 0 ?
+            //poolDictionary[platformType].Dequeue() :
+            //InstantiateAdditionalPlatform(platformType);
         platformToSpawn.gameObject.SetActive(true);
         platformToSpawn.transform.SetParent(null);
         platformToSpawn.transform.position = position;
@@ -48,25 +51,32 @@ public class PlatformPooler : MonoBehaviour
         return platformToSpawn;
     }
 
-    private void DespawnPlatform(Platform.PlatformType platformType, GameObject platformToDespawn)
+    private void DespawnPlatform(Platform platformScript, GameObject platformToDespawn)
     {
         platformToDespawn.gameObject.SetActive(false);
         platformToDespawn.transform.SetParent(transform);
         platformToDespawn.transform.position = Vector2.zero;
-        poolDictionary[platformType].Enqueue(platformToDespawn);
+        poolDictionary[platformScript.type].Enqueue(platformToDespawn);
     }
 
-    public List<GameObject> GetActivePlatforms(Platform.PlatformType platformType)
+    /*private GameObject InstantiateAdditionalPlatform(Platform.PlatformType platformType)
     {
-        if (!poolDictionary.ContainsKey(platformType))
+        GameObject platform = Instantiate(pool.platformPrefab);
+        platform.gameObject.SetActive(false);
+        platform.transform.SetParent(transform);
+    }*/
+
+    /*public List<GameObject> GetActivePlatforms(Platform platformScript)
+    {
+        if (!poolDictionary.ContainsKey(platformScript.type))
         {
-            Debug.LogWarning("PoolDictionary doesn't contain a PlatformPool of " + platformType + " type.");
+            Debug.LogWarning("PoolDictionary doesn't contain a PlatformPool of " + platformScript.type + " type.");
             return null;
         }
         //List<Platform> activePlatforms = new List<Platform>();
         List<GameObject> activePlatforms = new List<GameObject>();
         //foreach (Platform platform in poolDictionary[platformType])
-        foreach (GameObject platform in poolDictionary[platformType])
+        foreach (GameObject platform in poolDictionary[platformScript.type])
         {
             if (platform.gameObject.activeSelf)
             {
@@ -74,15 +84,13 @@ public class PlatformPooler : MonoBehaviour
             }
         }
         return activePlatforms;
-    }
+    }*/
 
-    public List<GameObject> GetAllActivePlatforms()
+    /*public List<GameObject> GetAllActivePlatforms()
     {
-        //List<Platform> activePlatforms = new List<Platform>();
         List<GameObject> activePlatforms = new List<GameObject>();
         foreach (PlatformPool pool in platformPools)
         {
-            //foreach (Platform platform in poolDictionary[pool.platformType])
             foreach (GameObject platform in poolDictionary[pool.platformType])
             {
                 if (platform.gameObject.activeSelf)
@@ -92,5 +100,5 @@ public class PlatformPooler : MonoBehaviour
             }
         }
         return activePlatforms;
-    }
+    }*/
 }

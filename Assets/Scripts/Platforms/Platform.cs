@@ -10,7 +10,7 @@ public class Platform : MonoBehaviour
         Default, OneJump
     }
 
-    public PlatformType type = PlatformType.Default;
+    public PlatformType type;
 
     void Update()
     {
@@ -21,9 +21,9 @@ public class Platform : MonoBehaviour
     /// Checks if the <c>Platform</c> is below screen's lower edge, which means the proper <c>Actions</c> should be invoked.
     /// Include this method in all subclasses' <c>Update()</c> methods, if they are different.
     /// </summary>
-    private void CheckPosition()
+    protected void CheckPosition()
     {
         if (transform.position.y < GlobalAttributes.LowerScreenEdge)
-            Actions.OnPlatformDespawn?.Invoke(type, gameObject);
+            Actions.OnPlatformDespawn?.Invoke(this, gameObject);
     }
 }

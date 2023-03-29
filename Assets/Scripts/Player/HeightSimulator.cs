@@ -5,7 +5,7 @@ public class HeightSimulator : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private Rigidbody2D ownRigidbody;
 
-    public bool UpdatesSuspended { private set; get; }
+    public bool IsFrozen { private set; get; }
 
     private Vector2 oldPosition;
     private float deltaHeight;
@@ -13,13 +13,12 @@ public class HeightSimulator : MonoBehaviour
 
     void OnEnable()
     {
-        UpdatesSuspended = false;
         deltaHeight = 0;
         //GlobalAttributes.DeltaHeight = 0;
         //GlobalAttributes.LastTotalDeltaHeight = 0;
         oldPosition = transform.position;
         lastVerticalVelocity = 0;
-        SuspendUpdates();
+        Freeze();
     }
 
     void FixedUpdate()
@@ -34,31 +33,35 @@ public class HeightSimulator : MonoBehaviour
             oldPosition = transform.position;
         }
             
-        if (UpdatesSuspended) return;
+        if (IsFrozen) return;
         //If the GhostPlayer is at the apex of his jump, where the sign of vertical velocity flips from positive to negative
         if (lastVerticalVelocity >= 0f && ownRigidbody.velocity.y <= 0f)
         {
-            player.ResumeUpdates(ownRigidbody.velocity.y);
-            SuspendUpdates();
+            player.Unfreeze();
+            player.TransferVelocity(ownRigidbody.velocity.y);
+            Freeze();
         }
         lastVerticalVelocity = ownRigidbody.velocity.y;
     }
 
-    public void SuspendUpdates()
+    public void Freeze()
     {
-        if (UpdatesSuspended) return;
-        UpdatesSuspended = true;
+        if (IsFrozen) return;
+        IsFrozen = true;
         ownRigidbody.velocity = Vector2.zero;
         ownRigidbody.gravityScale = 0;
-        //GlobalAttributes.LastTotalDeltaHeight = 0;
     }
 
-    public void ResumeUpdates(float verticalVelocity)
+    public void Unfreeze()
     {
-        if (!UpdatesSuspended) return;
-        UpdatesSuspended = false;
+        if (!IsFrozen) return;
+        IsFrozen = false;
         ownRigidbody.position = new Vector2(ownRigidbody.position.x, GlobalAttributes.HeightBarrier);
-        ownRigidbody.velocity = new Vector2(0, verticalVelocity);
         ownRigidbody.gravityScale = 1;
+    }
+
+    public void TransferVelocity(float verticalVelocity)
+    {
+        ownRigidbody.velocity = new Vector2(0, verticalVelocity);
     }
 }
