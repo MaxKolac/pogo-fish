@@ -14,7 +14,7 @@ public class PlatformManager : MonoBehaviour
     private float nextPlatformSpawnHeightTrigger;
     private float deltaHeightChangeSinceLastSpawn;
 
-    void OnEnable()
+    void Start()
     {
         Actions.OnDeltaHeightChanged += ScrollActivePlatforms;
         Actions.OnDeltaHeightChanged += IncreaseDeltaHeightChange;
@@ -42,10 +42,13 @@ public class PlatformManager : MonoBehaviour
 
     void Update()
     {
-        if (deltaHeightChangeSinceLastSpawn <= nextPlatformSpawnHeightTrigger) return;
+        if (deltaHeightChangeSinceLastSpawn <= nextPlatformSpawnHeightTrigger)
+        {
+            return;
+        }
         deltaHeightChangeSinceLastSpawn = 0;
         NewRandomSpawnX();
-        platformSpawnY = platformPooler.LastPlatformsPosition.y + nextPlatformSpawnHeightTrigger;
+        platformSpawnY = platformPooler.LastPlatformsPosition.position.y + nextPlatformSpawnHeightTrigger;
         platformPooler.SpawnPlatform(Platform.PlatformType.Default, new Vector2(platformSpawnX, platformSpawnY));
         nextPlatformSpawnHeightTrigger = Random.Range(minY, maxY);
     }
@@ -57,7 +60,7 @@ public class PlatformManager : MonoBehaviour
             activePlatform.transform.position =
                 new Vector2(
                     activePlatform.transform.position.x,
-                    activePlatform.transform.position.y - Mathf.Max(deltaHeight)
+                    activePlatform.transform.position.y - deltaHeight
                 );
         }
     }

@@ -18,7 +18,7 @@ public class PlatformPooler : MonoBehaviour
     private Dictionary<Platform.PlatformType, Queue<GameObject>> poolDictionary;
     private Dictionary<Platform.PlatformType, List<GameObject>> activePlatforms;
     
-    public Vector2 LastPlatformsPosition { get; private set; } = Vector2.zero;
+    public Transform LastPlatformsPosition { get; private set; } = null;
 
     void Start()
     {
@@ -36,6 +36,7 @@ public class PlatformPooler : MonoBehaviour
                 queue.Enqueue(platform);
             }
             poolDictionary.Add(pool.platformType, queue);
+            activePlatforms.Add(pool.platformType, new List<GameObject>());
         }
     }
 
@@ -57,7 +58,7 @@ public class PlatformPooler : MonoBehaviour
         platformToSpawn.transform.position = position;
 
         activePlatforms[platformType].Add(platformToSpawn);
-        LastPlatformsPosition = platformToSpawn.transform.position;
+        LastPlatformsPosition = platformToSpawn.transform;
 
         return platformToSpawn;
     }

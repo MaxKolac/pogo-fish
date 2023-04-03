@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
 
     void OnEnable()
     {
-        ownRigidbody.position = new Vector2(0, 1.25f);
+        ownRigidbody.position = new Vector2(0, 1.5f);
         Unfreeze();
     }
 
