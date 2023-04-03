@@ -1,4 +1,4 @@
-using System.Net;
+using System;
 using UnityEngine;
 
 public class HeightSimulator : MonoBehaviour
@@ -15,7 +15,7 @@ public class HeightSimulator : MonoBehaviour
     void OnEnable()
     {
         deltaHeight = 0;
-        oldPosition = new Vector2(transform.position.x, GlobalAttributes.HeightBarrier);
+        oldPosition.y = GlobalAttributes.HeightBarrier;
         lastVerticalVelocity = 0;
         Freeze();
     }

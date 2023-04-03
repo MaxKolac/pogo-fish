@@ -41,28 +41,7 @@ public class PlatformPooler : MonoBehaviour
         }
     }
 
-    void OnDisable()
-    {
-        Actions.OnPlatformDespawn -= DespawnPlatform;
-        foreach (Queue<GameObject> queue in poolDictionary.Values)
-        {
-            foreach (GameObject gameObject in queue)
-            {
-                Destroy(gameObject);
-            }
-        }
-        foreach (List<GameObject> list in activePlatforms.Values)
-        {
-            foreach (GameObject gameObject in list)
-            {
-                Destroy(gameObject);
-            }
-        }
-        poolDictionary = new();
-        activePlatforms = new();
-    }
-
-    public void SpawnPlatform(Platform.PlatformType platformType, Vector2 position)
+    public GameObject SpawnPlatform(Platform.PlatformType platformType, Vector2 position)
     {
         if (!poolDictionary.ContainsKey(platformType))
         {

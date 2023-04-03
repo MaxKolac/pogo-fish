@@ -49,7 +49,11 @@ public class PlatformManager : MonoBehaviour
     {
         foreach (GameObject activePlatform in platformPooler.GetAllActivePlatforms())
         {
-            activePlatform.transform.position = new Vector2(activePlatform.transform.position.x, activePlatform.transform.position.y - deltaHeight);
+            activePlatform.transform.position =
+                new Vector2(
+                    activePlatform.transform.position.x,
+                    activePlatform.transform.position.y - deltaHeight
+                );
         }
     }
 
