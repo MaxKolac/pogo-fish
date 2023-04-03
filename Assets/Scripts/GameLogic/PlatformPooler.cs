@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //https://www.youtube.com/watch?v=tdSmKaJvCoA
@@ -18,7 +19,7 @@ public class PlatformPooler : MonoBehaviour
     private Dictionary<Platform.PlatformType, Queue<GameObject>> poolDictionary;
     private Dictionary<Platform.PlatformType, List<GameObject>> activePlatforms;
     
-    public Vector2 LastPlatformsPosition { get; private set; } = Vector2.zero;
+    public Transform LastPlatformsPosition { get; private set; } = null;
 
     void Start()
     {
@@ -36,15 +37,37 @@ public class PlatformPooler : MonoBehaviour
                 queue.Enqueue(platform);
             }
             poolDictionary.Add(pool.platformType, queue);
+            activePlatforms.Add(pool.platformType, new List<GameObject>());
         }
     }
 
-    public GameObject SpawnPlatform(Platform.PlatformType platformType, Vector2 position)
+    void OnDisable()
+    {
+        Actions.OnPlatformDespawn -= DespawnPlatform;
+        foreach (Queue<GameObject> queue in poolDictionary.Values)
+        {
+            foreach (GameObject gameObject in queue)
+            {
+                Destroy(gameObject);
+            }
+        }
+        foreach (List<GameObject> list in activePlatforms.Values)
+        {
+            foreach (GameObject gameObject in list)
+            {
+                Destroy(gameObject);
+            }
+        }
+        poolDictionary = new();
+        activePlatforms = new();
+    }
+
+    public void SpawnPlatform(Platform.PlatformType platformType, Vector2 position)
     {
         if (!poolDictionary.ContainsKey(platformType))
         {
             Debug.LogWarning("PoolDictionary doesn't contain a PlatformPool of " + platformType + " type.");
-            return null;
+            return;
         }
 
         GameObject platformToSpawn = 
@@ -57,9 +80,7 @@ public class PlatformPooler : MonoBehaviour
         platformToSpawn.transform.position = position;
 
         activePlatforms[platformType].Add(platformToSpawn);
-        LastPlatformsPosition = platformToSpawn.transform.position;
-
-        return platformToSpawn;
+        LastPlatformsPosition = platformToSpawn.transform;
     }
 
     private void DespawnPlatform(Platform platformScript, GameObject platformToDespawn)

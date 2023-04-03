@@ -10,7 +10,7 @@ public class Ground : MonoBehaviour
 
     void ScrollDown(float deltaHeight)
     {
-        transform.position = new Vector2(transform.position.x, transform.position.y - Mathf.Max(0, deltaHeight));
+        transform.position = new Vector2(transform.position.x, transform.position.y - deltaHeight);
     }
 
     void OnDisable()

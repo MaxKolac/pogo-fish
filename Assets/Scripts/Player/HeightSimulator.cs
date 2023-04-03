@@ -1,3 +1,4 @@
+using System.Net;
 using UnityEngine;
 
 public class HeightSimulator : MonoBehaviour
@@ -14,20 +15,23 @@ public class HeightSimulator : MonoBehaviour
     void OnEnable()
     {
         deltaHeight = 0;
-        oldPosition = transform.position;
+        oldPosition = new Vector2(transform.position.x, GlobalAttributes.HeightBarrier);
         lastVerticalVelocity = 0;
         Freeze();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (ownRigidbody.position.y > GlobalAttributes.HeightBarrier)
         {
             deltaHeight = transform.position.y - oldPosition.y;
-            Actions.OnDeltaHeightChanged?.Invoke(deltaHeight);
+            Actions.OnDeltaHeightChanged?.Invoke(Mathf.Max(0, deltaHeight));
             oldPosition = transform.position;
         }
+    }
 
+    void FixedUpdate()
+    {
         if (IsFrozen) return;
         //If the GhostPlayer is at the apex of his jump, where the sign of vertical velocity flips from positive to negative
         if (lastVerticalVelocity >= 0f && ownRigidbody.velocity.y <= 0f)

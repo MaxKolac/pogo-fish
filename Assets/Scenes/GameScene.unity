@@ -449,7 +449,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &442246678
 Transform:
   m_ObjectHideFlags: 0
@@ -1024,11 +1024,11 @@ GameObject:
   - component: {fileID: 812099484}
   m_Layer: 0
   m_Name: PlatformManager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &812099483
 Transform:
   m_ObjectHideFlags: 0
@@ -1350,10 +1350,10 @@ MonoBehaviour:
   platformPools:
   - platformType: 0
     platformPrefab: {fileID: 161234941771783716, guid: 2dd990b7e0c6d6e49ba784bbfe48810a, type: 3}
-    size: 10
+    size: 20
   - platformType: 1
     platformPrefab: {fileID: 8148554563659747451, guid: 50a5a943d80634847bb11c5f6ed93b78, type: 3}
-    size: 8
+    size: 10
 --- !u!1 &1585432488
 GameObject:
   m_ObjectHideFlags: 0

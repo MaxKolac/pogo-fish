@@ -4,7 +4,6 @@ public class PlatformManager : MonoBehaviour
 {
     public PlatformPooler platformPooler;
 
-    //private float simulatedSpawnHeight;
     private float platformSpawnX;
     private float minX = 1f;
     private float maxX = 1.75f;
@@ -14,19 +13,15 @@ public class PlatformManager : MonoBehaviour
     private float nextPlatformSpawnHeightTrigger;
     private float deltaHeightChangeSinceLastSpawn;
 
-    void OnEnable()
+    void Start()
     {
         Actions.OnDeltaHeightChanged += ScrollActivePlatforms;
         Actions.OnDeltaHeightChanged += IncreaseDeltaHeightChange;
-        //simulatedSpawnHeight = 0f;
         platformSpawnX = 0f;
         platformSpawnY = 0f;
         for (int i = 0; i < 10; i++)
         {
             NewRandomSpawnX();
-            //float newRandomValue = Random.Range(minY, maxY);
-            //platformSpawnY += newRandomValue;
-            //simulatedSpawnHeight += newRandomValue;
             platformSpawnY += Random.Range(minY, maxY);
             platformPooler.SpawnPlatform(Platform.PlatformType.Default, new Vector2(platformSpawnX, platformSpawnY));
         }
@@ -45,7 +40,7 @@ public class PlatformManager : MonoBehaviour
         if (deltaHeightChangeSinceLastSpawn <= nextPlatformSpawnHeightTrigger) return;
         deltaHeightChangeSinceLastSpawn = 0;
         NewRandomSpawnX();
-        platformSpawnY = platformPooler.LastPlatformsPosition.y + nextPlatformSpawnHeightTrigger;
+        platformSpawnY = platformPooler.LastPlatformsPosition.position.y + nextPlatformSpawnHeightTrigger;
         platformPooler.SpawnPlatform(Platform.PlatformType.Default, new Vector2(platformSpawnX, platformSpawnY));
         nextPlatformSpawnHeightTrigger = Random.Range(minY, maxY);
     }
@@ -54,11 +49,7 @@ public class PlatformManager : MonoBehaviour
     {
         foreach (GameObject activePlatform in platformPooler.GetAllActivePlatforms())
         {
-            activePlatform.transform.position =
-                new Vector2(
-                    activePlatform.transform.position.x,
-                    activePlatform.transform.position.y - Mathf.Max(deltaHeight)
-                );
+            activePlatform.transform.position = new Vector2(activePlatform.transform.position.x, activePlatform.transform.position.y - deltaHeight);
         }
     }
 
