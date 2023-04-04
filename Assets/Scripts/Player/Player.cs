@@ -23,6 +23,11 @@ public class Player : MonoBehaviour
         Unfreeze();
     }
 
+    void Update()
+    {
+        if (transform.position.y < GlobalAttributes.LowerScreenEdge) Actions.OnGameLost?.Invoke();
+    }
+
     void FixedUpdate()
     { 
         if (IsTitleScreenFrozen)

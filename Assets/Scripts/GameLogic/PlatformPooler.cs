@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 //https://www.youtube.com/watch?v=tdSmKaJvCoA
@@ -41,7 +40,7 @@ public class PlatformPooler : MonoBehaviour
         }
     }
 
-    public GameObject SpawnPlatform(Platform.PlatformType platformType, Vector2 position)
+    public void SpawnPlatform(Platform.PlatformType platformType, Vector2 position)
     {
         if (!poolDictionary.ContainsKey(platformType))
         {
