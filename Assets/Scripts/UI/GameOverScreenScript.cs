@@ -7,6 +7,6 @@ public class GameOverScreenScript : MonoBehaviour
 
     void OnEnable()
     {
-        finalScoreText.text = $"Game Over!\nFinal Score: {scoreCounterScript.currentScore}";
+        finalScoreText.text = $"Game Over!\nFinal Score: {scoreCounterScript.CurrentScore}";
     }
 }

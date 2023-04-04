@@ -14,20 +14,28 @@ public class PlatformManager : MonoBehaviour
     private float platformSpawnY;
     private const float minY = 2f;
     private const float maxY = 2.5f;
-    private Dictionary<Platform.PlatformType, int> initialPlatformTypeSpawnChances;
     private float nextPlatformSpawnHeightTrigger;
     private float deltaHeightChangeSinceLastSpawn;
+
+    /// <summary>
+    /// <list type="bullet">
+    /// <item><c>int[0]</c> - Platform.PlatformType enumerator as an integer.</item>
+    /// <item><c>int[1]</c> - Chance's weight for this type to be returned.</item>
+    /// </list>
+    /// </summary>
+    private List<int[]> platformTypeSpawnChances;
 
     void Start()
     {
         Actions.OnDeltaHeightChanged += ScrollActivePlatforms;
         Actions.OnDeltaHeightChanged += IncreaseDeltaHeightChange;
         Actions.OnGameLost += platformPooler.DespawnAllActivePlatforms;
-        initialPlatformTypeSpawnChances = new()
+        platformTypeSpawnChances = new List<int[]>()
         {
-            { Platform.PlatformType.Default, 75 },
-            { Platform.PlatformType.OneJump, 25 }
+            { new int[]{ 0, 75 } },
+            { new int[]{ 1, 25 } },
         };
+
     }
 
     void Update()
@@ -38,7 +46,7 @@ public class PlatformManager : MonoBehaviour
         NewRandomSpawnX();
         platformSpawnY = platformPooler.LastPlatformsPosition.position.y + nextPlatformSpawnHeightTrigger;
 
-        platformPooler.SpawnPlatform(Platform.PlatformType.Default, new Vector2(platformSpawnX, platformSpawnY));
+        platformPooler.SpawnPlatform(RandomizeNextPlatformType(), new Vector2(platformSpawnX, platformSpawnY));
         nextPlatformSpawnHeightTrigger = Random.Range(minY, maxY);
     }
 
@@ -70,14 +78,23 @@ public class PlatformManager : MonoBehaviour
 
     private Platform.PlatformType RandomizeNextPlatformType()
     {
-        //TODO
+        int sumOfAllChances = 0;
         int lowerBound = 0;
-        foreach 
-        int randomResult = Random.Range(0, 100);
-        for (int i = 0; i < initialPlatformTypeSpawnChances.Count - 1; i++)
+
+        for (int i = 0; i < platformTypeSpawnChances.Count; i++)
+            sumOfAllChances += platformTypeSpawnChances[i][1];
+        
+        int randomResult = Random.Range(0, sumOfAllChances - 1);
+
+        for (int i = 0; i < platformTypeSpawnChances.Count; i++)
         {
-            if (lowerBound <= randomResult && randomResult < initialPlatformTypeSpawnChances.ToArray()[i])
+            if (lowerBound <= randomResult && randomResult < (lowerBound + platformTypeSpawnChances[i][1]))
+                return (Platform.PlatformType)platformTypeSpawnChances[i][0];
+            lowerBound += platformTypeSpawnChances[i][1];
         }
+
+        Debug.LogWarning($"Randomizing the platform type failed! Returning Default type as a fallback...");
+        return Platform.PlatformType.Default;
     }
 
     private void ScrollActivePlatforms(float deltaHeight)
@@ -102,8 +119,6 @@ public class PlatformManager : MonoBehaviour
     {
         platformSpawnX += Random.Range(minX, maxX);
         if (platformSpawnX < GlobalAttributes.LeftScreenEdge || GlobalAttributes.RightScreenEdge < platformSpawnX)
-        {
             platformSpawnX -= GlobalAttributes.ScreenWorldWidth;
-        }
     }
 }
