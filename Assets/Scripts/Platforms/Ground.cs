@@ -5,7 +5,6 @@ public class Ground : MonoBehaviour
     void OnEnable()
     {
         Actions.OnDeltaHeightChanged += ScrollDown;
-        transform.position = new Vector2(0f, 0.5f);
     }
 
     void ScrollDown(float deltaHeight)
@@ -13,14 +12,14 @@ public class Ground : MonoBehaviour
         transform.position = new Vector2(transform.position.x, transform.position.y - deltaHeight);
     }
 
-    void OnDisable()
-    {
-        Actions.OnDeltaHeightChanged -= ScrollDown;
-    }
-
     void Update()
     {
         if (transform.position.y < GlobalAttributes.LowerScreenEdge)
             gameObject.SetActive(false);
+    }
+
+    void OnDisable()
+    {
+        Actions.OnDeltaHeightChanged -= ScrollDown;
     }
 }

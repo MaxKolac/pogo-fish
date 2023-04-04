@@ -444,7 +444,7 @@ MonoBehaviour:
   gameOverScreenRoot: {fileID: 479715775}
   ground: {fileID: 1605665656}
   heightSimulator: {fileID: 442661600}
-  platformManager: {fileID: 812099482}
+  platformManagerScript: {fileID: 812099484}
   playerScript: {fileID: 2058666832}
   scoreCounter: {fileID: 442246677}
 --- !u!1 &305891536
@@ -675,7 +675,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 442661600}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6, y: 1, z: 0}
+  m_LocalPosition: {x: 6, y: 8, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []

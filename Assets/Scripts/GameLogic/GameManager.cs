@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private GameObject ground;
     [SerializeField] private GameObject heightSimulator;
-    [SerializeField] private GameObject platformManager;
+    [SerializeField] private PlatformManager platformManagerScript;
     [SerializeField] private Player playerScript;
     [SerializeField] private GameObject scoreCounter;
 
@@ -29,11 +29,12 @@ public class GameManager : MonoBehaviour
         gameOverScreenRoot.SetActive(false);
 
         ground.SetActive(true);
+        ground.transform.position = new Vector2(0f, 0.5f);
         heightSimulator.SetActive(false);
-        platformManager.SetActive(false);
-        playerScript.TitleScreenFreeze();
         playerScript.gameObject.SetActive(true);
+        playerScript.Freeze();
         scoreCounter.SetActive(false);
+        
     }
 
     public void BeginNewGame() 
@@ -43,10 +44,9 @@ public class GameManager : MonoBehaviour
         ingameScreenRoot.SetActive(true);
         gameOverScreenRoot.SetActive(false);
 
-        ground.SetActive(true);
         heightSimulator.SetActive(true);
-        platformManager.SetActive(true);
-        playerScript.TitleScreenUnfreeze();
+        platformManagerScript.EnablePlatformSpawning();
+        playerScript.Unfreeze();
         scoreCounter.SetActive(true);
     }
 
@@ -63,7 +63,8 @@ public class GameManager : MonoBehaviour
         gameOverScreenRoot.SetActive(true);
 
         heightSimulator.SetActive(false);
-        platformManager.SetActive(false);
+        platformManagerScript.DisablePlatformSpawning();
         playerScript.gameObject.SetActive(false);
+        playerScript.ResetToStartingPosition();
     }
 }

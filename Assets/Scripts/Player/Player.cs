@@ -11,34 +11,22 @@ public class Player : MonoBehaviour
     private const float maxHorizontalVelocity = 10f;
     private const float jumpForce = 10f;
 
-    ///<summary>Weaker type of freezing. Sets gravity scale to 0 and sets the velocity to 0.</summary>
-    public bool IsFrozen { private set; get; }
-    ///<summary>Stronger type of freezing. Completely nulifies any <c>Update()</c> calls and freezes velocity at 0 when <c>true</c>.</summary>
-    public bool IsTitleScreenFrozen { private set; get; }
+    public bool IsFrozenOnX { private set; get; }
+    public bool IsFrozenOnY { private set; get; }
+
     private Vector3 currentTapPosition;
 
     void OnEnable()
     {
-        ownRigidbody.position = new Vector2(0, 1.5f);
-        Unfreeze();
-    }
-
-    void Update()
-    {
-        if (transform.position.y < GlobalAttributes.LowerScreenEdge) Actions.OnGameLost?.Invoke();
+        ResetToStartingPosition();
     }
 
     void FixedUpdate()
-    { 
-        if (IsTitleScreenFrozen)
-        {
-            ownRigidbody.velocity = Vector2.zero;
-            return;
-        }
+    {
+        if (transform.position.y < GlobalAttributes.LowerScreenEdge && GameManager.CurrentGameState == GameManager.GameState.Playing) 
+            Actions.OnGameLost?.Invoke();
 
-        //Speed limit
-        ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, Mathf.Clamp(ownRigidbody.velocity.y, -90, jumpForce));
-
+        // X Movement System
         //Teleport player to the other side of screen when he falls out of the screen bounds
         if (transform.position.x < GlobalAttributes.LeftScreenEdge)
             transform.position = new Vector2(GlobalAttributes.RightScreenEdge, transform.position.y);
@@ -67,12 +55,15 @@ public class Player : MonoBehaviour
                 new Vector2(ownRigidbody.velocity.x - (Mathf.Sign(ownRigidbody.velocity.x) * decelerationRate), ownRigidbody.velocity.y);
         }
 
-        if (IsFrozen) return;
+        // Y Movement system
+        //Speed limit
+        ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, Mathf.Clamp(ownRigidbody.velocity.y, -90, jumpForce));
+        if (IsFrozenOnY) return;
         if (ownRigidbody.position.y > GlobalAttributes.HeightBarrier && ownRigidbody.velocity.y > 0)
         { 
             heightSimulator.Unfreeze();
             heightSimulator.TransferVelocity(ownRigidbody.velocity.y);
-            Freeze(); 
+            FreezeOnY(); 
         }
     }
 
@@ -82,37 +73,39 @@ public class Player : MonoBehaviour
         ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, jumpForce);
     }
 
+    public void ResetToStartingPosition()
+    {
+        ownRigidbody.position = new Vector2(0, 1.5f);
+    }
+
     public void Freeze()
     {
-        if (IsFrozen) return;
-        IsFrozen = true; 
-        ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, 0);
-        ownRigidbody.gravityScale = 0;
+        IsFrozenOnX = IsFrozenOnY = true;
+        ownRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+    }
+
+    public void FreezeOnY()
+    {
+        if (IsFrozenOnY) return;
+        IsFrozenOnY = true;
+        ownRigidbody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+    }
+
+    public void FreezeOnX()
+    {
+        if (IsFrozenOnX) return;
+        IsFrozenOnX = true;
+        ownRigidbody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
     }
 
     public void Unfreeze()
     {
-        if (!IsFrozen) return;
-        IsFrozen = false;
-        ownRigidbody.gravityScale = 1;
+        IsFrozenOnX = IsFrozenOnY = false;
+        ownRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     public void TransferVelocity(float verticalVelocity)
     {
         ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, verticalVelocity);
-    }
-
-    public void TitleScreenFreeze()
-    {
-        if (IsTitleScreenFrozen) return;
-        Freeze();
-        IsTitleScreenFrozen = true;
-    }
-
-    public void TitleScreenUnfreeze()
-    {
-        if (!IsTitleScreenFrozen) return;
-        Unfreeze();
-        IsTitleScreenFrozen = false;
     }
 }

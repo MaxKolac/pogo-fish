@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class HeightSimulator : MonoBehaviour
@@ -16,6 +15,7 @@ public class HeightSimulator : MonoBehaviour
     {
         deltaHeight = 0;
         oldPosition.y = GlobalAttributes.HeightBarrier;
+        transform.position = new Vector2(ownRigidbody.position.x, GlobalAttributes.HeightBarrier);
         lastVerticalVelocity = 0;
         Freeze();
     }
@@ -24,6 +24,7 @@ public class HeightSimulator : MonoBehaviour
     {
         if (ownRigidbody.position.y > GlobalAttributes.HeightBarrier)
         {
+            //Debug.Log($"DeltaHeight: {deltaHeight}");
             deltaHeight = transform.position.y - oldPosition.y;
             Actions.OnDeltaHeightChanged?.Invoke(Mathf.Max(0, deltaHeight));
             oldPosition = transform.position;
@@ -48,7 +49,7 @@ public class HeightSimulator : MonoBehaviour
         if (IsFrozen) return;
         IsFrozen = true;
         ownRigidbody.velocity = Vector2.zero;
-        ownRigidbody.gravityScale = 0;
+        ownRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 
     public void Unfreeze()
@@ -56,7 +57,7 @@ public class HeightSimulator : MonoBehaviour
         if (!IsFrozen) return;
         IsFrozen = false;
         ownRigidbody.position = new Vector2(ownRigidbody.position.x, GlobalAttributes.HeightBarrier);
-        ownRigidbody.gravityScale = 1;
+        ownRigidbody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
     }
 
     public void TransferVelocity(float verticalVelocity)

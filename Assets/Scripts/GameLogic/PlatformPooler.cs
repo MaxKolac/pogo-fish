@@ -83,6 +83,18 @@ public class PlatformPooler : MonoBehaviour
         return null;
     }
 
+    public void DespawnAllActivePlatforms()
+    {
+        foreach (List<GameObject> platformList in activePlatforms.Values)
+        {
+            for (int i = 0; i < platformList.Count; i++)
+            {
+                platformList[i].transform.position = new Vector2(0, GlobalAttributes.LowerScreenEdge - 5f);
+                //This triggers the If statement in Platform.Update(), which invokes the platform's despawn Action.
+            }
+        }
+    }
+
     public List<GameObject> GetActivePlatforms(Platform.PlatformType platformType) => activePlatforms[platformType];
 
     public List<GameObject> GetAllActivePlatforms()
