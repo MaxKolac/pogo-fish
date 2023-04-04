@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlatformManager : MonoBehaviour
@@ -7,11 +9,12 @@ public class PlatformManager : MonoBehaviour
     public bool IsSpawningPlatforms { get; private set; } = false;
 
     private float platformSpawnX;
-    private float minX = 1f;
-    private float maxX = 1.75f;
+    private const float minX = 1f;
+    private const float maxX = 1.75f;
     private float platformSpawnY;
-    private float minY = 2f;
-    private float maxY = 2.5f;
+    private const float minY = 2f;
+    private const float maxY = 2.5f;
+    private Dictionary<Platform.PlatformType, int> initialPlatformTypeSpawnChances;
     private float nextPlatformSpawnHeightTrigger;
     private float deltaHeightChangeSinceLastSpawn;
 
@@ -20,14 +23,21 @@ public class PlatformManager : MonoBehaviour
         Actions.OnDeltaHeightChanged += ScrollActivePlatforms;
         Actions.OnDeltaHeightChanged += IncreaseDeltaHeightChange;
         Actions.OnGameLost += platformPooler.DespawnAllActivePlatforms;
+        initialPlatformTypeSpawnChances = new()
+        {
+            { Platform.PlatformType.Default, 75 },
+            { Platform.PlatformType.OneJump, 25 }
+        };
     }
 
     void Update()
     {
         if (deltaHeightChangeSinceLastSpawn <= nextPlatformSpawnHeightTrigger || !IsSpawningPlatforms) return;
         deltaHeightChangeSinceLastSpawn = 0;
+
         NewRandomSpawnX();
         platformSpawnY = platformPooler.LastPlatformsPosition.position.y + nextPlatformSpawnHeightTrigger;
+
         platformPooler.SpawnPlatform(Platform.PlatformType.Default, new Vector2(platformSpawnX, platformSpawnY));
         nextPlatformSpawnHeightTrigger = Random.Range(minY, maxY);
     }
@@ -56,6 +66,18 @@ public class PlatformManager : MonoBehaviour
     {
         IsSpawningPlatforms = false;
         platformPooler.DespawnAllActivePlatforms();
+    }
+
+    private Platform.PlatformType RandomizeNextPlatformType()
+    {
+        //TODO
+        int lowerBound = 0;
+        foreach 
+        int randomResult = Random.Range(0, 100);
+        for (int i = 0; i < initialPlatformTypeSpawnChances.Count - 1; i++)
+        {
+            if (lowerBound <= randomResult && randomResult < initialPlatformTypeSpawnChances.ToArray()[i])
+        }
     }
 
     private void ScrollActivePlatforms(float deltaHeight)
