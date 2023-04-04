@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
         if (ownRigidbody.position.y > GlobalAttributes.HeightBarrier && ownRigidbody.velocity.y > 0)
         { 
             heightSimulator.Unfreeze();
-            heightSimulator.TransferVelocity(ownRigidbody.velocity.y);
+            heightSimulator.SetVerticalVelocity(ownRigidbody.velocity.y);
             FreezeOnY(); 
         }
     }
@@ -104,8 +104,10 @@ public class Player : MonoBehaviour
         ownRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
-    public void TransferVelocity(float verticalVelocity)
-    {
+    public void SetVerticalVelocity(float verticalVelocity) =>
         ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, verticalVelocity);
-    }
+
+    public void SetVelocity(Vector2 velocity) => ownRigidbody.velocity = velocity;
+
+    public Vector2 GetVelocity() { return ownRigidbody.velocity; }
 }

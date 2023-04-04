@@ -38,7 +38,7 @@ public class HeightSimulator : MonoBehaviour
         if (lastVerticalVelocity >= 0f && ownRigidbody.velocity.y <= 0f)
         {
             player.Unfreeze();
-            player.TransferVelocity(ownRigidbody.velocity.y);
+            player.SetVerticalVelocity(ownRigidbody.velocity.y);
             Freeze();
         }
         lastVerticalVelocity = ownRigidbody.velocity.y;
@@ -60,8 +60,10 @@ public class HeightSimulator : MonoBehaviour
         ownRigidbody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
     }
 
-    public void TransferVelocity(float verticalVelocity)
-    {
+    public void SetVerticalVelocity(float verticalVelocity) =>
         ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, verticalVelocity);
-    }
+    
+    public void SetVelocity(Vector2 velocity) => ownRigidbody.velocity = velocity;
+
+    public Vector2 GetVelocity() { return ownRigidbody.velocity; }
 }

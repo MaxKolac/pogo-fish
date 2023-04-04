@@ -4,16 +4,21 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject titleScreenRoot;
     [SerializeField] private GameObject ingameScreenRoot;
+    [SerializeField] private GameObject pauseScreenRoot;
     [SerializeField] private GameObject gameOverScreenRoot;
     
     [SerializeField] private GameObject ground;
-    [SerializeField] private GameObject heightSimulator;
+    [SerializeField] private HeightSimulator heightSimulatorScript;
     [SerializeField] private PlatformManager platformManagerScript;
     [SerializeField] private Player playerScript;
     [SerializeField] private GameObject scoreCounter;
 
     public enum GameState { TitleScreen, Playing, Paused, GameOver }
     public static GameState CurrentGameState { private set; get; }
+
+    private Vector2 playerVelocityBeforePause;
+    private Vector2 simulatorVelocityBeforePause;
+    private bool simulatorWasFrozenBeforePause;
 
     void Start()
     {
@@ -26,11 +31,12 @@ public class GameManager : MonoBehaviour
         CurrentGameState = GameState.TitleScreen;
         titleScreenRoot.SetActive(true);
         ingameScreenRoot.SetActive(false);
+        pauseScreenRoot.SetActive(false);
         gameOverScreenRoot.SetActive(false);
 
         ground.SetActive(true);
         ground.transform.position = new Vector2(0f, 0.5f);
-        heightSimulator.SetActive(false);
+        heightSimulatorScript.gameObject.SetActive(false);
         playerScript.gameObject.SetActive(true);
         playerScript.Freeze();
         scoreCounter.SetActive(false);
@@ -42,9 +48,10 @@ public class GameManager : MonoBehaviour
         CurrentGameState = GameState.Playing;
         titleScreenRoot.SetActive(false);
         ingameScreenRoot.SetActive(true);
+        pauseScreenRoot.SetActive(false);
         gameOverScreenRoot.SetActive(false);
 
-        heightSimulator.SetActive(true);
+        heightSimulatorScript.gameObject.SetActive(true);
         platformManagerScript.EnablePlatformSpawning();
         playerScript.Unfreeze();
         scoreCounter.SetActive(true);
@@ -53,6 +60,42 @@ public class GameManager : MonoBehaviour
     public void PauseGame()
     {
         CurrentGameState = GameState.Paused;
+        titleScreenRoot.SetActive(false);
+        ingameScreenRoot.SetActive(false);
+        pauseScreenRoot.SetActive(true);
+        gameOverScreenRoot.SetActive(false);
+
+        simulatorWasFrozenBeforePause = heightSimulatorScript.IsFrozen;
+        if (heightSimulatorScript.IsFrozen)
+        {
+            playerVelocityBeforePause = playerScript.GetVelocity();
+            playerScript.Freeze();
+        }
+        else
+        {
+            simulatorVelocityBeforePause = heightSimulatorScript.GetVelocity();
+            heightSimulatorScript.Freeze();
+        }
+    }
+
+    public void UnpauseGame()
+    {
+        CurrentGameState = GameState.Playing;
+        titleScreenRoot.SetActive(false);
+        ingameScreenRoot.SetActive(true);
+        pauseScreenRoot.SetActive(false);
+        gameOverScreenRoot.SetActive(false);
+
+        if (simulatorWasFrozenBeforePause)
+        {
+            playerScript.Unfreeze();
+            playerScript.SetVelocity(playerVelocityBeforePause);
+        }
+        else
+        {
+            heightSimulatorScript.Unfreeze();
+            heightSimulatorScript.SetVelocity(simulatorVelocityBeforePause);
+        }
     }
 
     public void EndGame()
@@ -60,9 +103,10 @@ public class GameManager : MonoBehaviour
         CurrentGameState = GameState.GameOver;
         titleScreenRoot.SetActive(false);
         ingameScreenRoot.SetActive(false);
+        pauseScreenRoot.SetActive(false);
         gameOverScreenRoot.SetActive(true);
 
-        heightSimulator.SetActive(false);
+        heightSimulatorScript.gameObject.SetActive(false);
         platformManagerScript.DisablePlatformSpawning();
         playerScript.gameObject.SetActive(false);
         playerScript.ResetToStartingPosition();
