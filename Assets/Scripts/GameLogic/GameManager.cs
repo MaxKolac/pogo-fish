@@ -40,7 +40,6 @@ public class GameManager : MonoBehaviour
         playerScript.gameObject.SetActive(true);
         playerScript.Freeze();
         scoreCounter.SetActive(false);
-        
     }
 
     public void BeginNewGame() 

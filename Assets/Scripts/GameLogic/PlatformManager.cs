@@ -10,10 +10,10 @@ public class PlatformManager : MonoBehaviour
 
     private float platformSpawnX;
     private const float minX = 1f;
-    private const float maxX = 1.75f;
+    private const float maxX = 5f;
     private float platformSpawnY;
-    private const float minY = 2f;
-    private const float maxY = 2.5f;
+    private const float minY = 1.25f;
+    private const float maxY = 3.5f;
     private float nextPlatformSpawnHeightTrigger;
     private float deltaHeightChangeSinceLastSpawn;
 

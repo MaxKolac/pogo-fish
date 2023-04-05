@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
     [SerializeField] private HeightSimulator heightSimulator;
     [SerializeField] private Rigidbody2D ownRigidbody;
 
-    private const float accelerationRate = 3.5f;
+    private const float accelerationRate = 4.25f;
     private const float decelerationRate = 0.25f;
     private const float minHorizontalVelocity = 0.35f;
     private const float maxHorizontalVelocity = 10f;
@@ -42,8 +42,9 @@ public class Player : MonoBehaviour
             if (Mathf.Abs(ownRigidbody.velocity.x) >= maxHorizontalVelocity) return;
             ownRigidbody.AddForce(
                 currentTapPosition.x < GlobalAttributes.MiddleOfScreen.x ?
-                new Vector2(-1 * accelerationRate, ownRigidbody.velocity.y) :
-                new Vector2(accelerationRate, ownRigidbody.velocity.y)
+                new Vector2(-1 * accelerationRate, 0) :
+                new Vector2(accelerationRate, 0),
+                ForceMode2D.Force
             );
         }
         else
@@ -57,13 +58,17 @@ public class Player : MonoBehaviour
 
         // Y Movement system
         //Speed limit
-        ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, Mathf.Clamp(ownRigidbody.velocity.y, -90, jumpForce));
+        ownRigidbody.velocity = new Vector2(
+            ownRigidbody.velocity.x, 
+            Mathf.Clamp(ownRigidbody.velocity.y, -10, jumpForce)
+            );
+
         if (IsFrozenOnY) return;
         if (ownRigidbody.position.y > GlobalAttributes.HeightBarrier && ownRigidbody.velocity.y > 0)
         { 
             heightSimulator.Unfreeze();
             heightSimulator.SetVerticalVelocity(ownRigidbody.velocity.y);
-            FreezeOnY(); 
+            FreezeOnlyOnY(); 
         }
     }
 
@@ -73,10 +78,6 @@ public class Player : MonoBehaviour
         ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, jumpForce);
     }
 
-    public void ResetToStartingPosition()
-    {
-        ownRigidbody.position = new Vector2(0, 1.5f);
-    }
 
     public void Freeze()
     {
@@ -84,28 +85,20 @@ public class Player : MonoBehaviour
         ownRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 
-    public void FreezeOnY()
+    public void FreezeOnlyOnY()
     {
-        if (IsFrozenOnY) return;
         IsFrozenOnY = true;
         ownRigidbody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
-    }
-
-    public void FreezeOnX()
-    {
-        if (IsFrozenOnX) return;
-        IsFrozenOnX = true;
-        ownRigidbody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
     }
 
     public void Unfreeze()
     {
         IsFrozenOnX = IsFrozenOnY = false;
+        ownRigidbody.WakeUp();
         ownRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
-    public void SetVerticalVelocity(float verticalVelocity) =>
-        ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, verticalVelocity);
+    public void ResetToStartingPosition() => ownRigidbody.position = new Vector2(0, 1.5f);
 
     public void SetVelocity(Vector2 velocity) => ownRigidbody.velocity = velocity;
 

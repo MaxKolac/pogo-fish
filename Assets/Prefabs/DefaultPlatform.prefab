@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 161234941771783715}
   - component: {fileID: 161234941771783714}
-  - component: {fileID: 161234941771783717}
-  - component: {fileID: 6908817135225642256}
   - component: {fileID: 5964266763777018841}
+  - component: {fileID: 9165420689321322370}
+  - component: {fileID: 3397282910840652587}
   m_Layer: 0
   m_Name: DefaultPlatform
   m_TagString: Platform
@@ -87,7 +87,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &161234941771783717
+--- !u!114 &5964266763777018841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161234941771783716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cff4029394b62a43b2f0ccc653b8c2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+--- !u!61 &9165420689321322370
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -113,7 +126,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!251 &6908817135225642256
+--- !u!251 &3397282910840652587
 PlatformEffector2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -128,19 +141,7 @@ PlatformEffector2D:
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
-  m_SurfaceArc: 180
+  m_SurfaceArc: 170
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
---- !u!114 &5964266763777018841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 161234941771783716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cff4029394b62a43b2f0ccc653b8c2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

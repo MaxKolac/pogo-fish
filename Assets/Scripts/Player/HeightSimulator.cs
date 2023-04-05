@@ -24,7 +24,6 @@ public class HeightSimulator : MonoBehaviour
     {
         if (ownRigidbody.position.y > GlobalAttributes.HeightBarrier)
         {
-            //Debug.Log($"DeltaHeight: {deltaHeight}");
             deltaHeight = transform.position.y - oldPosition.y;
             Actions.OnDeltaHeightChanged?.Invoke(Mathf.Max(0, deltaHeight));
             oldPosition = transform.position;
@@ -38,7 +37,6 @@ public class HeightSimulator : MonoBehaviour
         if (lastVerticalVelocity >= 0f && ownRigidbody.velocity.y <= 0f)
         {
             player.Unfreeze();
-            player.SetVerticalVelocity(ownRigidbody.velocity.y);
             Freeze();
         }
         lastVerticalVelocity = ownRigidbody.velocity.y;
@@ -60,8 +58,7 @@ public class HeightSimulator : MonoBehaviour
         ownRigidbody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
     }
 
-    public void SetVerticalVelocity(float verticalVelocity) =>
-        ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, verticalVelocity);
+    public void SetVerticalVelocity(float verticalVelocity) => ownRigidbody.velocity = new Vector2(0, verticalVelocity);
     
     public void SetVelocity(Vector2 velocity) => ownRigidbody.velocity = velocity;
 
