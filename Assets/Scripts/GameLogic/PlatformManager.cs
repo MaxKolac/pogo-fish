@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class PlatformManager : MonoBehaviour
@@ -9,11 +8,11 @@ public class PlatformManager : MonoBehaviour
     public bool IsSpawningPlatforms { get; private set; } = false;
 
     private float platformSpawnX;
-    private const float minX = 1f;
-    private const float maxX = 5f;
+    private float minX = 1f;
+    private float maxX = 2f;
     private float platformSpawnY;
-    private const float minY = 1.25f;
-    private const float maxY = 3.5f;
+    private float minY = 1f;
+    private float maxY = 1.75f;
     private float nextPlatformSpawnHeightTrigger;
     private float deltaHeightChangeSinceLastSpawn;
 
@@ -41,6 +40,20 @@ public class PlatformManager : MonoBehaviour
 
     void Update()
     {
+        //Difficulty increasing script
+        if ((int)GlobalAttributes.TotalGainedHeight + 1 % 25 == 0)
+        {
+            minX = Mathf.Clamp(minX + 0.05f, 1f, 2f);
+            maxX = Mathf.Clamp(maxX + 0.1f, 2f, 5f);
+            minY = Mathf.Clamp(minY + 0.05f, 1f, 1.25f);
+            maxY = Mathf.Clamp(maxY + 0.1f, 1.75f, 2.25f);
+            Debug.Log($"Difficulty increase (TotalGainedHeight: {GlobalAttributes.TotalGainedHeight}):" +
+                $"X: ({minX} - {maxX}), Y: ({minY} - {maxY})");
+        }
+
+        //New platform spawning script
+        //TODO: Platforms arent spawning from a set Y, as difficulty increases (ranges decrease)
+        //they spawn closer and closer to heightBarrier.
         if (deltaHeightChangeSinceLastSpawn <= nextPlatformSpawnHeightTrigger || !IsSpawningPlatforms) return;
         deltaHeightChangeSinceLastSpawn = 0;
 

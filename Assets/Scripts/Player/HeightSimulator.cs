@@ -14,6 +14,7 @@ public class HeightSimulator : MonoBehaviour
     void OnEnable()
     {
         deltaHeight = 0;
+        GlobalAttributes.TotalGainedHeight = 0;
         oldPosition.y = GlobalAttributes.HeightBarrier;
         transform.position = new Vector2(ownRigidbody.position.x, GlobalAttributes.HeightBarrier);
         lastVerticalVelocity = 0;
@@ -24,8 +25,9 @@ public class HeightSimulator : MonoBehaviour
     {
         if (ownRigidbody.position.y > GlobalAttributes.HeightBarrier)
         {
-            deltaHeight = transform.position.y - oldPosition.y;
-            Actions.OnDeltaHeightChanged?.Invoke(Mathf.Max(0, deltaHeight));
+            deltaHeight = Mathf.Max(0, transform.position.y - oldPosition.y);
+            Actions.OnDeltaHeightChanged?.Invoke(deltaHeight);
+            GlobalAttributes.TotalGainedHeight += deltaHeight;
             oldPosition = transform.position;
         }
     }

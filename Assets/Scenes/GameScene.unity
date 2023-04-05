@@ -1988,6 +1988,9 @@ MonoBehaviour:
   - platformType: 1
     platformPrefab: {fileID: 8148554563659747451, guid: 50a5a943d80634847bb11c5f6ed93b78, type: 3}
     size: 8
+  - platformType: 2
+    platformPrefab: {fileID: 2691313889356714200, guid: a47872f70fcba3a478aa9d292d21736a, type: 3}
+    size: 8
 --- !u!1 &1398472526
 GameObject:
   m_ObjectHideFlags: 0

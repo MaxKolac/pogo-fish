@@ -26,4 +26,19 @@ public class Platform : MonoBehaviour
         if (transform.position.y < GlobalAttributes.LowerScreenEdge)
             Actions.OnPlatformDespawn?.Invoke(this, gameObject);
     }
+
+    /// <summary>
+    /// Checks if the provided <c>collider</c> is a Player and if the Player is currently above the Platform.
+    /// </summary>
+    /// <returns>
+    /// <c>true</c> if the passed <c>collider</c> is Player and they are above the <c>Platform</c>. <c>false</c> if otherwise.
+    /// </returns>
+    protected bool IsColliderPlayerAndAbove(Collision2D collision)
+    {
+        if (collision == null 
+            || !collision.collider.CompareTag("Player") 
+            || (collision.collider.transform.position.y <= transform.position.y))
+            return false;
+        return true;
+    }
 }

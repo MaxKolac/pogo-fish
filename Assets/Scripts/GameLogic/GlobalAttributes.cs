@@ -7,6 +7,11 @@ public class GlobalAttributes
     /// </summary>
     public static float HeightBarrier { private set; get; } = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2f, 0)).y;
 
+    /// <summary>
+    /// Total height "simulated" by the Height Simulator during one game. 
+    /// </summary>
+    public static float TotalGainedHeight = 0;
+
     //Screen
     public static float LeftScreenEdge { private set; get; } = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x;
     public static float LowerScreenEdge { private set; get; } = Camera.main.ScreenToWorldPoint(Vector2.zero).y;
