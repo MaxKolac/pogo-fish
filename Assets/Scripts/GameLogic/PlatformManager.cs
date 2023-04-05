@@ -32,8 +32,9 @@ public class PlatformManager : MonoBehaviour
         Actions.OnGameLost += platformPooler.DespawnAllActivePlatforms;
         platformTypeSpawnChances = new List<int[]>()
         {
-            { new int[]{ 0, 75 } },
-            { new int[]{ 1, 25 } },
+            { new int[]{ 0, 60 } },
+            { new int[]{ 1, 20 } },
+            { new int[]{ 2, 20 } }
         };
 
     }

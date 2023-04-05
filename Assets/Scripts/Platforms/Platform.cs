@@ -7,7 +7,7 @@ public class Platform : MonoBehaviour
 {
     public enum PlatformType
     {
-        Default, OneJump
+        Default, OneJump, SideWaysMoving
     }
 
     public PlatformType type;
