@@ -40,12 +40,13 @@ public class Player : MonoBehaviour
             currentTapPosition.z = 0;
 
             if (Mathf.Abs(ownRigidbody.velocity.x) >= maxHorizontalVelocity) return;
-            ownRigidbody.AddForce(
+            ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x + accelerationRate, ownRigidbody.velocity.y);
+            /*ownRigidbody.AddForce(
                 currentTapPosition.x < GlobalAttributes.MiddleOfScreen.x ?
                 new Vector2(-1 * accelerationRate, 0) :
                 new Vector2(accelerationRate, 0),
                 ForceMode2D.Force
-            );
+            );*/
         }
         else
         {
