@@ -110,4 +110,10 @@ public class GameManager : MonoBehaviour
         playerScript.gameObject.SetActive(false);
         playerScript.ResetToStartingPosition();
     }
+
+    public void LoadShopScene()
+    {
+        SceneManager.LoadScene("ShopScene");
+        SceneManager.UnloadSceneAsync("GameScene");
+    }
 }
