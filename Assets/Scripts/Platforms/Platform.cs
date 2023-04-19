@@ -10,9 +10,9 @@ public class Platform : MonoBehaviour
         Default, OneJump, SideWaysMoving
     }
 
-    public PlatformType type;
+    public PlatformType Type;
 
-    void Update()
+    protected void Update()
     {
         CheckPosition();
     }

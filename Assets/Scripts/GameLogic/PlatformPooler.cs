@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +17,7 @@ public class PlatformPooler : MonoBehaviour
 
     private Dictionary<Platform.PlatformType, Queue<GameObject>> poolDictionary;
     private Dictionary<Platform.PlatformType, List<GameObject>> activePlatforms;
-    
+
     public Transform LastPlatformsPosition { get; private set; } = null;
 
     void Start()
@@ -48,7 +48,7 @@ public class PlatformPooler : MonoBehaviour
             return;
         }
 
-        GameObject platformToSpawn = 
+        GameObject platformToSpawn =
             poolDictionary[platformType].Count > 0 ?
             poolDictionary[platformType].Dequeue() :
             InstantiateAdditionalPlatform(platformType);
@@ -67,8 +67,8 @@ public class PlatformPooler : MonoBehaviour
         platformToDespawn.transform.SetParent(transform);
         platformToDespawn.transform.position = Vector2.zero;
 
-        activePlatforms[platformScript.type].Remove(platformToDespawn);
-        poolDictionary[platformScript.type].Enqueue(platformToDespawn);
+        activePlatforms[platformScript.Type].Remove(platformToDespawn);
+        poolDictionary[platformScript.Type].Enqueue(platformToDespawn);
     }
 
     private GameObject InstantiateAdditionalPlatform(Platform.PlatformType platformType)

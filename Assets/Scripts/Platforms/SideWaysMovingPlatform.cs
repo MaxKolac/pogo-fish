@@ -13,11 +13,6 @@ public class SideWaysMovingPlatform : Platform
         travelDirection = transform.position.x < GlobalAttributes.MiddleOfScreen.x ? 1 : -1;
     }
 
-    void Update()
-    {
-        CheckPosition();
-    }
-
     void FixedUpdate()
     {
         if (GameManager.CurrentGameState != GameManager.GameState.Playing) return;
