@@ -868,7 +868,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2042205611}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &442246679
 MonoBehaviour:
@@ -1590,7 +1590,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2042205611}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &812099484
 MonoBehaviour:
@@ -1605,6 +1605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platformPooler: {fileID: 1251066028}
+  pickableObjectPooler: {fileID: 0}
 --- !u!1 &1036488437
 GameObject:
   m_ObjectHideFlags: 0
@@ -1742,6 +1743,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1036488437}
   m_CullTransparentMesh: 1
+--- !u!1 &1097316589
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1097316590}
+  - component: {fileID: 1097316591}
+  m_Layer: 0
+  m_Name: PickableObjectPooler
+  m_TagString: GameController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1097316590
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1097316589}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2042205611}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1097316591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1097316589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceed7a5cac288bb4fa96a6c835a9f68a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectPools:
+  - objectType: 0
+    objectPrefab: {fileID: 7381637136984402786, guid: 8fd4c867bd01da44886123712e6468a3, type: 3}
+    size: 20
 --- !u!1 &1133360072
 GameObject:
   m_ObjectHideFlags: 0
@@ -2876,6 +2925,7 @@ Transform:
   m_Children:
   - {fileID: 132519910}
   - {fileID: 1251066027}
+  - {fileID: 1097316590}
   - {fileID: 812099483}
   - {fileID: 442246678}
   m_Father: {fileID: 0}

@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlatformManager : MonoBehaviour
 {
     public PlatformPooler platformPooler;
+    public PickableObjectPooler pickableObjectPooler;
 
     public bool IsSpawningPlatforms { get; private set; } = false;
 
@@ -15,6 +16,7 @@ public class PlatformManager : MonoBehaviour
     private float maxY = 1.75f;
     private float nextPlatformSpawnHeightTrigger;
     private float deltaHeightChangeSinceLastSpawn;
+    private const int pickableObjectSpawnChance = 85; //[0, 100)
 
     /// <summary>
     /// <list type="bullet">
@@ -23,17 +25,29 @@ public class PlatformManager : MonoBehaviour
     /// </list>
     /// </summary>
     private List<int[]> platformTypeSpawnChances;
+    /// <summary>
+    /// <list type="bullet">
+    /// <item><c>int[0]</c> - PickableObjectType enumerator as an integer.</item>
+    /// <item><c>int[1]</c> - Chance's weight for this type to be returned.</item>
+    /// </list>
+    /// </summary>
+    private List<int[]> pickableObjectTypeSpawnChances;
 
     void Start()
     {
-        Actions.OnDeltaHeightChanged += ScrollActivePlatforms;
+        Actions.OnDeltaHeightChanged += ScrollActivePooledObjects;
         Actions.OnDeltaHeightChanged += IncreaseDeltaHeightChange;
         Actions.OnGameLost += platformPooler.DespawnAllActivePlatforms;
+        Actions.OnGameLost += pickableObjectPooler.DespawnAllActivePickableObjects;
         platformTypeSpawnChances = new List<int[]>()
         {
             { new int[]{ 0, 60 } },
             { new int[]{ 1, 20 } },
             { new int[]{ 2, 20 } }
+        };
+        pickableObjectTypeSpawnChances = new List<int[]>()
+        {
+            { new int[]{ 0, 100 } }
         };
 
     }
@@ -61,6 +75,8 @@ public class PlatformManager : MonoBehaviour
         platformSpawnY = platformPooler.LastPlatformsPosition.position.y + nextPlatformSpawnHeightTrigger;
 
         platformPooler.SpawnPlatform(RandomizeNextPlatformType(), new Vector2(platformSpawnX, platformSpawnY));
+        if (Random.Range(0, 100) < pickableObjectSpawnChance)
+            pickableObjectPooler.SpawnPickableObject(RandomizeNextPickableObjectType(), new Vector2(platformSpawnX, platformSpawnY + 1));
         nextPlatformSpawnHeightTrigger = Random.Range(minY, maxY);
     }
 
@@ -73,6 +89,7 @@ public class PlatformManager : MonoBehaviour
             NewRandomSpawnX();
             platformSpawnY += Random.Range(minY, maxY);
             platformPooler.SpawnPlatform(Platform.PlatformType.Default, new Vector2(platformSpawnX, platformSpawnY));
+            pickableObjectPooler.SpawnPickableObject(PickableObject.PickableObjectType.Coin, new Vector2(platformSpawnX, platformSpawnY + 1));
         }
         deltaHeightChangeSinceLastSpawn = 0;
         nextPlatformSpawnHeightTrigger = Random.Range(minY, maxY);
@@ -111,7 +128,28 @@ public class PlatformManager : MonoBehaviour
         return Platform.PlatformType.Default;
     }
 
-    private void ScrollActivePlatforms(float deltaHeight)
+    private PickableObject.PickableObjectType RandomizeNextPickableObjectType()
+    {
+        int sumOfAllChances = 0;
+        int lowerBound = 0;
+
+        for (int i = 0; i < pickableObjectTypeSpawnChances.Count; i++)
+            sumOfAllChances += pickableObjectTypeSpawnChances[i][1];
+
+        int randomResult = Random.Range(0, sumOfAllChances - 1);
+
+        for (int i = 0; i < pickableObjectTypeSpawnChances.Count; i++)
+        {
+            if (lowerBound <= randomResult && randomResult < (lowerBound + pickableObjectTypeSpawnChances[i][1]))
+                return (PickableObject.PickableObjectType)pickableObjectTypeSpawnChances[i][0];
+            lowerBound += pickableObjectTypeSpawnChances[i][1];
+        }
+
+        Debug.LogWarning($"Randomizing the platform type failed! Returning Coin type as a fallback...");
+        return PickableObject.PickableObjectType.Coin;
+    }
+
+    private void ScrollActivePooledObjects(float deltaHeight)
     {
         foreach (GameObject activePlatform in platformPooler.GetAllActivePlatforms())
         {
@@ -119,6 +157,14 @@ public class PlatformManager : MonoBehaviour
                 new Vector2(
                     activePlatform.transform.position.x,
                     activePlatform.transform.position.y - deltaHeight
+                );
+        }
+        foreach (GameObject activePickableObject in pickableObjectPooler.GetAllActivePickableObjects())
+        {
+            activePickableObject.transform.position =
+                new Vector2(
+                    activePickableObject.transform.position.x,
+                    activePickableObject.transform.position.y - deltaHeight
                 );
         }
     }
