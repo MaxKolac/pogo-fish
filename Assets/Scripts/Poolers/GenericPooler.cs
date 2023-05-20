@@ -5,15 +5,17 @@ using UnityEngine;
 //https://www.youtube.com/watch?v=tdSmKaJvCoA
 public class GenericPooler<ObjectType> : MonoBehaviour where ObjectType : Enum
 {
+    [SerializeField] protected GameObject activeObjectsParent;
     [SerializeField] protected List<Pool<ObjectType>> objectPools;
     protected Dictionary<ObjectType, Queue<GameObject>> poolDictionary;
     protected Dictionary<ObjectType, List<GameObject>> activeObjects;
-
     protected string pooledObjectName;
     protected string selfName;
 
-    protected void InitializePooler()
+    protected void InitializePooler(string pooledObjectName, string selfName)
     {
+        this.pooledObjectName = pooledObjectName;
+        this.selfName = selfName;
         poolDictionary = new();
         activeObjects = new();
         foreach (Pool<ObjectType> pool in objectPools)
@@ -21,17 +23,18 @@ public class GenericPooler<ObjectType> : MonoBehaviour where ObjectType : Enum
             Queue<GameObject> queue = new();
             for (int i = 0; i < pool.size; i++)
             {
-                GameObject gameObj = Instantiate(pool.objectPrefab);
-                gameObj.SetActive(false);
-                gameObj.transform.SetParent(transform);
-                queue.Enqueue(gameObject);
+                GameObject newObject = Instantiate(pool.objectPrefab);
+                newObject.SetActive(false);
+                newObject.transform.SetParent(transform);
+                newObject.transform.position = Vector2.zero;
+                queue.Enqueue(newObject);
             }
             poolDictionary.Add(pool.objectType, queue);
             activeObjects.Add(pool.objectType, new List<GameObject>());
         }
     }
 
-    public virtual void SpawnObject(ObjectType objectType, Vector2 position)
+    public void SpawnObject(ObjectType objectType, Vector2 position)
     {
         if (!poolDictionary.ContainsKey(objectType))
         {
@@ -43,14 +46,14 @@ public class GenericPooler<ObjectType> : MonoBehaviour where ObjectType : Enum
             poolDictionary[objectType].Dequeue() :
             InstantiateAdditionalObject(objectType);
 
-        objectToSpawn.gameObject.SetActive(true);
-        objectToSpawn.transform.SetParent(null);
+        objectToSpawn.SetActive(true);
+        objectToSpawn.transform.SetParent(activeObjectsParent.transform);
         objectToSpawn.transform.position = position;
 
         activeObjects[objectType].Add(objectToSpawn);
     }
 
-    protected virtual void DespawnObject(ObjectType objectType, GameObject objectToDespawn)
+    protected void DespawnObject(ObjectType objectType, GameObject objectToDespawn)
     {
         objectToDespawn.SetActive(false);
         objectToDespawn.transform.SetParent(transform);

@@ -27,6 +27,7 @@ public class PlatformManager : MonoBehaviour
         Actions.OnDeltaHeightChanged += ScrollActivePooledObjects;
         Actions.OnDeltaHeightChanged += CaptureDeltaHeightChange;
         Actions.OnGameLost += platformPooler.DespawnAllActiveObjects;
+        Actions.OnGameLost += pickableObjectPooler.DespawnAllActiveObjects;
     }
 
     void Update()

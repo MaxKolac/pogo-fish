@@ -9,14 +9,12 @@ public class PlatformPooler : GenericPooler<PlatformType>
     void Start()
     {
         Actions.OnPlatformDespawn += DespawnObject;
-        pooledObjectName = "Platform";
-        selfName = "PlatformPooler";
-        InitializePooler();
+        InitializePooler("Platform", "PlatformPooler");
     }
 
-    public override void SpawnObject(Platform.PlatformType platformType, Vector2 position)
+    public new void SpawnObject(PlatformType platformType, Vector2 position)
     {
         base.SpawnObject(platformType, position);
-        LastPlatformsPosition = activeObjects[platformType][activeObjects.Count - 1].transform;
+        LastPlatformsPosition = activeObjects[platformType][^1].transform;
     }
 }
