@@ -21,7 +21,7 @@ public abstract class PickableObject : MonoBehaviour
     protected void CheckPosition()
     {
         if (transform.position.y < GlobalAttributes.LowerScreenEdge)
-            Actions.OnPickableObjectDespawn?.Invoke(this, gameObject);
+            Actions.OnPickableObjectDespawn?.Invoke(Type, gameObject);
     }
 
     /// <summary>

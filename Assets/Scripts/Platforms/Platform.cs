@@ -10,7 +10,7 @@ public class Platform : MonoBehaviour
         Default, OneJump, SideWaysMoving
     }
 
-    public PlatformType type;
+    public PlatformType Type;
 
     void Update()
     {
@@ -24,7 +24,7 @@ public class Platform : MonoBehaviour
     protected void CheckPosition()
     {
         if (transform.position.y < GlobalAttributes.LowerScreenEdge)
-            Actions.OnPlatformDespawn?.Invoke(this, gameObject);
+            Actions.OnPlatformDespawn?.Invoke(Type, gameObject);
     }
 
     /// <summary>

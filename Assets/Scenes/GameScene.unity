@@ -1569,13 +1569,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platformPooler: {fileID: 1251066028}
-  spawnChanceTable:
+  pickableObjectPooler: {fileID: 1097316591}
+  platformWithObjectSpawnChance: 100
+  platformSpawnChanceTable:
   - platformType: 0
     chanceToSpawn: 60
   - platformType: 1
     chanceToSpawn: 20
   - platformType: 2
     chanceToSpawn: 20
+  pickableObjSpawnChanceTable:
+  - pickableObjectType: 0
+    chanceToSpawn: 1
 --- !u!1 &1036488437
 GameObject:
   m_ObjectHideFlags: 0
@@ -2048,16 +2053,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b55cd7aee43216149b548fafbe755a00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platformPools:
-  - platformType: 0
-    platformPrefab: {fileID: 161234941771783716, guid: 2dd990b7e0c6d6e49ba784bbfe48810a, type: 3}
-    size: 12
-  - platformType: 1
-    platformPrefab: {fileID: 8148554563659747451, guid: 50a5a943d80634847bb11c5f6ed93b78, type: 3}
-    size: 8
-  - platformType: 2
-    platformPrefab: {fileID: 2691313889356714200, guid: a47872f70fcba3a478aa9d292d21736a, type: 3}
-    size: 8
+  objectPools:
+  - objectType: 0
+    objectPrefab: {fileID: 161234941771783716, guid: 2dd990b7e0c6d6e49ba784bbfe48810a, type: 3}
+    size: 15
+  - objectType: 1
+    objectPrefab: {fileID: 8148554563659747451, guid: 50a5a943d80634847bb11c5f6ed93b78, type: 3}
+    size: 10
+  - objectType: 2
+    objectPrefab: {fileID: 2691313889356714200, guid: a47872f70fcba3a478aa9d292d21736a, type: 3}
+    size: 10
 --- !u!1 &1398472526
 GameObject:
   m_ObjectHideFlags: 0
