@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickableObjectPooler : GenericPooler<PickableObject.PickableObjectType>
+public class PickableObjectPooler : GenericPooler<PickableObjectType>
 {
     void Start()
     {
@@ -11,8 +11,4 @@ public class PickableObjectPooler : GenericPooler<PickableObject.PickableObjectT
         selfName = "PickableObjPooler";
         InitializePooler();
     }
-}
-
-public class PickableObjPool : Pool<PickableObject.PickableObjectType>
-{
 }

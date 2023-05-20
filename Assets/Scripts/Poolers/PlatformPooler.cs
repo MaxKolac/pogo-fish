@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformPooler : GenericPooler<Platform.PlatformType>
+public class PlatformPooler : GenericPooler<PlatformType>
 {
     public Transform LastPlatformsPosition { get; private set; } = null;
 

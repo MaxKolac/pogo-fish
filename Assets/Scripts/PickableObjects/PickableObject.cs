@@ -2,11 +2,6 @@
 
 public abstract class PickableObject : MonoBehaviour
 {
-    public enum PickableObjectType
-    {
-        Coin
-    }
-
     public PickableObjectType Type;
 
     protected void Update()
@@ -33,3 +28,7 @@ public abstract class PickableObject : MonoBehaviour
     }
 }
 
+public enum PickableObjectType
+{
+    Coin
+}

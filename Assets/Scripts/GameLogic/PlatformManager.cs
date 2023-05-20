@@ -8,8 +8,8 @@ public class PlatformManager : MonoBehaviour
     [SerializeField] private PickableObjectPooler pickableObjectPooler;
     [SerializeField] private int platformWithObjectSpawnChance = 100; //[0, 100)
 
-    [SerializeField] private List<PlatformSpawnChanceEntry> platformSpawnChanceTable;
-    [SerializeField] private List<PickableObjSpawnChanceEntry> pickableObjSpawnChanceTable;
+    [SerializeField] private List<SpawnChanceEntry<PlatformType>> platformSpawnChanceTable;
+    [SerializeField] private List<SpawnChanceEntry<PickableObjectType>> pickableObjSpawnChanceTable;
 
     public bool IsSpawningPlatforms { get; private set; } = false;
 
@@ -74,8 +74,8 @@ public class PlatformManager : MonoBehaviour
         {
             NewRandomSpawnX();
             platformSpawnY += UnityEngine.Random.Range(minY, maxY);
-            platformPooler.SpawnObject(Platform.PlatformType.Default, new Vector2(platformSpawnX, platformSpawnY));
-            pickableObjectPooler.SpawnObject(PickableObject.PickableObjectType.Coin, new Vector2(platformSpawnX, platformSpawnY + 1));
+            platformPooler.SpawnObject(PlatformType.Default, new Vector2(platformSpawnX, platformSpawnY));
+            //pickableObjectPooler.SpawnObject(PickableObjectType.Coin, new Vector2(platformSpawnX, platformSpawnY + 0.45f));
         }
         deltaHeightChangeSinceLastSpawn = 0;
         nextPlatformSpawnHeightTrigger = UnityEngine.Random.Range(minY, maxY);
@@ -93,17 +93,17 @@ public class PlatformManager : MonoBehaviour
         platformPooler.DespawnAllActiveObjects();
     }
 
-    private Platform.PlatformType RandomizeNextPlatformType()
+    private PlatformType RandomizeNextPlatformType()
     {
         int sumOfAllChances = 0;
         int lowerBound = 0;
 
-        foreach (PlatformSpawnChanceEntry entry in platformSpawnChanceTable)
+        foreach (SpawnChanceEntry<PlatformType> entry in platformSpawnChanceTable)
             sumOfAllChances += entry.chanceToSpawn;
 
         int randomResult = UnityEngine.Random.Range(0, sumOfAllChances - 1);
 
-        foreach (PlatformSpawnChanceEntry entry in platformSpawnChanceTable)
+        foreach (SpawnChanceEntry<PlatformType> entry in platformSpawnChanceTable)
         {
             if (lowerBound <= randomResult && randomResult < (lowerBound + entry.chanceToSpawn))
                 return entry.platformType;
@@ -111,20 +111,20 @@ public class PlatformManager : MonoBehaviour
         }
 
         Debug.LogWarning($"Randomizing the platform type failed! Returning Default type as a fallback...");
-        return Platform.PlatformType.Default;
+        return PlatformType.Default;
     }
 
-    private PickableObject.PickableObjectType RandomizeNextPickableObjectType()
+    private PickableObjectType RandomizeNextPickableObjectType()
     {
         int sumOfAllChances = 0;
         int lowerBound = 0;
 
-        foreach (PickableObjSpawnChanceEntry entry in pickableObjSpawnChanceTable)
+        foreach (SpawnChanceEntry<PickableObjectType> entry in pickableObjSpawnChanceTable)
             sumOfAllChances += entry.chanceToSpawn;
 
         int randomResult = UnityEngine.Random.Range(0, sumOfAllChances - 1);
 
-        foreach (PickableObjSpawnChanceEntry entry in pickableObjSpawnChanceTable)
+        foreach (SpawnChanceEntry<PickableObjectType> entry in pickableObjSpawnChanceTable)
         {
             if (lowerBound <= randomResult && randomResult < (lowerBound + entry.chanceToSpawn))
                 return entry.pickableObjectType;
@@ -132,7 +132,7 @@ public class PlatformManager : MonoBehaviour
         }
 
         Debug.LogWarning($"Randomizing the pickable object type failed! Returning Coin type as a fallback...");
-        return PickableObject.PickableObjectType.Coin;
+        return PickableObjectType.Coin;
     }
 
     private void ScrollActivePooledObjects(float deltaHeight)

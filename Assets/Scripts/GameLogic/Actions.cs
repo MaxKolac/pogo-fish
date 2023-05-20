@@ -6,11 +6,11 @@ public static class Actions
     /// <summary>
     /// Action trigerred by Platform whenever it should be enqueued by <c>PlatformPooler</c> and disabled.
     /// </summary>
-    public static Action<Platform.PlatformType, GameObject> OnPlatformDespawn;
+    public static Action<PlatformType, GameObject> OnPlatformDespawn;
     /// <summary>
     /// Action trigerred by a PickableObject whenever it should enqueued by PickableObjectPooler and disabled.
     /// </summary>
-    public static Action<PickableObject.PickableObjectType, GameObject> OnPickableObjectDespawn;
+    public static Action<PickableObjectType, GameObject> OnPickableObjectDespawn;
     /// <summary>
     /// Action triggered by HeightSimulator whenever the "scroll down" illusion is being simulated, and therefore, DeltaHeight's value is changing.
     /// </summary>

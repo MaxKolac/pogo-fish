@@ -5,11 +5,6 @@ using UnityEngine;
 /// </summary>
 public class Platform : MonoBehaviour
 {
-    public enum PlatformType
-    {
-        Default, OneJump, SideWaysMoving
-    }
-
     public PlatformType Type;
 
     void Update()
@@ -41,4 +36,9 @@ public class Platform : MonoBehaviour
             return false;
         return true;
     }
+}
+
+public enum PlatformType
+{
+    Default, OneJump, SideWaysMoving
 }
