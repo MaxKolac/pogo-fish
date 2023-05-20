@@ -1229,6 +1229,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ddbeabb74bf234a990ff26c3a88273, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentSaveState: {fileID: 0}
+  coinCounterText: {fileID: 708052109}
 --- !u!1 &2052919946
 GameObject:
   m_ObjectHideFlags: 0
