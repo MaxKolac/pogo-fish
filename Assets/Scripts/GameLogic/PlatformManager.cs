@@ -58,7 +58,7 @@ public class PlatformManager : MonoBehaviour
                         RandomizeNextPickableObjectType(),
                         new Vector2(
                             platformPooler.LastPlatformsPosition.position.x,
-                            platformPooler.LastPlatformsPosition.position.y + 0.5f
+                            platformPooler.LastPlatformsPosition.position.y + 0.45f
                         )
                     );
                 }
@@ -76,7 +76,6 @@ public class PlatformManager : MonoBehaviour
             NewRandomSpawnX();
             platformSpawnY += UnityEngine.Random.Range(minY, maxY);
             platformPooler.SpawnObject(PlatformType.Default, new Vector2(platformSpawnX, platformSpawnY));
-            //pickableObjectPooler.SpawnObject(PickableObjectType.Coin, new Vector2(platformSpawnX, platformSpawnY + 0.45f));
         }
         deltaHeightChangeSinceLastSpawn = 0;
         nextPlatformSpawnHeightTrigger = UnityEngine.Random.Range(minY, maxY);
@@ -107,7 +106,7 @@ public class PlatformManager : MonoBehaviour
         foreach (SpawnChanceEntry<PlatformType> entry in platformSpawnChanceTable)
         {
             if (lowerBound <= randomResult && randomResult < (lowerBound + entry.chanceToSpawn))
-                return entry.platformType;
+                return entry.objectType;
             lowerBound += entry.chanceToSpawn;
         }
 
@@ -128,7 +127,7 @@ public class PlatformManager : MonoBehaviour
         foreach (SpawnChanceEntry<PickableObjectType> entry in pickableObjSpawnChanceTable)
         {
             if (lowerBound <= randomResult && randomResult < (lowerBound + entry.chanceToSpawn))
-                return entry.pickableObjectType;
+                return entry.objectType;
             lowerBound += entry.chanceToSpawn;
         }
 
@@ -171,15 +170,8 @@ public class PlatformManager : MonoBehaviour
 }
 
 [Serializable]
-internal class PlatformSpawnChanceEntry
+internal class SpawnChanceEntry<T> where T : Enum
 {
-    public Platform.PlatformType platformType;
-    public int chanceToSpawn;
-}
-
-[Serializable]
-internal class PickableObjSpawnChanceEntry
-{
-    public PickableObject.PickableObjectType pickableObjectType;
+    public T objectType;
     public int chanceToSpawn;
 }

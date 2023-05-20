@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //https://www.youtube.com/watch?v=tdSmKaJvCoA
+/// <summary>
+/// A generic Pooler of Unity's GameObjects with basic functionality of keeping track of active and inactive objects.
+/// </summary>
+/// <typeparam name="ObjectType">The enum type of the GameObject which describes all variants of the pooled object class.</typeparam>
 public class GenericPooler<ObjectType> : MonoBehaviour where ObjectType : Enum
 {
     [SerializeField] protected GameObject activeObjectsParent;
@@ -55,6 +59,10 @@ public class GenericPooler<ObjectType> : MonoBehaviour where ObjectType : Enum
 
     protected void DespawnObject(ObjectType objectType, GameObject objectToDespawn)
     {
+        //TODO:
+        //It appears that (perhaps?) objects arent properly removed
+        //After playing for a while a few platforms will start scrolling twice as fast
+        //And Pooler will warn that it has no more free platforms to respawn
         objectToDespawn.SetActive(false);
         objectToDespawn.transform.SetParent(transform);
         objectToDespawn.transform.position = Vector2.zero;
@@ -65,13 +73,13 @@ public class GenericPooler<ObjectType> : MonoBehaviour where ObjectType : Enum
 
     protected GameObject InstantiateAdditionalObject(ObjectType objectType)
     {
-        Debug.LogWarning($"{selfName} ran out of {objectType} objects! Instantiating additional GameObject...");
+        Debug.LogWarning($"{selfName} ran out of {objectType} {pooledObjectName}s! Instantiating additional GameObject...");
         foreach (Pool<ObjectType> pool in objectPools)
         {
             if (pool.objectType.Equals(objectType))
                 return Instantiate(pool.objectPrefab);
         }
-        Debug.Log($"Couldn't find the {objectType} pool when instantiating additional objects!");
+        Debug.Log($"Couldn't find the {objectType} pool when instantiating additional {pooledObjectName}s!");
         return null;
     }
 
@@ -97,6 +105,10 @@ public class GenericPooler<ObjectType> : MonoBehaviour where ObjectType : Enum
     }
 }
 
+/// <summary>
+/// Basic Pool class. It holds together the Type of the object, its Unity Prefab and the initial amount of instantiated objects.
+/// </summary>
+/// <typeparam name="T">The enum type of the GameObject which describes all variants of the pooled object class.</typeparam>
 [Serializable]
 public class Pool<T> where T : Enum
 {
