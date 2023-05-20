@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,14 @@ public class PlatformManager : MonoBehaviour
     public PlatformPooler platformPooler;
 
     public bool IsSpawningPlatforms { get; private set; } = false;
+
+    [Serializable]
+    private class SpawnChanceEntry
+    {
+        public Platform.PlatformType platformType;
+        public int chanceToSpawn;
+    }
+    [SerializeField] private List<SpawnChanceEntry> spawnChanceTable;
 
     private float platformSpawnX;
     private float minX = 1f;
@@ -16,26 +25,11 @@ public class PlatformManager : MonoBehaviour
     private float nextPlatformSpawnHeightTrigger;
     private float deltaHeightChangeSinceLastSpawn;
 
-    /// <summary>
-    /// <list type="bullet">
-    /// <item><c>int[0]</c> - Platform.PlatformType enumerator as an integer.</item>
-    /// <item><c>int[1]</c> - Chance's weight for this type to be returned.</item>
-    /// </list>
-    /// </summary>
-    private List<int[]> platformTypeSpawnChances;
-
     void Start()
     {
         Actions.OnDeltaHeightChanged += ScrollActivePlatforms;
         Actions.OnDeltaHeightChanged += IncreaseDeltaHeightChange;
         Actions.OnGameLost += platformPooler.DespawnAllActivePlatforms;
-        platformTypeSpawnChances = new List<int[]>()
-        {
-            { new int[]{ 0, 60 } },
-            { new int[]{ 1, 20 } },
-            { new int[]{ 2, 20 } }
-        };
-
     }
 
     void Update()
@@ -52,16 +46,17 @@ public class PlatformManager : MonoBehaviour
         }
 
         //New platform spawning script
-        //TODO: Platforms arent spawning from a set Y, as difficulty increases (ranges decrease)
-        //they spawn closer and closer to heightBarrier.
-        if (deltaHeightChangeSinceLastSpawn <= nextPlatformSpawnHeightTrigger || !IsSpawningPlatforms) return;
-        deltaHeightChangeSinceLastSpawn = 0;
-
-        NewRandomSpawnX();
-        platformSpawnY = platformPooler.LastPlatformsPosition.position.y + nextPlatformSpawnHeightTrigger;
-
-        platformPooler.SpawnPlatform(RandomizeNextPlatformType(), new Vector2(platformSpawnX, platformSpawnY));
-        nextPlatformSpawnHeightTrigger = Random.Range(minY, maxY);
+        if (deltaHeightChangeSinceLastSpawn > nextPlatformSpawnHeightTrigger && IsSpawningPlatforms)
+        {
+            deltaHeightChangeSinceLastSpawn = 0;
+            do
+            {
+                NewRandomSpawnX();
+                platformSpawnY = platformPooler.LastPlatformsPosition.position.y + nextPlatformSpawnHeightTrigger;
+                platformPooler.SpawnPlatform(RandomizeNextPlatformType(), new Vector2(platformSpawnX, platformSpawnY));
+            } while (platformPooler.LastPlatformsPosition.position.y < GlobalAttributes.UpperScreenEdge);
+            nextPlatformSpawnHeightTrigger = UnityEngine.Random.Range(minY, maxY);
+        }
     }
 
     void SpawnInitialSetOfPlatforms()
@@ -71,11 +66,11 @@ public class PlatformManager : MonoBehaviour
         for (int i = 0; i < 10; i++)
         {
             NewRandomSpawnX();
-            platformSpawnY += Random.Range(minY, maxY);
+            platformSpawnY += UnityEngine.Random.Range(minY, maxY);
             platformPooler.SpawnPlatform(Platform.PlatformType.Default, new Vector2(platformSpawnX, platformSpawnY));
         }
         deltaHeightChangeSinceLastSpawn = 0;
-        nextPlatformSpawnHeightTrigger = Random.Range(minY, maxY);
+        nextPlatformSpawnHeightTrigger = UnityEngine.Random.Range(minY, maxY);
     }
 
     public void EnablePlatformSpawning()
@@ -95,16 +90,16 @@ public class PlatformManager : MonoBehaviour
         int sumOfAllChances = 0;
         int lowerBound = 0;
 
-        for (int i = 0; i < platformTypeSpawnChances.Count; i++)
-            sumOfAllChances += platformTypeSpawnChances[i][1];
-        
-        int randomResult = Random.Range(0, sumOfAllChances - 1);
+        foreach (SpawnChanceEntry entry in spawnChanceTable)
+            sumOfAllChances += entry.chanceToSpawn;
 
-        for (int i = 0; i < platformTypeSpawnChances.Count; i++)
+        int randomResult = UnityEngine.Random.Range(0, sumOfAllChances - 1);
+
+        foreach (SpawnChanceEntry entry in spawnChanceTable)
         {
-            if (lowerBound <= randomResult && randomResult < (lowerBound + platformTypeSpawnChances[i][1]))
-                return (Platform.PlatformType)platformTypeSpawnChances[i][0];
-            lowerBound += platformTypeSpawnChances[i][1];
+            if (lowerBound <= randomResult && randomResult < (lowerBound + entry.chanceToSpawn))
+                return entry.platformType;
+            lowerBound += entry.chanceToSpawn;
         }
 
         Debug.LogWarning($"Randomizing the platform type failed! Returning Default type as a fallback...");
@@ -131,7 +126,7 @@ public class PlatformManager : MonoBehaviour
 
     private void NewRandomSpawnX()
     {
-        platformSpawnX += Random.Range(minX, maxX);
+        platformSpawnX += UnityEngine.Random.Range(minX, maxX);
         if (platformSpawnX < GlobalAttributes.LeftScreenEdge || GlobalAttributes.RightScreenEdge < platformSpawnX)
             platformSpawnX -= GlobalAttributes.ScreenWorldWidth;
     }
