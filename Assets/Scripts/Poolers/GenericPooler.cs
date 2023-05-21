@@ -68,12 +68,8 @@ public abstract class GenericPooler<ObjectType> : MonoBehaviour where ObjectType
 
     protected void DespawnObject(ObjectType objectType, GameObject objectToDespawn)
     {
-        //TODO:
-        //It appears that (perhaps?) objects arent properly removed
-        //After playing for a while a few platforms will start scrolling twice as fast
-        //And Pooler will warn that it has no more free platforms to respawn
         objectToDespawn.SetActive(false);
-        objectToDespawn.transform.SetParent(transform);
+        objectToDespawn.transform.SetParent(this.transform);
         objectToDespawn.transform.position = Vector2.zero;
 
         activeObjects[objectType].Remove(objectToDespawn);
