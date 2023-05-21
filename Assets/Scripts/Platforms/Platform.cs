@@ -5,11 +5,6 @@ using UnityEngine;
 /// </summary>
 public class Platform : MonoBehaviour
 {
-    public enum PlatformType
-    {
-        Default, OneJump, SideWaysMoving
-    }
-
     public PlatformType Type;
 
     protected void Update()
@@ -24,7 +19,7 @@ public class Platform : MonoBehaviour
     protected void CheckPosition()
     {
         if (transform.position.y < GlobalAttributes.LowerScreenEdge)
-            Actions.OnPlatformDespawn?.Invoke(this, gameObject);
+            Actions.OnPlatformDespawn?.Invoke(Type, gameObject);
     }
 
     /// <summary>
@@ -41,4 +36,9 @@ public class Platform : MonoBehaviour
             return false;
         return true;
     }
+}
+
+public enum PlatformType
+{
+    Default, OneJump, SideWaysMoving
 }

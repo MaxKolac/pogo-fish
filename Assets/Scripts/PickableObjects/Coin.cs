@@ -9,7 +9,7 @@ public class Coin : PickableObject
         if (IsColliderPlayer(collision))
         {
             Actions.OnPickableObjectPickedUp?.Invoke(this, gameObject);
-            Actions.OnPickableObjectDespawn?.Invoke(this, gameObject);
+            Actions.OnPickableObjectDespawn?.Invoke(Type, gameObject);
         }
     }
 }

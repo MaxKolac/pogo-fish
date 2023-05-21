@@ -2,11 +2,6 @@
 
 public abstract class PickableObject : MonoBehaviour
 {
-    public enum PickableObjectType
-    {
-        Coin
-    }
-
     public PickableObjectType Type;
 
     protected void Update()
@@ -21,7 +16,7 @@ public abstract class PickableObject : MonoBehaviour
     protected void CheckPosition()
     {
         if (transform.position.y < GlobalAttributes.LowerScreenEdge)
-            Actions.OnPickableObjectDespawn?.Invoke(this, gameObject);
+            Actions.OnPickableObjectDespawn?.Invoke(Type, gameObject);
     }
 
     /// <summary>
@@ -33,3 +28,7 @@ public abstract class PickableObject : MonoBehaviour
     }
 }
 
+public enum PickableObjectType
+{
+    Coin
+}

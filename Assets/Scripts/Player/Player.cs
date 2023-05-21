@@ -5,8 +5,8 @@ public class Player : MonoBehaviour
     [SerializeField] private HeightSimulator heightSimulator;
     [SerializeField] private Rigidbody2D ownRigidbody;
 
-    private const float accelerationRate = 4.25f;
-    private const float decelerationRate = 0.25f;
+    [SerializeField] private float accelerationRate = 0.4f;
+    [SerializeField] private float decelerationRate = 0.4f;
     private const float minHorizontalVelocity = 0.35f;
     private const float maxHorizontalVelocity = 10f;
     private const float jumpForce = 10f;
@@ -40,7 +40,11 @@ public class Player : MonoBehaviour
             currentTapPosition.z = 0;
 
             if (Mathf.Abs(ownRigidbody.velocity.x) >= maxHorizontalVelocity) return;
-            ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x + accelerationRate, ownRigidbody.velocity.y);
+            ownRigidbody.velocity = new Vector2(
+                currentTapPosition.x < GlobalAttributes.MiddleOfScreen.x ?
+                    ownRigidbody.velocity.x - accelerationRate :
+                    ownRigidbody.velocity.x + accelerationRate,
+                ownRigidbody.velocity.y);
             /*ownRigidbody.AddForce(
                 currentTapPosition.x < GlobalAttributes.MiddleOfScreen.x ?
                 new Vector2(-1 * accelerationRate, 0) :
