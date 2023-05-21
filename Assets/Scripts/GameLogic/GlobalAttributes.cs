@@ -5,7 +5,7 @@ public class GlobalAttributes
     /// <summary>
     /// If Player reaches this Y coordinate when jumping, <c>HeightSimulator</c> will begin simulating the game's "scrolling down" illusion.
     /// </summary>
-    public static float HeightBarrier { private set; get; } = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 2f, 0)).y;
+    public static float HeightBarrier { private set; get; } = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height / 3f, 0)).y;
 
     /// <summary>
     /// Total height "simulated" by the Height Simulator during one game. 
