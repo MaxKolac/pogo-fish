@@ -23,62 +23,58 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (transform.position.y < GlobalAttributes.LowerScreenEdge && GameManager.CurrentGameState == GameState.Playing) 
+        if (transform.position.y < GlobalAttributes.LowerScreenEdge && GameManager.CurrentGameState == GameState.Playing)
             Actions.OnGameLost?.Invoke();
 
         //Cancel all movement input when game isnt playing
         if (GameManager.CurrentGameState == GameState.Playing)
         {
-        // X Movement System
-        //Teleport player to the other side of screen when he falls out of the screen bounds
-        if (transform.position.x < GlobalAttributes.LeftScreenEdge)
-            transform.position = new Vector2(GlobalAttributes.RightScreenEdge, transform.position.y);
-        if (transform.position.x > GlobalAttributes.RightScreenEdge)
-            transform.position = new Vector2(GlobalAttributes.LeftScreenEdge, transform.position.y);
+            // X Movement System
+            //Teleport player to the other side of screen when he falls out of the screen bounds
+            if (transform.position.x < GlobalAttributes.LeftScreenEdge)
+                transform.position = new Vector2(GlobalAttributes.RightScreenEdge, transform.position.y);
+            if (transform.position.x > GlobalAttributes.RightScreenEdge)
+                transform.position = new Vector2(GlobalAttributes.LeftScreenEdge, transform.position.y);
 
-        if (Input.GetMouseButton(0))
-        {
-            //Update currentTapPosition and accelerate if user is holding finger
-            currentTapPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            currentTapPosition.z = 0;
+            if (Input.GetMouseButton(0))
+            {
+                //Update currentTapPosition and accelerate if user is holding finger
+                currentTapPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                currentTapPosition.z = 0;
 
-            if (Mathf.Abs(ownRigidbody.velocity.x) >= maxHorizontalVelocity) return;
+                if (Mathf.Abs(ownRigidbody.velocity.x) < maxHorizontalVelocity)
+                {
+                    ownRigidbody.velocity = new Vector2(
+                    currentTapPosition.x < GlobalAttributes.MiddleOfScreen.x ?
+                        ownRigidbody.velocity.x - accelerationRate :
+                        ownRigidbody.velocity.x + accelerationRate,
+                    ownRigidbody.velocity.y);
+                }
+            }
+            else
+            {
+                //Else, decelerate - round up velocity lower than minHorizontalVelocity to 0
+                ownRigidbody.velocity =
+                    Mathf.Abs(ownRigidbody.velocity.x) < minHorizontalVelocity ?
+                    new Vector2(0, ownRigidbody.velocity.y) :
+                    new Vector2(ownRigidbody.velocity.x - (Mathf.Sign(ownRigidbody.velocity.x) * decelerationRate), ownRigidbody.velocity.y);
+            }
+
+            // Y Movement system
+            //Speed limit
             ownRigidbody.velocity = new Vector2(
-                currentTapPosition.x < GlobalAttributes.MiddleOfScreen.x ?
-                    ownRigidbody.velocity.x - accelerationRate :
-                    ownRigidbody.velocity.x + accelerationRate,
-                ownRigidbody.velocity.y);
-            /*ownRigidbody.AddForce(
-                currentTapPosition.x < GlobalAttributes.MiddleOfScreen.x ?
-                new Vector2(-1 * accelerationRate, 0) :
-                new Vector2(accelerationRate, 0),
-                ForceMode2D.Force
-            );*/
-        }
-        else
-        {
-            //Else, decelerate - round up velocity lower than minHorizontalVelocity to 0
-            ownRigidbody.velocity =
-                Mathf.Abs(ownRigidbody.velocity.x) < minHorizontalVelocity ?
-                new Vector2(0, ownRigidbody.velocity.y) :
-                new Vector2(ownRigidbody.velocity.x - (Mathf.Sign(ownRigidbody.velocity.x) * decelerationRate), ownRigidbody.velocity.y);
-        }
-
-        // Y Movement system
-        //Speed limit
-        ownRigidbody.velocity = new Vector2(
-            ownRigidbody.velocity.x, 
-            Mathf.Clamp(ownRigidbody.velocity.y, -10, jumpForce)
-            );
+                ownRigidbody.velocity.x,
+                Mathf.Clamp(ownRigidbody.velocity.y, -10, jumpForce)
+                );
         }
 
         if (IsFrozenOnY) return;
         if (ownRigidbody.position.y > GlobalAttributes.HeightBarrier && ownRigidbody.velocity.y > 0)
-        { 
+        {
             heightSimulator.ResetPosition();
             heightSimulator.Unfreeze();
             heightSimulator.SetVerticalVelocity(ownRigidbody.velocity.y);
-            FreezeOnlyOnY(); 
+            FreezeOnlyOnY();
         }
     }
 

@@ -75,10 +75,10 @@ public class GameManager : MonoBehaviour
             heightSimulatorScript.IsFrozen ?
             playerScript.GetVelocity() :
             new Vector2(playerScript.GetVelocity().x, heightSimulatorScript.GetVerticalVelocity());
-            playerScript.Freeze();
+        playerScript.Freeze();
         simulatorVelocityBeforePause = heightSimulatorScript.GetVerticalVelocity();
-            heightSimulatorScript.Freeze();
-        }
+        heightSimulatorScript.Freeze();
+    }
 
     public void UnpauseGame()
     {
@@ -88,9 +88,9 @@ public class GameManager : MonoBehaviour
         pauseScreenRoot.SetActive(false);
         gameOverScreenRoot.SetActive(false);
 
-            playerScript.Unfreeze();
-            playerScript.SetVelocity(playerVelocityBeforePause);
-            heightSimulatorScript.Unfreeze();
+        playerScript.Unfreeze();
+        playerScript.SetVelocity(playerVelocityBeforePause); 
+        heightSimulatorScript.Unfreeze();
         heightSimulatorScript.SetVerticalVelocity(simulatorVelocityBeforePause);
     }
 

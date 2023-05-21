@@ -62,6 +62,6 @@ public class HeightSimulator : MonoBehaviour
     public void ResetPosition() => ownRigidbody.position = new Vector2(ownRigidbody.position.x, GlobalAttributes.HeightBarrier);
 
     public void SetVerticalVelocity(float verticalVelocity) => ownRigidbody.velocity = new Vector2(0, verticalVelocity);
-    
+
     public float GetVerticalVelocity() { return ownRigidbody.velocity.y; }
 }
