@@ -56,13 +56,12 @@ public class HeightSimulator : MonoBehaviour
     {
         if (!IsFrozen) return;
         IsFrozen = false;
-        ownRigidbody.position = new Vector2(ownRigidbody.position.x, GlobalAttributes.HeightBarrier);
         ownRigidbody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
     }
 
+    public void ResetPosition() => ownRigidbody.position = new Vector2(ownRigidbody.position.x, GlobalAttributes.HeightBarrier);
+
     public void SetVerticalVelocity(float verticalVelocity) => ownRigidbody.velocity = new Vector2(0, verticalVelocity);
     
-    public void SetVelocity(Vector2 velocity) => ownRigidbody.velocity = velocity;
-
-    public Vector2 GetVelocity() { return ownRigidbody.velocity; }
+    public float GetVerticalVelocity() { return ownRigidbody.velocity.y; }
 }

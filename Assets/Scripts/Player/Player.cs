@@ -26,6 +26,9 @@ public class Player : MonoBehaviour
         if (transform.position.y < GlobalAttributes.LowerScreenEdge && GameManager.CurrentGameState == GameState.Playing) 
             Actions.OnGameLost?.Invoke();
 
+        //Cancel all movement input when game isnt playing
+        if (GameManager.CurrentGameState == GameState.Playing)
+        {
         // X Movement System
         //Teleport player to the other side of screen when he falls out of the screen bounds
         if (transform.position.x < GlobalAttributes.LeftScreenEdge)
@@ -67,10 +70,12 @@ public class Player : MonoBehaviour
             ownRigidbody.velocity.x, 
             Mathf.Clamp(ownRigidbody.velocity.y, -10, jumpForce)
             );
+        }
 
         if (IsFrozenOnY) return;
         if (ownRigidbody.position.y > GlobalAttributes.HeightBarrier && ownRigidbody.velocity.y > 0)
         { 
+            heightSimulator.ResetPosition();
             heightSimulator.Unfreeze();
             heightSimulator.SetVerticalVelocity(ownRigidbody.velocity.y);
             FreezeOnlyOnY(); 
@@ -82,7 +87,6 @@ public class Player : MonoBehaviour
         if (ownRigidbody.velocity.y > 0 || ownRigidbody.position.y <= collision.collider.transform.position.y) return;
         ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, jumpForce);
     }
-
 
     public void Freeze()
     {

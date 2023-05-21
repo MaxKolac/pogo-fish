@@ -20,8 +20,7 @@ public class GameManager : MonoBehaviour
     public static GameState CurrentGameState { private set; get; }
 
     private Vector2 playerVelocityBeforePause;
-    private Vector2 simulatorVelocityBeforePause;
-    private bool simulatorWasFrozenBeforePause;
+    private float simulatorVelocityBeforePause;
 
     void Start()
     {
@@ -72,18 +71,14 @@ public class GameManager : MonoBehaviour
         pauseScreenRoot.SetActive(true);
         gameOverScreenRoot.SetActive(false);
 
-        simulatorWasFrozenBeforePause = heightSimulatorScript.IsFrozen;
-        if (heightSimulatorScript.IsFrozen)
-        {
-            playerVelocityBeforePause = playerScript.GetVelocity();
+        playerVelocityBeforePause =
+            heightSimulatorScript.IsFrozen ?
+            playerScript.GetVelocity() :
+            new Vector2(playerScript.GetVelocity().x, heightSimulatorScript.GetVerticalVelocity());
             playerScript.Freeze();
-        }
-        else
-        {
-            simulatorVelocityBeforePause = heightSimulatorScript.GetVelocity();
+        simulatorVelocityBeforePause = heightSimulatorScript.GetVerticalVelocity();
             heightSimulatorScript.Freeze();
         }
-    }
 
     public void UnpauseGame()
     {
@@ -93,16 +88,10 @@ public class GameManager : MonoBehaviour
         pauseScreenRoot.SetActive(false);
         gameOverScreenRoot.SetActive(false);
 
-        if (simulatorWasFrozenBeforePause)
-        {
             playerScript.Unfreeze();
             playerScript.SetVelocity(playerVelocityBeforePause);
-        }
-        else
-        {
             heightSimulatorScript.Unfreeze();
-            heightSimulatorScript.SetVelocity(simulatorVelocityBeforePause);
-        }
+        heightSimulatorScript.SetVerticalVelocity(simulatorVelocityBeforePause);
     }
 
     public void EndGame()
