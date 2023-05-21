@@ -7,7 +7,7 @@ using UnityEngine;
 /// A generic Pooler of Unity's GameObjects with basic functionality of keeping track of active and inactive objects.
 /// </summary>
 /// <typeparam name="ObjectType">The enum type of the GameObject which describes all variants of the pooled object class.</typeparam>
-public class GenericPooler<ObjectType> : MonoBehaviour where ObjectType : Enum
+public abstract class GenericPooler<ObjectType> : MonoBehaviour where ObjectType : Enum
 {
     [SerializeField] protected GameObject activeObjectsParent;
     [SerializeField] protected List<Pool<ObjectType>> objectPools;
@@ -37,6 +37,15 @@ public class GenericPooler<ObjectType> : MonoBehaviour where ObjectType : Enum
             activeObjects.Add(pool.objectType, new List<GameObject>());
         }
     }
+
+    /// <summary>
+    /// Start() method needs to be implemented with a call to InitializePooler() with proper parameters.
+    /// </summary>
+    protected abstract void Start();
+    /// <summary>
+    /// OnDestroy() method needs to be implemented with a call to DespawnAllActiveObjects() and unsubscribe from all Actions.
+    /// </summary>
+    protected abstract void OnDestroy();
 
     public void SpawnObject(ObjectType objectType, Vector2 position)
     {

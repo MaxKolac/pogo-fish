@@ -27,6 +27,11 @@ public class GameManager : MonoBehaviour
         ShowTitleScreen();
     }
 
+    void OnDestroy()
+    {
+        Actions.OnGameLost -= EndGame;
+    }
+
     public void ShowTitleScreen()
     {
         CurrentGameState = GameState.TitleScreen;
@@ -112,9 +117,5 @@ public class GameManager : MonoBehaviour
         playerScript.ResetToStartingPosition();
     }
 
-    public void LoadShopScene()
-    {
-        SceneManager.LoadScene("ShopScene");
-        SceneManager.UnloadSceneAsync("GameScene");
-    }
+    public void LoadShopScene() => SceneHelper.LoadScene("ShopScene", false, true);
 }

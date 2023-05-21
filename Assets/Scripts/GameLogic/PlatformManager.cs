@@ -30,6 +30,14 @@ public class PlatformManager : MonoBehaviour
         Actions.OnGameLost += pickableObjectPooler.DespawnAllActiveObjects;
     }
 
+    void OnDestroy()
+    {
+        Actions.OnDeltaHeightChanged -= ScrollActivePooledObjects;
+        Actions.OnDeltaHeightChanged -= CaptureDeltaHeightChange;
+        Actions.OnGameLost -= platformPooler.DespawnAllActiveObjects;
+        Actions.OnGameLost -= pickableObjectPooler.DespawnAllActiveObjects;
+    }
+
     void Update()
     {
         //Difficulty increasing script

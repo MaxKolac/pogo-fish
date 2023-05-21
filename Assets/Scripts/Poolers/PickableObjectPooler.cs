@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class PickableObjectPooler : GenericPooler<PickableObjectType>
 {
-    void Start()
+    protected override void Start()
     {
         Actions.OnPickableObjectDespawn += DespawnObject;
         InitializePooler("PickableObject", "PickableObjPooler");
+    }
+
+    protected override void OnDestroy()
+    {
+        Actions.OnPickableObjectDespawn -= DespawnObject;
+        DespawnAllActiveObjects();
     }
 }

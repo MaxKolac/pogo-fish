@@ -17,9 +17,5 @@ public class ShopManager : MonoBehaviour
         
     }
 
-    public void ReturnToGameScene()
-    {
-        SceneManager.LoadScene("GameScene");
-        SceneManager.UnloadSceneAsync("ShopScene");
-    }
+    public void ReturnToGameScene() => SceneHelper.LoadScene("GameScene", false, true);
 }
