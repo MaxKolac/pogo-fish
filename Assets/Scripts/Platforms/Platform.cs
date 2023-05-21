@@ -1,5 +1,7 @@
 using UnityEngine;
 
+public enum PlatformType { Default, OneJump, SideWaysMoving }
+
 /// <summary>
 /// Base script class of all Platforms.
 /// </summary>
@@ -7,10 +9,7 @@ public class Platform : MonoBehaviour
 {
     public PlatformType Type;
 
-    protected void Update()
-    {
-        CheckPosition();
-    }
+    protected void Update() => CheckPosition();
 
     /// <summary>
     /// Checks if the <c>Platform</c> is below screen's lower edge, which means the proper <c>Actions</c> should be invoked.
@@ -22,23 +21,16 @@ public class Platform : MonoBehaviour
             Actions.OnPlatformDespawn?.Invoke(Type, gameObject);
     }
 
-    /// <summary>
-    /// Checks if the provided <c>collider</c> is a Player and if the Player is currently above the Platform.
-    /// </summary>
-    /// <returns>
-    /// <c>true</c> if the passed <c>collider</c> is Player and they are above the <c>Platform</c>. <c>false</c> if otherwise.
-    /// </returns>
-    protected bool IsColliderPlayerAndAbove(Collision2D collision)
+    /// <param name="collision">The Collision2D object to check.</param>
+    /// <param name="checkIfPlayerIsAbove">If true, the analyzed object needs to be above caller's transform to return true.</param>
+    /// <param name="checkIfPlayerGoingUp">If true, the analyzed object needs to have positive Y velocity to return true.</param>
+    /// <returns>True, if the colliding GameObject has "Player" tag, and if it matches the additional checks</returns>
+    protected bool IsCollidingWithPlayer(Collision2D collision, bool checkIfPlayerIsAbove = false, bool checkIfPlayerGoingUp = false)
     {
-        if (collision == null 
-            || !collision.collider.CompareTag("Player") 
-            || (collision.collider.transform.position.y <= transform.position.y))
-            return false;
-        return true;
+        return collision != null
+            && collision.collider.CompareTag("Player")
+            && (!checkIfPlayerIsAbove || collision.collider.transform.position.y > transform.position.y)
+            && (!checkIfPlayerGoingUp || collision.collider.GetComponent<Rigidbody2D>().velocity.y <= 0);
     }
 }
 
-public enum PlatformType
-{
-    Default, OneJump, SideWaysMoving
-}
