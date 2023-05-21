@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (transform.position.y < GlobalAttributes.LowerScreenEdge && GameManager.CurrentGameState == GameManager.GameState.Playing) 
+        if (transform.position.y < GlobalAttributes.LowerScreenEdge && GameManager.CurrentGameState == GameState.Playing) 
             Actions.OnGameLost?.Invoke();
 
         // X Movement System

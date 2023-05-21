@@ -15,7 +15,7 @@ public class SideWaysMovingPlatform : Platform
 
     void FixedUpdate()
     {
-        if (GameManager.CurrentGameState != GameManager.GameState.Playing) return;
+        if (GameManager.CurrentGameState != GameState.Playing) return;
         if (travelDirection == 1 && transform.position.x > initialPosition.x + travelDistance)
         {
             travelDirection = -1;

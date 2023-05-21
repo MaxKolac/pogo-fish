@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class PlatformManager : MonoBehaviour
 {
+    //Poolers
     [SerializeField] private PlatformPooler platformPooler;
     [SerializeField] private PickableObjectPooler pickableObjectPooler;
-    [SerializeField] private int platformWithObjectSpawnChance = 100; //[0, 100)
 
+    [SerializeField] private int platformWithObjectSpawnChance = 100; //[0, 100)
     [SerializeField] private List<SpawnChanceEntry<PlatformType>> platformSpawnChanceTable;
     [SerializeField] private List<SpawnChanceEntry<PickableObjectType>> pickableObjSpawnChanceTable;
 

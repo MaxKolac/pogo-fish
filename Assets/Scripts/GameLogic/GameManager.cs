@@ -1,5 +1,8 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+public enum GameState { TitleScreen, Playing, Paused, GameOver }
 
 public class GameManager : MonoBehaviour
 {
@@ -14,7 +17,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Player playerScript;
     [SerializeField] private GameObject scoreCounter;
 
-    public enum GameState { TitleScreen, Playing, Paused, GameOver }
     public static GameState CurrentGameState { private set; get; }
 
     private Vector2 playerVelocityBeforePause;
