@@ -26,6 +26,10 @@ public class GameManager : MonoBehaviour
     {
         Actions.OnGameLost += EndGame;
         ShowTitleScreen();
+        if (DataPersistenceManager.Instance.HasGameData())
+            DataPersistenceManager.Instance.LoadGame();
+        else
+            DataPersistenceManager.Instance.NewGame();
     }
 
     void OnDestroy()
@@ -106,6 +110,7 @@ public class GameManager : MonoBehaviour
         platformManagerScript.DisablePlatformSpawning();
         playerScript.gameObject.SetActive(false);
         playerScript.ResetToStartingPosition();
+        DataPersistenceManager.Instance.SaveGame();
     }
 
     public void LoadShopScene() => SceneHelper.LoadScene("ShopScene", false, true);
