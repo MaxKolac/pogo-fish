@@ -6,13 +6,15 @@
 [Serializable]
 public class GameData
 {
-    public int deathCount;
+    public int coinsAmount;
+    public int highscore;
 
     /// <summary>
     /// Creates a new GameData instance with default values.
     /// </summary>
     public GameData()
     {
-        deathCount = 0;
+        coinsAmount = 0;
+        highscore = 0;
     }
 }
