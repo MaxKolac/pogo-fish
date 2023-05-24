@@ -1,25 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-//https://www.youtube.com/watch?v=tdSmKaJvCoA
+//Based on https://www.youtube.com/watch?v=tdSmKaJvCoA
 /// <summary>
 /// A generic Pooler of Unity's GameObjects with basic functionality of keeping track of active and inactive objects.
 /// </summary>
 /// <typeparam name="ObjectType">The enum type of the GameObject which describes all variants of the pooled object class.</typeparam>
 public abstract class GenericPooler<ObjectType> : MonoBehaviour where ObjectType : Enum
 {
+    [Header("Debug Strings")]
+    [SerializeField] protected string pooledObjectName;
+    [SerializeField] protected string selfName;
+    [Header("Pools")]
     [SerializeField] protected GameObject activeObjectsParent;
     [SerializeField] protected List<Pool<ObjectType>> objectPools;
     protected Dictionary<ObjectType, Queue<GameObject>> poolDictionary;
     protected Dictionary<ObjectType, List<GameObject>> activeObjects;
-    protected string pooledObjectName;
-    protected string selfName;
 
-    protected void InitializePooler(string pooledObjectName, string selfName)
+    protected virtual void Awake()
     {
-        this.pooledObjectName = pooledObjectName;
-        this.selfName = selfName;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    protected virtual void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    protected void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
         poolDictionary = new();
         activeObjects = new();
         foreach (Pool<ObjectType> pool in objectPools)
@@ -37,15 +48,6 @@ public abstract class GenericPooler<ObjectType> : MonoBehaviour where ObjectType
             activeObjects.Add(pool.objectType, new List<GameObject>());
         }
     }
-
-    /// <summary>
-    /// Start() method needs to be implemented with a call to InitializePooler() with proper parameters.
-    /// </summary>
-    protected abstract void Start();
-    /// <summary>
-    /// OnDestroy() method needs to be implemented with a call to DespawnAllActiveObjects() and unsubscribe from all Actions.
-    /// </summary>
-    protected abstract void OnDestroy();
 
     public void SpawnObject(ObjectType objectType, Vector2 position)
     {
