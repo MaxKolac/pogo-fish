@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,16 +7,19 @@ public enum GameState { TitleScreen, Playing, Paused, GameOver }
 
 public class GameManager : MonoBehaviour
 {
+    [Header("UI Screen Roots")]
     [SerializeField] private GameObject titleScreenRoot;
     [SerializeField] private GameObject ingameScreenRoot;
     [SerializeField] private GameObject pauseScreenRoot;
     [SerializeField] private GameObject gameOverScreenRoot;
-    
+    [Header("GameObjects and their Scripts")]
     [SerializeField] private GameObject ground;
     [SerializeField] private HeightSimulator heightSimulatorScript;
     [SerializeField] private PlatformManager platformManagerScript;
     [SerializeField] private Player playerScript;
+    [SerializeField] private TMP_Text highscoreText;
     [SerializeField] private GameObject scoreCounter;
+    [SerializeField] private ScoreCounter scoreCounterScript;
 
     public static GameState CurrentGameState { private set; get; }
 
@@ -25,11 +29,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Actions.OnGameLost += EndGame;
-        ShowTitleScreen();
         if (DataPersistenceManager.Instance.HasGameData())
             DataPersistenceManager.Instance.LoadGame();
         else
             DataPersistenceManager.Instance.NewGame();
+        ShowTitleScreen();
     }
 
     void OnDestroy()
@@ -44,6 +48,7 @@ public class GameManager : MonoBehaviour
         ingameScreenRoot.SetActive(false);
         pauseScreenRoot.SetActive(false);
         gameOverScreenRoot.SetActive(false);
+        highscoreText.text = $"Highscore: {scoreCounterScript.Highscore}";
 
         ground.SetActive(true);
         ground.transform.position = new Vector2(0f, 0.5f);
@@ -101,6 +106,7 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         CurrentGameState = GameState.GameOver;
+        DataPersistenceManager.Instance.SaveGame();
         titleScreenRoot.SetActive(false);
         ingameScreenRoot.SetActive(false);
         pauseScreenRoot.SetActive(false);
@@ -110,8 +116,7 @@ public class GameManager : MonoBehaviour
         platformManagerScript.DisablePlatformSpawning();
         playerScript.gameObject.SetActive(false);
         playerScript.ResetToStartingPosition();
-        DataPersistenceManager.Instance.SaveGame();
     }
 
-    public void LoadShopScene() => SceneHelper.LoadScene("ShopScene", false, true);
+    public void LoadShopScene() => SceneManager.LoadSceneAsync("ShopScene", LoadSceneMode.Single);//SceneHelper.LoadScene("ShopScene", false, true);
 }

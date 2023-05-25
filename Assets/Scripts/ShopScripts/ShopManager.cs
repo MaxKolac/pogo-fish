@@ -1,21 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ShopManager : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
+        if (DataPersistenceManager.Instance.HasGameData())
+            DataPersistenceManager.Instance.LoadGame();
+        else
+            DataPersistenceManager.Instance.NewGame();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SwitchToSkinsPage()
     {
-        
+
     }
 
-    public void ReturnToGameScene() => SceneHelper.LoadScene("GameScene", false, true);
+    public void SwitchToUpgradesPage()
+    {
+
+    }
+
+    public void ReturnToGameScene() => SceneManager.LoadSceneAsync("GameScene", LoadSceneMode.Single);//SceneHelper.LoadScene("GameScene", false, true);
 }

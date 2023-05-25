@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
     [SerializeField] private HeightSimulator heightSimulator;
     [SerializeField] private Rigidbody2D ownRigidbody;
 
+    [Header("Player Movement")]
     [SerializeField] private float accelerationRate = 0.4f;
     [SerializeField] private float decelerationRate = 0.4f;
     private const float minHorizontalVelocity = 0.35f;

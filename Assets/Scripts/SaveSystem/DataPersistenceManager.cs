@@ -20,12 +20,6 @@ public class DataPersistenceManager : MonoBehaviour
     private List<IDataPersistence> dataPersistenceObjects;
     private FileDataHandler dataHandler;
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.sceneUnloaded += OnSceneUnloaded;
-    }
-
     private void Awake()
     {
         if (Instance != null)
@@ -37,6 +31,12 @@ public class DataPersistenceManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(this.gameObject);
         dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
     private void OnDisable()
@@ -90,7 +90,8 @@ public class DataPersistenceManager : MonoBehaviour
         {
             dataPersistenceObj.LoadData(gameData);
         }
-        Debug.Log($"Loaded: deathCount as {gameData.deathCount}");
+        Debug.Log($"Loaded: coinsAmount as {gameData.coinsAmount}");
+        Debug.Log($"Loaded: highscore as {gameData.highscore}");
     }
 
     /// <summary>
@@ -112,7 +113,8 @@ public class DataPersistenceManager : MonoBehaviour
         {
             dataPersistenceObj.SaveData(ref gameData);
         }
-        Debug.Log($"Saved: deathCount as {gameData.deathCount}");
+        Debug.Log($"Saved: deathCount as {gameData.coinsAmount}");
+        Debug.Log($"Saved: highscore as {gameData.highscore}");
         dataHandler.Save(gameData);
     }
 

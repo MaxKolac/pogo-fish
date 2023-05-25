@@ -8,7 +8,7 @@ public class PlatformManager : MonoBehaviour
     [SerializeField] private PlatformPooler platformPooler;
     [SerializeField] private PickableObjectPooler pickableObjectPooler;
 
-    [SerializeField] private int platformWithObjectSpawnChance = 100; //[0, 100)
+    [SerializeField] private int pickUpSpawnChance = 100; //[0, 100)
     [SerializeField] private List<SpawnChanceEntry<PlatformType>> platformSpawnChanceTable;
     [SerializeField] private List<SpawnChanceEntry<PickableObjectType>> pickableObjSpawnChanceTable;
 
@@ -61,7 +61,7 @@ public class PlatformManager : MonoBehaviour
                 NewRandomSpawnX();
                 platformSpawnY = platformPooler.LastPlatformsPosition.position.y + nextPlatformSpawnHeightTrigger;
                 platformPooler.SpawnObject(RandomizeNextPlatformType(), new Vector2(platformSpawnX, platformSpawnY));
-                if (UnityEngine.Random.Range(0, 100) < platformWithObjectSpawnChance)
+                if (UnityEngine.Random.Range(0, 100) < pickUpSpawnChance)
                 {
                     pickableObjectPooler.SpawnObject(
                         RandomizeNextPickableObjectType(),
@@ -76,7 +76,7 @@ public class PlatformManager : MonoBehaviour
         }
     }
 
-    void SpawnInitialSetOfPlatforms()
+    private void SpawnInitialSetOfPlatforms()
     {
         platformSpawnX = 0f;
         platformSpawnY = 0f;
