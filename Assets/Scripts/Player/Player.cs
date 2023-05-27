@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -11,6 +12,7 @@ public class Player : MonoBehaviour
     private const float minHorizontalVelocity = 0.35f;
     private const float maxHorizontalVelocity = 10f;
     private const float jumpForce = 10f;
+    private float maxVerticalVelocity = jumpForce;
 
     public bool IsFrozenOnX { private set; get; }
     public bool IsFrozenOnY { private set; get; }
@@ -19,8 +21,11 @@ public class Player : MonoBehaviour
 
     void OnEnable()
     {
+        Actions.OnPickableObjectPickedUp += ApplyBoost;
         ResetToStartingPosition();
     }
+
+    void OnDisable() => Actions.OnPickableObjectPickedUp -= ApplyBoost;
 
     void FixedUpdate()
     {
@@ -65,7 +70,7 @@ public class Player : MonoBehaviour
             //Speed limit
             ownRigidbody.velocity = new Vector2(
                 ownRigidbody.velocity.x,
-                Mathf.Clamp(ownRigidbody.velocity.y, -10, jumpForce)
+                Mathf.Clamp(ownRigidbody.velocity.y, -10, maxVerticalVelocity)
                 );
         }
 
@@ -109,4 +114,30 @@ public class Player : MonoBehaviour
     public void SetVelocity(Vector2 velocity) => ownRigidbody.velocity = velocity;
 
     public Vector2 GetVelocity() { return ownRigidbody.velocity; }
+
+    private void ApplyBoost(PickableObject pickableObjScript, GameObject pickableObjRef)
+    {
+        switch (pickableObjScript.Type)
+        {
+            case PickableObjectType.Coin:
+                break;
+            case PickableObjectType.SpringBoost:
+                Debug.Log("SpringBoost picked up.");
+                StartCoroutine(SpringBoostCoroutine());
+                break;
+            default:
+                Debug.LogWarning($"Player acquired an unimplemented boost/upgrade: {pickableObjScript.Type}");
+                break;
+        }
+    }
+
+    private IEnumerator SpringBoostCoroutine()
+    {
+        float jumpBoost = 1.65f;
+        maxVerticalVelocity = jumpForce * jumpBoost;
+        ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, jumpForce * jumpBoost);
+        if (IsFrozenOnY) heightSimulator.SetVerticalVelocity(jumpForce * jumpBoost);
+        yield return new WaitForSeconds(2.0f);
+        maxVerticalVelocity = jumpForce;
+    }
 }

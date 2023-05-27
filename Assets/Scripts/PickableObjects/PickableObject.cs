@@ -30,5 +30,5 @@ public abstract class PickableObject : MonoBehaviour
 
 public enum PickableObjectType
 {
-    Coin
+    Coin, SpringBoost
 }

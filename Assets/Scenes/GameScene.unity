@@ -1905,7 +1905,9 @@ MonoBehaviour:
     chanceToSpawn: 20
   pickableObjSpawnChanceTable:
   - objectType: 0
-    chanceToSpawn: 10
+    chanceToSpawn: 50
+  - objectType: 1
+    chanceToSpawn: 50
 --- !u!1 &1036488437
 GameObject:
   m_ObjectHideFlags: 0
@@ -2093,7 +2095,10 @@ MonoBehaviour:
   objectPools:
   - objectType: 0
     objectPrefab: {fileID: 7381637136984402786, guid: 8fd4c867bd01da44886123712e6468a3, type: 3}
-    size: 20
+    size: 10
+  - objectType: 1
+    objectPrefab: {fileID: 2964170732074152428, guid: 5b20436291353dd408affe141ffd5adf, type: 3}
+    size: 10
 --- !u!1 &1117703986
 GameObject:
   m_ObjectHideFlags: 0
