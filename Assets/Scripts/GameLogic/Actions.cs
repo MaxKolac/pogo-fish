@@ -3,6 +3,7 @@ using UnityEngine;
 
 public static class Actions
 {
+        //Gameplay Actions
     /// <summary>
     /// Action trigerred by Platform whenever it should be enqueued by <c>PlatformPooler</c> and disabled.
     /// </summary>
@@ -23,4 +24,10 @@ public static class Actions
     /// Action triggered by Player whenever it falls below <c>GlobalAttributes.LowerScreenEdge</c>. Signals that the game has been lost.
     /// </summary>
     public static Action OnGameLost;
+
+        //Shop Actions
+    /// <summary>
+    /// Action triggered whenever the user succesfully purchases an upgrade. Other UpgradeItem objects should refresh their sprites to check affordability.
+    /// </summary>
+    public static Action OnUpgradeBought;
 }

@@ -1,10 +1,11 @@
 using System.Collections;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDataPersistence
 {
     [SerializeField] private HeightSimulator heightSimulator;
     [SerializeField] private Rigidbody2D ownRigidbody;
+    private GameData gameData;
 
     [Header("Player Movement")]
     [SerializeField] private float accelerationRate = 0.4f;
@@ -122,7 +123,6 @@ public class Player : MonoBehaviour
             case PickableObjectType.Coin:
                 break;
             case PickableObjectType.SpringBoost:
-                Debug.Log("SpringBoost picked up.");
                 StartCoroutine(SpringBoostCoroutine());
                 break;
             default:
@@ -133,11 +133,21 @@ public class Player : MonoBehaviour
 
     private IEnumerator SpringBoostCoroutine()
     {
-        float jumpBoost = 1.65f;
+        //Lvl 0. - 1.7
+        //Lvl 1. - 1.8
+        //Lvl 2. - 1.9
+        //Lvl 3. - 2.0
+        //Lvl 4. - 2.1
+        //Lvl 5. - 2.2
+        float jumpBoost = 1.7f + (0.1f * Mathf.Clamp(gameData.upgradeLvl_springBoost, 0, 5));
+        Debug.Log($"SpringBoost picked up. Calculated jump boost: {jumpBoost}");
         maxVerticalVelocity = jumpForce * jumpBoost;
         ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, jumpForce * jumpBoost);
         if (IsFrozenOnY) heightSimulator.SetVerticalVelocity(jumpForce * jumpBoost);
         yield return new WaitForSeconds(2.0f);
         maxVerticalVelocity = jumpForce;
     }
+
+    public void LoadData(GameData data) => this.gameData = data;
+    public void SaveData(ref GameData data){}
 }

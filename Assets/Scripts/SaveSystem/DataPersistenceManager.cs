@@ -90,8 +90,7 @@ public class DataPersistenceManager : MonoBehaviour
         {
             dataPersistenceObj.LoadData(gameData);
         }
-        Debug.Log($"Loaded: coinsAmount as {gameData.coinsAmount}");
-        Debug.Log($"Loaded: highscore as {gameData.highscore}");
+        Debug.Log($"Loaded following gameData: \n{gameData}");
     }
 
     /// <summary>
@@ -113,8 +112,7 @@ public class DataPersistenceManager : MonoBehaviour
         {
             dataPersistenceObj.SaveData(ref gameData);
         }
-        Debug.Log($"Saved: deathCount as {gameData.coinsAmount}");
-        Debug.Log($"Saved: highscore as {gameData.highscore}");
+        Debug.Log($"Saved following gameData: \n{gameData}");
         dataHandler.Save(gameData);
     }
 
