@@ -144,7 +144,7 @@ public class Player : MonoBehaviour, IDataPersistence
         //Lvl 4. - 2.1
         //Lvl 5. - 2.2
         float jumpBoost = 1.7f + (0.1f * Mathf.Clamp(gameData.upgradeLvl_springBoost, 0, 5));
-        Debug.Log($"SpringBoost picked up. Calculated jump boost: {jumpBoost}");
+        //Debug.Log($"SpringBoost picked up. Calculated jump boost: {jumpBoost}");
         maxVerticalVelocity = jumpForce * jumpBoost;
         ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, jumpForce * jumpBoost);
         if (IsFrozenOnY) heightSimulator.SetVerticalVelocity(jumpForce * jumpBoost);
