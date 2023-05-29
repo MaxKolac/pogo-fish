@@ -4,18 +4,20 @@ public class PickableObject : MonoBehaviour
 {
     [SerializeField] protected Collider2D ownCollider;
     public PickableObjectType Type;
+    public bool IsAttractedByMagnet;
 
     protected void Update()
     {
-        CheckPosition();
+        if (!IsAttractedByMagnet)
+            CheckPosition();
     }
 
-    protected void OnTriggerStay2D(Collider2D collision)
+    protected void OnTriggerEnter2D(Collider2D collision)
     {
         if (IsColliderPlayer(collision))
         {
             Actions.OnPickableObjectPickedUp?.Invoke(this, gameObject);
-            Actions.OnPickableObjectDespawn?.Invoke(Type, gameObject);
+            //Actions.OnPickableObjectDespawn?.Invoke(Type, gameObject);
         }
     }
 

@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IDataPersistence
 {
+    [Header("References")]
     [SerializeField] private HeightSimulator heightSimulator;
     [SerializeField] private Rigidbody2D ownRigidbody;
+    [SerializeField] private MagnetField magnetField;
     private GameData gameData;
 
     [Header("Player Movement")]
@@ -36,7 +38,7 @@ public class Player : MonoBehaviour, IDataPersistence
     {
         if (transform.position.y < GlobalAttributes.DespawnBarrier && GameManager.CurrentGameState == GameState.Playing)
             Actions.OnGameLost?.Invoke();
-
+        
         //Cancel all movement input when game isnt playing
         if (GameManager.CurrentGameState == GameState.Playing)
         {
@@ -120,6 +122,8 @@ public class Player : MonoBehaviour, IDataPersistence
 
     public Vector2 GetVelocity() { return ownRigidbody.velocity; }
 
+        /*  Upgrades Logic   */
+
     private void ApplyBoost(PickableObject pickableObjScript, GameObject pickableObjRef)
     {
         switch (pickableObjScript.Type)
@@ -128,6 +132,14 @@ public class Player : MonoBehaviour, IDataPersistence
                 break;
             case PickableObjectType.SpringBoost:
                 StartCoroutine(SpringBoostCoroutine());
+                break;
+            case PickableObjectType.Magnet:
+                int duration = 5 + Mathf.Clamp(gameData.upgradeLvl_magnet, 0, 5);
+                Debug.Log($"Magnet picked up. Calculated duration: {duration}");
+                if (magnetField.MagnetCoroutineRunning)
+                    magnetField.SetDurationTo(duration);
+                else
+                    magnetField.ActivateMagnetFor(duration);
                 break;
             default:
                 Debug.LogWarning($"Player acquired an unimplemented boost/upgrade: {pickableObjScript.Type}");
@@ -153,5 +165,5 @@ public class Player : MonoBehaviour, IDataPersistence
     }
 
     public void LoadData(GameData data) => this.gameData = data;
-    public void SaveData(ref GameData data){}
+    public void SaveData(ref GameData data){ /* Player doesn't save any data. It only loads.*/ }
 }
