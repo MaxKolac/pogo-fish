@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
     
@@ -13,11 +14,20 @@ public class MagnetField : MonoBehaviour
 
     public bool MagnetCoroutineRunning { get; private set; } = false;
 
+    private void Awake()
+    {
+        Actions.OnPickableObjectPickedUp += RemovePickedObjFromMagnetizedObjects;
+    }
+
+    private void OnDestroy()
+    {
+        Actions.OnPickableObjectPickedUp -= RemovePickedObjFromMagnetizedObjects;
+    }
+
     public void ActivateMagnetFor(float seconds)
     {
         gameObject.SetActive(true);
         magnetTrigger.enabled = true;
-        Actions.OnPickableObjectPickedUp += RemovePickedObjFromMagnetizedObjects;
         MagnetCoroutineRunning = true;
 
         upgradeTimeLeft = seconds;
@@ -39,7 +49,6 @@ public class MagnetField : MonoBehaviour
         upgradeTimeLeft = 0f;
 
         MagnetCoroutineRunning = false;
-        Actions.OnPickableObjectPickedUp -= RemovePickedObjFromMagnetizedObjects;
         magnetTrigger.enabled = true;
         gameObject.SetActive(false);
     }
@@ -95,6 +104,11 @@ public class MagnetField : MonoBehaviour
         PickableObject objectScript = collision.GetComponent<PickableObject>();
         if (objectScript != null && objectScript.Type == PickableObjectType.Coin)
         {
+            if (objectScript.IsAttractedByMagnet)
+            {
+                return;
+            }
+            
             objectScript.IsAttractedByMagnet = true;
             magnetizedObjects.Add(collision.gameObject);
             magnetizedObjAnimationTimers.Add(0.0f);
@@ -107,7 +121,7 @@ public class MagnetField : MonoBehaviour
         if (magnetizedObjects.Contains(pickableObject))
         {
             pickableObjectScript.IsAttractedByMagnet = false;
-            magnetizedObjInitialPosition.Remove(pickableObject.transform.position);
+            magnetizedObjInitialPosition.RemoveAt(magnetizedObjects.IndexOf(pickableObject));
             magnetizedObjAnimationTimers.RemoveAt(magnetizedObjects.IndexOf(pickableObject));
             magnetizedObjects.Remove(pickableObject);
         }
