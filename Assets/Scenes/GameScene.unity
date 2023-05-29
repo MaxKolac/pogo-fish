@@ -3882,6 +3882,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   magnetTrigger: {fileID: 2122273937}
+  magnetizedObjectSpeed: 10
   upgradeTimeLeft: 0
   magnetizedObjects: []
   magnetizedObjInitialPosition: []
