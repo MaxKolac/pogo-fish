@@ -51,6 +51,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2964170732074152425, guid: 5b20436291353dd408affe141ffd5adf, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e41863e15374a5f4d8c83fe981d40efd, type: 3}
     - target: {fileID: 2964170732074152428, guid: 5b20436291353dd408affe141ffd5adf, type: 3}
       propertyPath: m_Name
       value: Coin
