@@ -17,7 +17,7 @@ public class PickableObject : MonoBehaviour
         if (IsColliderPlayer(collision))
         {
             Actions.OnPickableObjectPickedUp?.Invoke(this, gameObject);
-            //Actions.OnPickableObjectDespawn?.Invoke(Type, gameObject);
+            Actions.OnPickableObjectDespawn?.Invoke(Type, gameObject);
         }
     }
 
