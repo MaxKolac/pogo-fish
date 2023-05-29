@@ -443,13 +443,13 @@ MonoBehaviour:
   ingameScreenRoot: {fileID: 583274456}
   pauseScreenRoot: {fileID: 2008159470}
   gameOverScreenRoot: {fileID: 479715775}
-  ground: {fileID: 1605665656}
   heightSimulatorScript: {fileID: 442661601}
   platformManagerScript: {fileID: 812099484}
   playerScript: {fileID: 2058666832}
+  scoreCounterScript: {fileID: 442246679}
+  ground: {fileID: 1605665656}
   highscoreText: {fileID: 707640296}
   scoreCounter: {fileID: 442246677}
-  scoreCounterScript: {fileID: 442246679}
 --- !u!1 &143495590
 GameObject:
   m_ObjectHideFlags: 0
@@ -2039,9 +2039,11 @@ MonoBehaviour:
     chanceToSpawn: 20
   pickableObjSpawnChanceTable:
   - objectType: 0
-    chanceToSpawn: 50
+    chanceToSpawn: 40
   - objectType: 1
-    chanceToSpawn: 50
+    chanceToSpawn: 40
+  - objectType: 2
+    chanceToSpawn: 40
 --- !u!1 &1036488437
 GameObject:
   m_ObjectHideFlags: 0
@@ -2228,10 +2230,13 @@ MonoBehaviour:
   activeObjectsParent: {fileID: 143495590}
   objectPools:
   - objectType: 0
-    objectPrefab: {fileID: 7381637136984402786, guid: 8fd4c867bd01da44886123712e6468a3, type: 3}
+    objectPrefab: {fileID: 6003869649106886628, guid: 8fd4c867bd01da44886123712e6468a3, type: 3}
     size: 10
   - objectType: 1
-    objectPrefab: {fileID: 2964170732074152428, guid: 5b20436291353dd408affe141ffd5adf, type: 3}
+    objectPrefab: {fileID: 8183018191413961089, guid: b0f677cec36799f4187fc13956f4a810, type: 3}
+    size: 10
+  - objectType: 2
+    objectPrefab: {fileID: 3324204457388316775, guid: f0d62144a993f9847bfb0de47b409be6, type: 3}
     size: 10
 --- !u!1 &1117703986
 GameObject:
