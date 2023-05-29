@@ -83,7 +83,7 @@ public class MagnetField : MonoBehaviour
     public void SetDurationTo(float seconds)
     {
         if (!MagnetCoroutineRunning) return;
-        Debug.Log($"Magnet duration reset from {upgradeTimeLeft} to {seconds}");
+        //Debug.Log($"Magnet duration reset from {upgradeTimeLeft} to {seconds}");
         upgradeTimeLeft = seconds;
     }
 

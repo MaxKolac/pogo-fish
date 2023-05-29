@@ -62,7 +62,7 @@ public class UpgradeItem : MonoBehaviour, IDataPersistence
     protected void CalculateUpgradeCost()
     {
         UpgradeCost = (UpgradeLevel + 1) * CostPerLevel;
-        costText.text = $"{UpgradeCost}";
+        costText.text = UpgradeLevel < 5 ? $"{UpgradeCost}" : "";
     }
 
     public void LoadData(GameData data)
