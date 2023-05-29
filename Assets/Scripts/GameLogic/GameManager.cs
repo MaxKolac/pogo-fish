@@ -12,14 +12,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject ingameScreenRoot;
     [SerializeField] private GameObject pauseScreenRoot;
     [SerializeField] private GameObject gameOverScreenRoot;
-    [Header("GameObjects and their Scripts")]
-    [SerializeField] private GameObject ground;
+    [Header("GameObject Scripts")]
     [SerializeField] private HeightSimulator heightSimulatorScript;
     [SerializeField] private PlatformManager platformManagerScript;
     [SerializeField] private Player playerScript;
+    [SerializeField] private ScoreCounter scoreCounterScript;
+    [Header("GameObjects")]
+    [SerializeField] private GameObject ground;
     [SerializeField] private TMP_Text highscoreText;
     [SerializeField] private GameObject scoreCounter;
-    [SerializeField] private ScoreCounter scoreCounterScript;
 
     public static GameState CurrentGameState { private set; get; }
 
@@ -115,7 +116,14 @@ public class GameManager : MonoBehaviour
         heightSimulatorScript.gameObject.SetActive(false);
         platformManagerScript.DisablePlatformSpawning();
         playerScript.gameObject.SetActive(false);
-        playerScript.ResetToStartingPosition();
+    }
+
+    public void AbandonGame()
+    {
+        Actions.OnGameAbandoned?.Invoke();
+        platformManagerScript.DisablePlatformSpawning();
+        playerScript.gameObject.SetActive(false);
+        ShowTitleScreen();
     }
 
     public void LoadShopScene() => SceneManager.LoadSceneAsync("ShopScene", LoadSceneMode.Single);//SceneHelper.LoadScene("ShopScene", false, true);

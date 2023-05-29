@@ -28,7 +28,9 @@ public class PlatformManager : MonoBehaviour
         Actions.OnDeltaHeightChanged += ScrollActivePooledObjects;
         Actions.OnDeltaHeightChanged += CaptureDeltaHeightChange;
         Actions.OnGameLost += platformPooler.DespawnAllActiveObjects;
+        Actions.OnGameAbandoned += platformPooler.DespawnAllActiveObjects;
         Actions.OnGameLost += pickableObjectPooler.DespawnAllActiveObjects;
+        Actions.OnGameAbandoned += pickableObjectPooler.DespawnAllActiveObjects;
     }
 
     void OnDestroy()
@@ -36,7 +38,9 @@ public class PlatformManager : MonoBehaviour
         Actions.OnDeltaHeightChanged -= ScrollActivePooledObjects;
         Actions.OnDeltaHeightChanged -= CaptureDeltaHeightChange;
         Actions.OnGameLost -= platformPooler.DespawnAllActiveObjects;
+        Actions.OnGameAbandoned -= platformPooler.DespawnAllActiveObjects;
         Actions.OnGameLost -= pickableObjectPooler.DespawnAllActiveObjects;
+        Actions.OnGameAbandoned -= pickableObjectPooler.DespawnAllActiveObjects;
     }
 
     void Update()

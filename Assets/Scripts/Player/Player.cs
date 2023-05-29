@@ -26,7 +26,11 @@ public class Player : MonoBehaviour, IDataPersistence
         ResetToStartingPosition();
     }
 
-    void OnDisable() => Actions.OnPickableObjectPickedUp -= ApplyBoost;
+    void OnDisable()
+    {
+        Actions.OnPickableObjectPickedUp -= ApplyBoost;
+        ResetToStartingPosition();
+    }
 
     void FixedUpdate()
     {
