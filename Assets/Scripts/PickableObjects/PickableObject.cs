@@ -1,12 +1,22 @@
 ﻿using UnityEngine;
 
-public abstract class PickableObject : MonoBehaviour
+public class PickableObject : MonoBehaviour
 {
+    [SerializeField] protected Collider2D ownCollider;
     public PickableObjectType Type;
 
     protected void Update()
     {
         CheckPosition();
+    }
+
+    protected void OnTriggerStay2D(Collider2D collision)
+    {
+        if (IsColliderPlayer(collision))
+        {
+            Actions.OnPickableObjectPickedUp?.Invoke(this, gameObject);
+            Actions.OnPickableObjectDespawn?.Invoke(Type, gameObject);
+        }
     }
 
     /// <summary>
@@ -15,7 +25,7 @@ public abstract class PickableObject : MonoBehaviour
     /// </summary>
     protected void CheckPosition()
     {
-        if (transform.position.y < GlobalAttributes.LowerScreenEdge)
+        if (transform.position.y < GlobalAttributes.DespawnBarrier)
             Actions.OnPickableObjectDespawn?.Invoke(Type, gameObject);
     }
 
@@ -30,5 +40,5 @@ public abstract class PickableObject : MonoBehaviour
 
 public enum PickableObjectType
 {
-    Coin, SpringBoost
+    Coin, SpringBoost, Magnet
 }

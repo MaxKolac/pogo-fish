@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2964170732074152424}
   - component: {fileID: 2964170732074152425}
-  - component: {fileID: 2964170732074152426}
   - component: {fileID: 2964170732074152427}
+  - component: {fileID: 6776999611941838591}
   m_Layer: 0
-  m_Name: SpringBoost
+  m_Name: BaseUpgrade
   m_TagString: PickableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2964170732074152428}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.5, y: 2.5, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 38641a7ba3d7df8448ad64ac747d6714, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b6fce6cc7715f404f9dcde75c72ecf14, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -86,20 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2964170732074152426
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2964170732074152428}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32583cb2ab2c97249b16d6996e84eaf8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Type: 1
-  ownCollider: {fileID: 2964170732074152427}
 --- !u!61 &2964170732074152427
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -126,3 +112,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5, y: 5}
   m_EdgeRadius: 0
+--- !u!114 &6776999611941838591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2964170732074152428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18aebfd675a02f646bb5675ae9b18346, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownCollider: {fileID: 2964170732074152427}
+  Type: 0
