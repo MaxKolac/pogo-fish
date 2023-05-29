@@ -14,7 +14,7 @@ public class Ground : MonoBehaviour
 
     void Update()
     {
-        if (transform.position.y < GlobalAttributes.LowerScreenEdge)
+        if (transform.position.y < GlobalAttributes.DespawnBarrier)
             gameObject.SetActive(false);
     }
 

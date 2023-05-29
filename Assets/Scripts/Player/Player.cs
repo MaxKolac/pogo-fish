@@ -34,7 +34,7 @@ public class Player : MonoBehaviour, IDataPersistence
 
     void FixedUpdate()
     {
-        if (transform.position.y < GlobalAttributes.LowerScreenEdge && GameManager.CurrentGameState == GameState.Playing)
+        if (transform.position.y < GlobalAttributes.DespawnBarrier && GameManager.CurrentGameState == GameState.Playing)
             Actions.OnGameLost?.Invoke();
 
         //Cancel all movement input when game isnt playing
