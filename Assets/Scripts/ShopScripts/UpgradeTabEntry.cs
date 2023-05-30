@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.U2D;
 
-public class UpgradeItem : MonoBehaviour, IDataPersistence
+public class UpgradeTabEntry : MonoBehaviour, IDataPersistence
 {
     [Header("Script References")]
     [SerializeField] protected ShopCoinCounter shopCoinCounterScript;
@@ -68,7 +68,7 @@ public class UpgradeItem : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data)
     {
         UpgradeLevel = (int)data.GetType().GetField(upgradeLevelVarName).GetValue(data);
-        Debug.Log($"Reflection of {upgradeLevelVarName} returned {UpgradeLevel}");
+        //Debug.Log($"Reflection of {upgradeLevelVarName} returned {UpgradeLevel}");
         CalculateUpgradeCost();
         RefreshSprites();
     }
