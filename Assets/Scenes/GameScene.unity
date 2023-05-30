@@ -3882,11 +3882,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   magnetTrigger: {fileID: 2122273937}
-  magnetizedObjectSpeed: 10
+  initialSpeed: 10
+  speedMultiplierPerYield: 1.05
   upgradeTimeLeft: 0
   magnetizedObjects: []
+  magnetizedObjSpeeds: []
   magnetizedObjInitialPosition: []
-  magnetizedObjAnimationTimers: []
 --- !u!58 &2122273937
 CircleCollider2D:
   m_ObjectHideFlags: 0

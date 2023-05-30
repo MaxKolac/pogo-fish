@@ -135,7 +135,7 @@ public class Player : MonoBehaviour, IDataPersistence
                 break;
             case PickableObjectType.Magnet:
                 int duration = 5 + Mathf.Clamp(gameData.upgradeLvl_magnet, 0, 5);
-                Debug.Log($"Magnet picked up. Calculated duration: {duration}");
+                //Debug.Log($"Magnet picked up. Calculated duration: {duration}");
                 if (magnetField.MagnetCoroutineRunning)
                     magnetField.SetDurationTo(duration);
                 else

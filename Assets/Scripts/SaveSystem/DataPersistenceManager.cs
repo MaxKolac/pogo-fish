@@ -90,7 +90,7 @@ public class DataPersistenceManager : MonoBehaviour
         {
             dataPersistenceObj.LoadData(gameData);
         }
-        Debug.Log($"Loaded following gameData: \n{gameData}");
+        //Debug.Log($"Loaded following gameData: \n{gameData}");
     }
 
     /// <summary>
@@ -113,7 +113,7 @@ public class DataPersistenceManager : MonoBehaviour
             dataPersistenceObj.SaveData(ref gameData);
         }
         Debug.Log($"Saved following gameData: \n{gameData}");
-        dataHandler.Save(gameData);
+        //dataHandler.Save(gameData);
     }
 
     /// <returns>True, if gameData isn't null. Otherwise, false.</returns>

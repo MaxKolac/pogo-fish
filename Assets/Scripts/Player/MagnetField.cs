@@ -6,10 +6,12 @@ using UnityEngine;
 public class MagnetField : MonoBehaviour
 {
     [SerializeField] private CircleCollider2D magnetTrigger;
-    [SerializeField] private float magnetizedObjectSpeed;
+    [SerializeField] private float initialSpeed;
+    [SerializeField] private float speedMultiplierPerYield;
     [Header("Debugging")]
     [SerializeField] private float upgradeTimeLeft;
     [SerializeField] private List<GameObject> magnetizedObjects = new();
+    [SerializeField] private List<float> magnetizedObjSpeeds = new();
     [SerializeField] private List<Vector2> magnetizedObjInitialPosition = new();
 
     public bool MagnetCoroutineRunning { get; private set; } = false;
@@ -60,9 +62,11 @@ public class MagnetField : MonoBehaviour
             //Interpolate each Coin "attracted by magnetic field" closer to Player
             foreach (GameObject gameObj in magnetizedObjects)
             {
+                int index= magnetizedObjects.IndexOf(gameObj);
                 Transform objTransform = gameObj.transform;
                 Vector3 direction = objTransform.position - this.transform.position;
-                objTransform.position -= magnetizedObjectSpeed * Time.deltaTime * direction.normalized;
+                objTransform.position -= magnetizedObjSpeeds[index] * Time.deltaTime * direction.normalized;
+                magnetizedObjSpeeds[index] *= speedMultiplierPerYield;
             }
 
             //Even if upgrade's time is up, keep going until all Coins caught up in magnet field get picked up by Player.
@@ -98,6 +102,7 @@ public class MagnetField : MonoBehaviour
                 return;
             objectScript.IsAttractedByMagnet = true;
             magnetizedObjects.Add(collision.gameObject);
+            magnetizedObjSpeeds.Add(initialSpeed);
             magnetizedObjInitialPosition.Add(collision.transform.position);
         }
     }
@@ -106,8 +111,10 @@ public class MagnetField : MonoBehaviour
     {
         if (magnetizedObjects.Contains(pickableObject))
         {
+            int index = magnetizedObjects.IndexOf(pickableObject);
             pickableObjectScript.IsAttractedByMagnet = false;
-            magnetizedObjInitialPosition.RemoveAt(magnetizedObjects.IndexOf(pickableObject));
+            magnetizedObjInitialPosition.RemoveAt(index);
+            magnetizedObjSpeeds.RemoveAt(index);
             magnetizedObjects.Remove(pickableObject);
         }
     }
