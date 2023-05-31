@@ -6,31 +6,24 @@ using UnityEngine.U2D;
 public class UpgradeTabEntry : MonoBehaviour, IDataPersistence
 {
     [Header("Script References")]
-    [SerializeField] protected ShopCoinCounter shopCoinCounterScript;
+    [SerializeField] private ShopCoinCounter shopCoinCounterScript;
     [Header("References")]
-    [SerializeField] protected TMP_Text costText;
-    [SerializeField] protected UnityEngine.UI.Image levelBarsImage;
-    [SerializeField] protected UnityEngine.UI.Image buyButtonImage;
-    [SerializeField] protected string upgradeLevelVarName;
+    [SerializeField] private TMP_Text costText;
+    [SerializeField] private UnityEngine.UI.Image levelBarsImage;
+    [SerializeField] private UnityEngine.UI.Image buyButtonImage;
+    [SerializeField] private string upgradeLevelVarName;
     [Header("Sprite Atlases")]
-    [SerializeField] protected SpriteAtlas levelBars;
-    [SerializeField] protected SpriteAtlas buyButtonStates;
+    [SerializeField] private SpriteAtlas levelBars;
+    [SerializeField] private SpriteAtlas buyButtonStates;
 
-    public int UpgradeLevel { get; protected set; } = 0;
-    public int CostPerLevel { get; protected set; } = 20;
-    public int UpgradeCost { get; protected set; }
-    protected const int MinLevel = 0;
-    protected const int MaxLevel = 5;
+    public int UpgradeLevel { get; private set; } = 0;
+    public int CostPerLevel { get; private set; } = 20;
+    public int UpgradeCost { get; private set; }
+    private const int MinLevel = 0;
+    private const int MaxLevel = 5;
 
-    void OnEnable()
-    {
-        Actions.OnUpgradeBought += RefreshSprites;
-    }
-
-    void OnDisable()
-    {
-        Actions.OnUpgradeBought -= RefreshSprites;
-    }
+    void OnEnable() => Actions.OnUpgradeClicked += RefreshSprites;
+    void OnDisable() => Actions.OnUpgradeClicked -= RefreshSprites;
 
     public void AttemptPurchase()
     {
@@ -39,7 +32,7 @@ public class UpgradeTabEntry : MonoBehaviour, IDataPersistence
         UpgradeLevel = Mathf.Clamp(UpgradeLevel + 1, MinLevel, MaxLevel);
         shopCoinCounterScript.SpendCoins(UpgradeCost);
         CalculateUpgradeCost();
-        Actions.OnUpgradeBought?.Invoke();
+        Actions.OnUpgradeClicked?.Invoke();
         DataPersistenceManager.Instance.SaveGame();
     }
 
@@ -59,7 +52,7 @@ public class UpgradeTabEntry : MonoBehaviour, IDataPersistence
         }
     }
 
-    protected void CalculateUpgradeCost()
+    private void CalculateUpgradeCost()
     {
         UpgradeCost = (UpgradeLevel + 1) * CostPerLevel;
         costText.text = UpgradeLevel < 5 ? $"{UpgradeCost}" : "";
