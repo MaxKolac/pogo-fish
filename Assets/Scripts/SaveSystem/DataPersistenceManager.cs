@@ -111,8 +111,8 @@ public class DataPersistenceManager : MonoBehaviour
         {
             dataPersistenceObj.SaveData(ref gameData);
         }
-        Debug.Log($"Saved following gameData: \n{gameData}");
-        //dataHandler.Save(gameData);
+        //Debug.Log($"Saved following gameData: \n{gameData}");
+        dataHandler.Save(gameData);
     }
 
     /// <returns>True, if gameData isn't null. Otherwise, false.</returns>
