@@ -17,16 +17,16 @@ public class MagnetField : MonoBehaviour
 
     public bool MagnetCoroutineRunning { get; private set; } = false;
 
-    private void Awake()
+    private void OnEnable()
     {
         Actions.OnPickableObjectPickedUp += RemovePickedObjFromMagnetizedObjects;
         Actions.OnGameLost += StopMagnetCoroutinePrematurily;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         Actions.OnPickableObjectPickedUp -= RemovePickedObjFromMagnetizedObjects;
-        Actions.OnGameLost += StopMagnetCoroutinePrematurily;
+        Actions.OnGameLost -= StopMagnetCoroutinePrematurily;
     }
 
     public void ActivateMagnetFor(float seconds)
