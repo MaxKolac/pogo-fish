@@ -9,9 +9,9 @@ public class GameData
     public int coinsAmount;
     public int highscore;
 
-    public int skin_default;
-    public int skin_blue;
-    public int skin_green;
+    public SkinStatus skin_default;
+    public SkinStatus skin_blue;
+    public SkinStatus skin_green;
 
     public int upgradeLvl_springBoost;
     public int upgradeLvl_magnet;
@@ -24,9 +24,9 @@ public class GameData
         coinsAmount = 0;
         highscore = 0;
 
-        skin_default = (int)SkinStatus.Equipped;
-        skin_blue = (int)SkinStatus.Locked;
-        skin_green = (int)SkinStatus.Locked;
+        skin_default = SkinStatus.Equipped;
+        skin_blue = SkinStatus.Locked;
+        skin_green = SkinStatus.Locked;
 
         upgradeLvl_springBoost = 0;
         upgradeLvl_magnet = 0;

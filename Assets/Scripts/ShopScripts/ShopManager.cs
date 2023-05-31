@@ -13,6 +13,7 @@ public class ShopManager : MonoBehaviour
             DataPersistenceManager.Instance.LoadGame();
         else
             DataPersistenceManager.Instance.NewGame();
+        SwitchToSkinsPage();
     }
 
     public void SwitchToSkinsPage()

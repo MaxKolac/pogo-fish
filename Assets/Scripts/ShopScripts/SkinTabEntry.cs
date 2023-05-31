@@ -88,7 +88,7 @@ public class SkinTabEntry : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data)
     {
         Status = (SkinStatus)data.GetType().GetField(skinVarName).GetValue(data);
-        Debug.Log($"Reflection of {skinVarName} returned {Status}");
+        //Debug.Log($"Reflection of {skinVarName} returned {Status}");
         RefreshSprites();
     }
 

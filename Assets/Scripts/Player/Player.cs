@@ -173,9 +173,9 @@ public class Player : MonoBehaviour, IDataPersistence
         //Check how many had Equipped status, if there's somehow more than 1, equip the first one
         Dictionary<string, SkinStatus> loadedSkinStatuses = new Dictionary<string, SkinStatus>
         {
-            { "skin_default", (SkinStatus)gameData.skin_default },
-            { "skin_blue", (SkinStatus)gameData.skin_blue },
-            { "skin_green", (SkinStatus)gameData.skin_green }
+            { "skin_default", gameData.skin_default },
+            { "skin_blue", gameData.skin_blue },
+            { "skin_green", gameData.skin_green }
         };
         string skinToEquip = "";
         foreach (KeyValuePair<string, SkinStatus> kvp in loadedSkinStatuses)
