@@ -15,26 +15,26 @@ public class MagnetField : MonoBehaviour
     [SerializeField] private List<float> magnetizedObjSpeeds = new();
     [SerializeField] private List<Vector2> magnetizedObjInitialPosition = new();
 
-    public bool MagnetCoroutineRunning { get; private set; } = false;
-    public bool MagnetCoroutinePaused { get; private set; } = false;
+    public bool CoroutineRunning { get; private set; } = false;
+    public bool CoroutinePaused { get; private set; } = false;
 
     private void OnEnable()
     {
         Actions.OnPickableObjectPickedUp += RemovePickedObjFromMagnetizedObjects;
-        Actions.OnGameLost += StopMagnetCoroutinePrematurily;
+        Actions.OnGameLost += StopPrematurily;
     }
 
     private void OnDisable()
     {
         Actions.OnPickableObjectPickedUp -= RemovePickedObjFromMagnetizedObjects;
-        Actions.OnGameLost -= StopMagnetCoroutinePrematurily;
+        Actions.OnGameLost -= StopPrematurily;
     }
 
-    public void ActivateMagnetFor(float seconds)
+    public void ActivateFor(float seconds)
     {
         gameObject.SetActive(true);
         magnetTrigger.enabled = true;
-        MagnetCoroutineRunning = true;
+        CoroutineRunning = true;
         Actions.OnGamePaused += Pause;
         Actions.OnGameUnpaused += Unpause;
 
@@ -45,7 +45,7 @@ public class MagnetField : MonoBehaviour
         upgradeDurationBar.ActivateBarFor(seconds);
     }
 
-    public void StopMagnetCoroutinePrematurily()
+    public void StopPrematurily()
     {
         StopAllCoroutines();
         upgradeDurationBar.StopBarPrematurily();
@@ -54,14 +54,14 @@ public class MagnetField : MonoBehaviour
 
     public void Pause()
     {
-        if (MagnetCoroutineRunning) 
-            MagnetCoroutinePaused = true;
+        if (CoroutineRunning) 
+            CoroutinePaused = true;
     }
 
     public void Unpause()
     {
-        if (MagnetCoroutineRunning && MagnetCoroutinePaused)
-            MagnetCoroutinePaused = false;
+        if (CoroutineRunning && CoroutinePaused)
+            CoroutinePaused = false;
     }
 
     private void Decomission()
@@ -70,7 +70,7 @@ public class MagnetField : MonoBehaviour
         Actions.OnGameUnpaused -= Unpause;
         upgradeTimeLeft = 0f;
 
-        MagnetCoroutineRunning = false;
+        CoroutineRunning = false;
         magnetTrigger.enabled = true;
         gameObject.SetActive(false);
     }
@@ -100,14 +100,14 @@ public class MagnetField : MonoBehaviour
                 yield break;
             }
             yield return new WaitForSeconds(Time.deltaTime);
-            if (!MagnetCoroutinePaused)
+            if (!CoroutinePaused)
                 upgradeTimeLeft -= Time.deltaTime;
         }
     }
 
     public void SetDurationTo(float seconds)
     {
-        if (!MagnetCoroutineRunning) return;
+        if (!CoroutineRunning) return;
         //Debug.Log($"Magnet duration reset from {upgradeTimeLeft} to {seconds}");
         upgradeDurationBar.SetTimeLeft(seconds);
         upgradeTimeLeft = seconds;

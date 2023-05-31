@@ -15,6 +15,7 @@ public class GameData
 
     public int upgradeLvl_springBoost;
     public int upgradeLvl_magnet;
+    public int upgradeLvl_scoreMultiplier;
 
     /// <summary>
     /// Creates a new GameData instance with default values.
@@ -30,6 +31,7 @@ public class GameData
 
         upgradeLvl_springBoost = 0;
         upgradeLvl_magnet = 0;
+        upgradeLvl_scoreMultiplier = 0;
     }
 
     public override string ToString()
@@ -42,6 +44,7 @@ public class GameData
         s += $" | skin_green = {skin_green}";
         s += $" | upgradeLvl_springBoost = {upgradeLvl_springBoost}";
         s += $" | upgradeLvl_magnet = {upgradeLvl_magnet}";
+        s += $" | upgradeLvl_scoreMultiplier = {upgradeLvl_scoreMultiplier}";
         return s;
     }
 }

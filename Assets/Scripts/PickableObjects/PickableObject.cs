@@ -42,5 +42,5 @@ public class PickableObject : MonoBehaviour
 
 public enum PickableObjectType
 {
-    Coin, SpringBoost, Magnet
+    Coin, SpringBoost, Magnet, ScoreMultiplier
 }

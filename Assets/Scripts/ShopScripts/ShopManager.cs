@@ -37,5 +37,5 @@ public class ShopManager : MonoBehaviour
         skins.SetActive(false);
     }
 
-    public void ReturnToGameScene() => SceneManager.LoadSceneAsync("GameScene", LoadSceneMode.Single);//SceneHelper.LoadScene("GameScene", false, true);
+    public void ReturnToGameScene() => SceneManager.LoadSceneAsync("GameScene", LoadSceneMode.Single);
 }

@@ -128,5 +128,5 @@ public class GameManager : MonoBehaviour
         ShowTitleScreen();
     }
 
-    public void LoadShopScene() => SceneManager.LoadSceneAsync("ShopScene", LoadSceneMode.Single);//SceneHelper.LoadScene("ShopScene", false, true);
+    public void LoadShopScene() => SceneManager.LoadSceneAsync("ShopScene", LoadSceneMode.Single);
 }

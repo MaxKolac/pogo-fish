@@ -8,8 +8,10 @@ public class Player : MonoBehaviour, IDataPersistence
     [SerializeField] private HeightSimulator heightSimulator;
     [SerializeField] private Rigidbody2D ownRigidbody;
     [SerializeField] private SpriteRenderer ownSpriteRenderer;
+
+    [Header("Upgrade References")]
     [SerializeField] private MagnetField magnetField;
-    private GameData gameData;
+    [SerializeField] private ScoreMultiplier scoreMultiplierScript;
 
     [Header("Player Movement")]
     [SerializeField] private float accelerationRate = 0.4f;
@@ -18,6 +20,7 @@ public class Player : MonoBehaviour, IDataPersistence
     private const float maxHorizontalVelocity = 10f;
     private const float jumpForce = 10f;
     private float maxVerticalVelocity = jumpForce;
+    private GameData gameData;
 
     public bool IsFrozenOnX { private set; get; }
     public bool IsFrozenOnY { private set; get; }
@@ -133,15 +136,26 @@ public class Player : MonoBehaviour, IDataPersistence
             case PickableObjectType.Coin:
                 break;
             case PickableObjectType.SpringBoost:
-                StartCoroutine(SpringBoostCoroutine());
+                //Lvl 0. - 1.7, Lvl 1. - 1.8, Lvl 2. - 1.9, Lvl 3. - 2.0, Lvl 4. - 2.1, Lvl 5. - 2.2
+                float jumpBoost = 1.7f + (0.1f * Mathf.Clamp(gameData.upgradeLvl_springBoost, 0, 5));
+                //Debug.Log($"SpringBoost picked up. Calculated jump boost: {jumpBoost}");
+                StartCoroutine(SpringBoostCoroutine(jumpBoost));
                 break;
             case PickableObjectType.Magnet:
                 int duration = 5 + Mathf.Clamp(gameData.upgradeLvl_magnet, 0, 5);
                 //Debug.Log($"Magnet picked up. Calculated duration: {duration}");
-                if (magnetField.MagnetCoroutineRunning)
+                if (magnetField.CoroutineRunning)
                     magnetField.SetDurationTo(duration);
                 else
-                    magnetField.ActivateMagnetFor(duration);
+                    magnetField.ActivateFor(duration);
+                break;
+            case PickableObjectType.ScoreMultiplier:
+                duration = 5 + Mathf.Clamp(gameData.upgradeLvl_magnet, 0, 5);
+                Debug.Log($"ScoreMultiplier picked up. Calculated duration: {duration}");
+                if (scoreMultiplierScript.CoroutineRunning)
+                    scoreMultiplierScript.SetDurationTo(duration);
+                else
+                    scoreMultiplierScript.ActivateFor(duration);
                 break;
             default:
                 Debug.LogWarning($"Player acquired an unimplemented boost/upgrade: {pickableObjScript.Type}");
@@ -149,16 +163,8 @@ public class Player : MonoBehaviour, IDataPersistence
         }
     }
 
-    private IEnumerator SpringBoostCoroutine()
+    private IEnumerator SpringBoostCoroutine(float jumpBoost)
     {
-        //Lvl 0. - 1.7
-        //Lvl 1. - 1.8
-        //Lvl 2. - 1.9
-        //Lvl 3. - 2.0
-        //Lvl 4. - 2.1
-        //Lvl 5. - 2.2
-        float jumpBoost = 1.7f + (0.1f * Mathf.Clamp(gameData.upgradeLvl_springBoost, 0, 5));
-        //Debug.Log($"SpringBoost picked up. Calculated jump boost: {jumpBoost}");
         maxVerticalVelocity = jumpForce * jumpBoost;
         ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, jumpForce * jumpBoost);
         if (IsFrozenOnY) heightSimulator.SetVerticalVelocity(jumpForce * jumpBoost);

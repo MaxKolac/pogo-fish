@@ -6,6 +6,7 @@ public class ScoreCounter : MonoBehaviour, IDataPersistence
     [SerializeField] TMP_Text scoreText;
     public int CurrentScore { private set; get; } = 0;
     public int Highscore { private set; get; } = 0;
+    public int ScoreMultiplier = 1;
 
     private void OnEnable()
     {
@@ -20,7 +21,7 @@ public class ScoreCounter : MonoBehaviour, IDataPersistence
         Actions.OnGameLost -= SetHighscore;
     }
 
-    private void IncreaseScore(float deltaHeight) => CurrentScore += Mathf.RoundToInt(deltaHeight * 10f);
+    private void IncreaseScore(float deltaHeight) => CurrentScore += ScoreMultiplier * Mathf.RoundToInt(deltaHeight * 10f);
     private void SetHighscore() => Highscore = Mathf.Max(Highscore, CurrentScore);
 
     private void Update() => scoreText.text = "Score: " + CurrentScore;
