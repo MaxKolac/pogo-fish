@@ -46,6 +46,7 @@ public class PlatformManager : MonoBehaviour
     void Update()
     {
         //Difficulty increasing script
+        //TODO: TWEAK
         if ((int)GlobalAttributes.TotalGainedHeight + 1 % 25 == 0)
         {
             minX = Mathf.Clamp(minX + 0.05f, 1f, 2f);
@@ -84,7 +85,7 @@ public class PlatformManager : MonoBehaviour
     {
         platformSpawnX = 0f;
         platformSpawnY = 0f;
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 15; i++)
         {
             NewRandomSpawnX();
             platformSpawnY += UnityEngine.Random.Range(minY, maxY);
