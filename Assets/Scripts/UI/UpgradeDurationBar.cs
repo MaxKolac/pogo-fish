@@ -14,6 +14,7 @@ public class UpgradeDurationBar : MonoBehaviour
     private float maskDistanceToBarPivot;
 
     public bool IsCountingDown { get; private set; }
+    public bool IsPaused { get; private set; }
 
     private void Awake()
     {
@@ -25,6 +26,8 @@ public class UpgradeDurationBar : MonoBehaviour
     {
         IsCountingDown = true;
         gameObject.SetActive(true);
+        Actions.OnGamePaused += Pause;
+        Actions.OnGameUnpaused += Unpause;
         progressMask.transform.position = initialMaskPosition;
         initialTime = upgradeTimeLeft = seconds;
         percentageLeft = 1.0f; 
@@ -38,8 +41,22 @@ public class UpgradeDurationBar : MonoBehaviour
         Decomission();
     }
 
+    public void Pause()
+    {
+        if (IsCountingDown)
+            IsPaused = true;
+    }
+
+    public void Unpause()
+    {
+        if (IsCountingDown && IsPaused)
+            IsPaused = false;
+    }
+
     private void Decomission()
     {
+        Actions.OnGamePaused -= Pause;
+        Actions.OnGameUnpaused -= Unpause;
         progressMask.transform.position = initialMaskPosition;
         gameObject.SetActive(false);
         IsCountingDown = false;
@@ -79,8 +96,11 @@ public class UpgradeDurationBar : MonoBehaviour
             }
 
             yield return new WaitForSeconds(Time.deltaTime);
-            upgradeTimeLeft -= Time.deltaTime;
-            percentageLeft = upgradeTimeLeft / initialTime;
+            if (!IsPaused)
+            {
+                upgradeTimeLeft -= Time.deltaTime;
+                percentageLeft = upgradeTimeLeft / initialTime;
+            }
         }
     }
 

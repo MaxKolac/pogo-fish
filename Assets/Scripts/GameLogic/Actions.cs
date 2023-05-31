@@ -20,14 +20,24 @@ public static class Actions
     /// Action trigerred when player collides with a PickableObject and should acquire its effects.
     /// </summary>
     public static Action<PickableObject, GameObject> OnPickableObjectPickedUp;
+
+    //Game state change Actions
     /// <summary>
-    /// Action triggered by Player whenever it falls below <c>GlobalAttributes.LowerScreenEdge</c>. Signals that the game has been lost.
+    /// Action trigger when user click Pause button during gameplay.
     /// </summary>
-    public static Action OnGameLost;
+    public static Action OnGamePaused;
+    /// <summary>
+    /// Action trigger when user returns back to playing after pausing the game.
+    /// </summary>
+    public static Action OnGameUnpaused;
     /// <summary>
     /// Action triggered when user clicks "Quit To Menu" button in Pause screen. Similar to OnGameLost, but not the same.
     /// </summary>
     public static Action OnGameAbandoned;
+    /// <summary>
+    /// Action triggered by Player whenever it falls below <c>GlobalAttributes.LowerScreenEdge</c>. Signals that the game has been lost.
+    /// </summary>
+    public static Action OnGameLost;
 
     //Shop Actions
     /// <summary>

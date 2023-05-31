@@ -16,6 +16,7 @@ public class MagnetField : MonoBehaviour
     [SerializeField] private List<Vector2> magnetizedObjInitialPosition = new();
 
     public bool MagnetCoroutineRunning { get; private set; } = false;
+    public bool MagnetCoroutinePaused { get; private set; } = false;
 
     private void OnEnable()
     {
@@ -34,6 +35,8 @@ public class MagnetField : MonoBehaviour
         gameObject.SetActive(true);
         magnetTrigger.enabled = true;
         MagnetCoroutineRunning = true;
+        Actions.OnGamePaused += Pause;
+        Actions.OnGameUnpaused += Unpause;
 
         upgradeTimeLeft = seconds;
         magnetizedObjects.Clear();
@@ -49,8 +52,22 @@ public class MagnetField : MonoBehaviour
         Decomission();
     }
 
+    public void Pause()
+    {
+        if (MagnetCoroutineRunning) 
+            MagnetCoroutinePaused = true;
+    }
+
+    public void Unpause()
+    {
+        if (MagnetCoroutineRunning && MagnetCoroutinePaused)
+            MagnetCoroutinePaused = false;
+    }
+
     private void Decomission()
     {
+        Actions.OnGamePaused -= Pause;
+        Actions.OnGameUnpaused -= Unpause;
         upgradeTimeLeft = 0f;
 
         MagnetCoroutineRunning = false;
@@ -83,7 +100,8 @@ public class MagnetField : MonoBehaviour
                 yield break;
             }
             yield return new WaitForSeconds(Time.deltaTime);
-            upgradeTimeLeft -= Time.deltaTime;
+            if (!MagnetCoroutinePaused)
+                upgradeTimeLeft -= Time.deltaTime;
         }
     }
 

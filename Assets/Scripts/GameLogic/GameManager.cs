@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour
         playerScript.Freeze();
         simulatorVelocityBeforePause = heightSimulatorScript.GetVerticalVelocity();
         heightSimulatorScript.Freeze();
+        Actions.OnGamePaused?.Invoke();
     }
 
     public void UnpauseGame()
@@ -102,6 +103,7 @@ public class GameManager : MonoBehaviour
         playerScript.SetVelocity(playerVelocityBeforePause); 
         heightSimulatorScript.Unfreeze();
         heightSimulatorScript.SetVerticalVelocity(simulatorVelocityBeforePause);
+        Actions.OnGameUnpaused?.Invoke();
     }
 
     public void EndGame()
