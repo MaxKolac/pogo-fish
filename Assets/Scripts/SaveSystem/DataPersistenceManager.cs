@@ -77,14 +77,13 @@ public class DataPersistenceManager : MonoBehaviour
     public void LoadGame()
     {
         gameData = dataHandler.Load();
-        if (gameData == null && initializeDataIfNull)
-        {
-            NewGame();
-        }
         if (gameData == null)
         {
             Debug.Log("No game data was found to load. A new game needs to be created before data can be loaded.");
-            return;
+            if (initializeDataIfNull)
+                NewGame();
+            else 
+                return;
         }
         foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
         {
