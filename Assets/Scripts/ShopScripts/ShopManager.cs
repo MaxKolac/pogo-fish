@@ -3,6 +3,10 @@ using UnityEngine.SceneManagement;
 
 public class ShopManager : MonoBehaviour
 {
+    [Header("Background Scroller")]
+    [SerializeField] private float xScroll;
+    [SerializeField] private float yScroll;
+    [SerializeField] private UnityEngine.UI.RawImage backImage;
     [Header("Shop Tab Contents")]
     [SerializeField] private GameObject skins;
     [SerializeField] private GameObject upgrade;
@@ -14,6 +18,11 @@ public class ShopManager : MonoBehaviour
         else
             DataPersistenceManager.Instance.NewGame();
         SwitchToSkinsPage();
+    }
+
+    void Update()
+    {
+        backImage.uvRect = new Rect(backImage.uvRect.position + new Vector2(xScroll, yScroll) * Time.deltaTime, backImage.uvRect.size);
     }
 
     public void SwitchToSkinsPage()
