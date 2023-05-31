@@ -2096,7 +2096,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2809,6 +2809,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1306864605}
   m_CullTransparentMesh: 1
+--- !u!114 &1308368680 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4777374785103821122, guid: f5c329852f971fe43ac354dcb467277f, type: 3}
+  m_PrefabInstance: {fileID: 4777374786378098282}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e57c3874e44edd54c932fa92ff8d6214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1398472526
 GameObject:
   m_ObjectHideFlags: 0
@@ -3693,9 +3704,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2058666831}
-  - component: {fileID: 2058666830}
   - component: {fileID: 2058666829}
   - component: {fileID: 2058666828}
+  - component: {fileID: 2058666830}
   - component: {fileID: 2058666832}
   m_Layer: 0
   m_Name: Player
@@ -3833,6 +3844,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heightSimulator: {fileID: 442661601}
   ownRigidbody: {fileID: 2058666828}
+  ownSpriteRenderer: {fileID: 2058666830}
   magnetField: {fileID: 2122273936}
   accelerationRate: 0.4
   decelerationRate: 0.4
@@ -3881,6 +3893,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f2e4bd5ec89074d9b87c8844657606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  upgradeDurationBar: {fileID: 1308368680}
   magnetTrigger: {fileID: 2122273937}
   initialSpeed: 10
   speedMultiplierPerYield: 1.05
@@ -3961,3 +3974,64 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a798b1e6b5a329d4bbb87fa8aded62d7, type: 3}
+--- !u!1001 &4777374786378098282
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4777374785103821123, guid: f5c329852f971fe43ac354dcb467277f, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777374785103821123, guid: f5c329852f971fe43ac354dcb467277f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777374785103821123, guid: f5c329852f971fe43ac354dcb467277f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 15.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777374785103821123, guid: f5c329852f971fe43ac354dcb467277f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777374785103821123, guid: f5c329852f971fe43ac354dcb467277f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777374785103821123, guid: f5c329852f971fe43ac354dcb467277f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777374785103821123, guid: f5c329852f971fe43ac354dcb467277f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777374785103821123, guid: f5c329852f971fe43ac354dcb467277f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777374785103821123, guid: f5c329852f971fe43ac354dcb467277f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777374785103821123, guid: f5c329852f971fe43ac354dcb467277f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777374785103821123, guid: f5c329852f971fe43ac354dcb467277f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777374785103821132, guid: f5c329852f971fe43ac354dcb467277f, type: 3}
+      propertyPath: m_Name
+      value: UpgradeDurationBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777374785103821132, guid: f5c329852f971fe43ac354dcb467277f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f5c329852f971fe43ac354dcb467277f, type: 3}

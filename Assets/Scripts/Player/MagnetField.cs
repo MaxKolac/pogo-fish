@@ -5,6 +5,7 @@ using UnityEngine;
     
 public class MagnetField : MonoBehaviour
 {
+    [SerializeField] private UpgradeDurationBar upgradeDurationBar;
     [SerializeField] private CircleCollider2D magnetTrigger;
     [SerializeField] private float initialSpeed;
     [SerializeField] private float speedMultiplierPerYield;
@@ -37,16 +38,18 @@ public class MagnetField : MonoBehaviour
         upgradeTimeLeft = seconds;
         magnetizedObjects.Clear();
         magnetizedObjInitialPosition.Clear();
-        StartCoroutine(MagnetCoroutine(seconds));
+        StartCoroutine(MagnetCoroutine());
+        upgradeDurationBar.ActivateBarFor(seconds);
     }
 
     public void StopMagnetCoroutinePrematurily()
     {
         StopAllCoroutines();
-        DecomissionMagnet();
+        upgradeDurationBar.StopBarPrematurily();
+        Decomission();
     }
 
-    private void DecomissionMagnet()
+    private void Decomission()
     {
         upgradeTimeLeft = 0f;
 
@@ -55,7 +58,7 @@ public class MagnetField : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private IEnumerator MagnetCoroutine(float seconds)
+    private IEnumerator MagnetCoroutine()
     {
         while (true)
         {
@@ -76,7 +79,7 @@ public class MagnetField : MonoBehaviour
             }
             if (upgradeTimeLeft <= 0f && magnetizedObjects.Count == 0)
             {
-                DecomissionMagnet();
+                Decomission();
                 yield break;
             }
             yield return new WaitForSeconds(Time.deltaTime);
@@ -88,6 +91,7 @@ public class MagnetField : MonoBehaviour
     {
         if (!MagnetCoroutineRunning) return;
         //Debug.Log($"Magnet duration reset from {upgradeTimeLeft} to {seconds}");
+        upgradeDurationBar.SetTimeLeft(seconds);
         upgradeTimeLeft = seconds;
     }
 
