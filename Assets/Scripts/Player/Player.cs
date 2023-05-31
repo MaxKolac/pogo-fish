@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IDataPersistence
@@ -6,6 +7,7 @@ public class Player : MonoBehaviour, IDataPersistence
     [Header("References")]
     [SerializeField] private HeightSimulator heightSimulator;
     [SerializeField] private Rigidbody2D ownRigidbody;
+    [SerializeField] private SpriteRenderer ownSpriteRenderer;
     [SerializeField] private MagnetField magnetField;
     private GameData gameData;
 
@@ -164,6 +166,47 @@ public class Player : MonoBehaviour, IDataPersistence
         maxVerticalVelocity = jumpForce;
     }
 
-    public void LoadData(GameData data) => this.gameData = data;
+    public void LoadData(GameData data)
+    {
+        this.gameData = data;
+        //Switch to equipped Skin
+        //Check how many had Equipped status, if there's somehow more than 1, equip the first one
+        Dictionary<string, SkinStatus> loadedSkinStatuses = new Dictionary<string, SkinStatus>
+        {
+            { "skin_default", (SkinStatus)gameData.skin_default },
+            { "skin_blue", (SkinStatus)gameData.skin_blue },
+            { "skin_green", (SkinStatus)gameData.skin_green }
+        };
+        string skinToEquip = "";
+        foreach (KeyValuePair<string, SkinStatus> kvp in loadedSkinStatuses)
+        {
+            if (kvp.Value == SkinStatus.Equipped)
+            {
+                skinToEquip = kvp.Key;
+                break;
+            }
+        }
+        switch (skinToEquip)
+        {
+            case "skin_default":
+                //Equip skin here
+                ownSpriteRenderer.color = Color.red;
+                break;
+            case "skin_blue":
+                //Equip skin here
+                ownSpriteRenderer.color = Color.blue;
+                break;
+            case "skin_green":
+                //Equip skin here
+                ownSpriteRenderer.color = Color.green;
+                break;
+            default:
+                //Equip fallback skin here
+                ownSpriteRenderer.color = Color.red;
+                Debug.LogError($"Player was asked to change their SpriteRenderer's sprite to unknown sprite!: {skinToEquip}");
+                break;
+        }
+    }
+
     public void SaveData(ref GameData data){ /* Player doesn't save any data. It only loads.*/ }
 }

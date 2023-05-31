@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class Actions
 {
-        //Gameplay Actions
+    //Gameplay Actions
     /// <summary>
     /// Action triggered by HeightSimulator whenever the "scroll down" illusion is being simulated, and therefore, DeltaHeight's value is changing.
     /// </summary>
@@ -29,9 +29,17 @@ public static class Actions
     /// </summary>
     public static Action OnGameAbandoned;
 
-        //Shop Actions
+    //Shop Actions
+    /// <summary>
+    /// Action triggered whenever the user successfully clicks any skin in the shop. Other Skins should refresh their sprites to show appropriate sprite.
+    /// </summary>
+    public static Action OnSkinClicked;
+    /// <summary>
+    /// Action trigerred whenever the user equips an unlocked Skin. Other equipped Skin should set their Status to Unlocked.
+    /// </summary>
+    public static Action<string> OnSkinEquipped;
     /// <summary>
     /// Action triggered whenever the user succesfully purchases an upgrade. Other UpgradeItem objects should refresh their sprites to check affordability.
     /// </summary>
-    public static Action OnUpgradeBought;
+    public static Action OnUpgradeClicked;
 }
