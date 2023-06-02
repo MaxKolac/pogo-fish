@@ -57,6 +57,7 @@ public class UpgradeDurationBar : MonoBehaviour
     {
         Actions.OnGamePaused -= Pause;
         Actions.OnGameUnpaused -= Unpause;
+        Actions.OnTimedUpgradeExpires?.Invoke();
         progressMask.transform.position = initialMaskPosition;
         gameObject.SetActive(false);
         IsCountingDown = false;

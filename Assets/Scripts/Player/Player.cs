@@ -151,7 +151,7 @@ public class Player : MonoBehaviour, IDataPersistence
                 break;
             case PickableObjectType.ScoreMultiplier:
                 duration = 5 + Mathf.Clamp(gameData.upgradeLvl_magnet, 0, 5);
-                Debug.Log($"ScoreMultiplier picked up. Calculated duration: {duration}");
+                //Debug.Log($"ScoreMultiplier picked up. Calculated duration: {duration}");
                 if (scoreMultiplierScript.CoroutineRunning)
                     scoreMultiplierScript.SetDurationTo(duration);
                 else

@@ -20,6 +20,10 @@ public static class Actions
     /// Action trigerred when player collides with a PickableObject and should acquire its effects.
     /// </summary>
     public static Action<PickableObject, GameObject> OnPickableObjectPickedUp;
+    /// <summary>
+    /// Action triggered when a picked up upgrade had a duration, and that duration just expired.
+    /// </summary>
+    public static Action OnTimedUpgradeExpires;
 
     //Game state change Actions
     /// <summary>
