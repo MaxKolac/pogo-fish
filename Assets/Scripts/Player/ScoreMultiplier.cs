@@ -5,9 +5,10 @@ public class ScoreMultiplier : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private ScoreCounter scoreCounterScript;
-    [SerializeField] private UpgradeDurationBar upgradeDurationBar;
+    [SerializeField] private UpgradeBarsManager barsManager;
     [Header("Debugging")]
     [SerializeField] private float upgradeTimeLeft;
+    [SerializeField] private int reservedBarID;
 
     public bool CoroutineRunning { get; private set; } = false;
     public bool CoroutinePaused { get; private set; } = false;
@@ -32,13 +33,14 @@ public class ScoreMultiplier : MonoBehaviour
         scoreCounterScript.ScoreMultiplier = 2;
         upgradeTimeLeft = seconds;
         StartCoroutine(ScoreMultiplierCoroutine());
-        upgradeDurationBar.ActivateBarFor(seconds);
+        reservedBarID = barsManager.ReserveBar();
+        barsManager.GetBarScript(reservedBarID).ActivateBarFor(seconds);
     }
 
     public void StopPrematurily()
     {
         StopAllCoroutines();
-        upgradeDurationBar.StopBarPrematurily();
+        barsManager.GetBarScript(reservedBarID).StopBarPrematurily();
         Decomission();
     }
 
@@ -84,7 +86,7 @@ public class ScoreMultiplier : MonoBehaviour
     {
         if (!CoroutineRunning) return;
         //Debug.Log($"Magnet duration reset from {upgradeTimeLeft} to {seconds}");
-        upgradeDurationBar.SetTimeLeft(seconds);
+        barsManager.GetBarScript(reservedBarID).SetTimeLeft(seconds);
         upgradeTimeLeft = seconds;
     }
 }

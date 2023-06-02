@@ -5,12 +5,13 @@ using UnityEngine;
     
 public class MagnetField : MonoBehaviour
 {
-    [SerializeField] private UpgradeDurationBar upgradeDurationBar;
+    [SerializeField] private UpgradeBarsManager barsManager;
     [SerializeField] private CircleCollider2D magnetTrigger;
     [SerializeField] private float initialSpeed;
     [SerializeField] private float speedMultiplierPerYield;
     [Header("Debugging")]
     [SerializeField] private float upgradeTimeLeft;
+    [SerializeField] private int reservedBarID;
     [SerializeField] private List<GameObject> magnetizedObjects = new();
     [SerializeField] private List<float> magnetizedObjSpeeds = new();
     [SerializeField] private List<Vector2> magnetizedObjInitialPosition = new();
@@ -42,13 +43,14 @@ public class MagnetField : MonoBehaviour
         magnetizedObjects.Clear();
         magnetizedObjInitialPosition.Clear();
         StartCoroutine(MagnetCoroutine());
-        upgradeDurationBar.ActivateBarFor(seconds);
+        reservedBarID = barsManager.ReserveBar();
+        barsManager.GetBarScript(reservedBarID).ActivateBarFor(seconds);
     }
 
     public void StopPrematurily()
     {
         StopAllCoroutines();
-        upgradeDurationBar.StopBarPrematurily();
+        barsManager.GetBarScript(reservedBarID).StopBarPrematurily();
         Decomission();
     }
 
@@ -109,7 +111,7 @@ public class MagnetField : MonoBehaviour
     {
         if (!CoroutineRunning) return;
         //Debug.Log($"Magnet duration reset from {upgradeTimeLeft} to {seconds}");
-        upgradeDurationBar.SetTimeLeft(seconds);
+        barsManager.GetBarScript(reservedBarID).SetTimeLeft(seconds);
         upgradeTimeLeft = seconds;
     }
 
