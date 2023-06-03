@@ -1,83 +1,38 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
     
-public class MagnetField : MonoBehaviour
+public class MagnetField : TimedUpgrade
 {
-    [SerializeField] private UpgradeBarsManager barsManager;
     [SerializeField] private CircleCollider2D magnetTrigger;
     [SerializeField] private float initialSpeed;
     [SerializeField] private float speedMultiplierPerYield;
     [Header("Debugging")]
-    [SerializeField] private float upgradeTimeLeft;
-    [SerializeField] private int reservedBarID;
     [SerializeField] private List<GameObject> magnetizedObjects = new();
     [SerializeField] private List<float> magnetizedObjSpeeds = new();
     [SerializeField] private List<Vector2> magnetizedObjInitialPosition = new();
 
-    public bool CoroutineRunning { get; private set; } = false;
-    public bool CoroutinePaused { get; private set; } = false;
-
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         Actions.OnPickableObjectPickedUp += RemovePickedObjFromMagnetizedObjects;
-        Actions.OnGameLost += StopPrematurily;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         Actions.OnPickableObjectPickedUp -= RemovePickedObjFromMagnetizedObjects;
-        Actions.OnGameLost -= StopPrematurily;
     }
 
-    public void ActivateFor(float seconds)
+    protected override void EnableEffect()
     {
-        gameObject.SetActive(true);
         magnetTrigger.enabled = true;
-        CoroutineRunning = true;
-        Actions.OnGamePaused += Pause;
-        Actions.OnGameUnpaused += Unpause;
-
-        upgradeTimeLeft = seconds;
         magnetizedObjects.Clear();
         magnetizedObjInitialPosition.Clear();
-        StartCoroutine(MagnetCoroutine());
-        reservedBarID = barsManager.ReserveBar();
-        barsManager.GetBarScript(reservedBarID).ActivateBarFor(seconds);
     }
+    protected override void DisableEffect() => magnetTrigger.enabled = false;
 
-    public void StopPrematurily()
-    {
-        StopAllCoroutines();
-        barsManager.GetBarScript(reservedBarID).StopBarPrematurily();
-        Decomission();
-    }
-
-    public void Pause()
-    {
-        if (CoroutineRunning) 
-            CoroutinePaused = true;
-    }
-
-    public void Unpause()
-    {
-        if (CoroutineRunning && CoroutinePaused)
-            CoroutinePaused = false;
-    }
-
-    private void Decomission()
-    {
-        Actions.OnGamePaused -= Pause;
-        Actions.OnGameUnpaused -= Unpause;
-        upgradeTimeLeft = 0f;
-
-        CoroutineRunning = false;
-        magnetTrigger.enabled = true;
-        gameObject.SetActive(false);
-    }
-
-    private IEnumerator MagnetCoroutine()
+    protected override IEnumerator EffectCoroutine()
     {
         while (true)
         {
@@ -105,14 +60,6 @@ public class MagnetField : MonoBehaviour
             if (!CoroutinePaused)
                 upgradeTimeLeft -= Time.deltaTime;
         }
-    }
-
-    public void SetDurationTo(float seconds)
-    {
-        if (!CoroutineRunning) return;
-        //Debug.Log($"Magnet duration reset from {upgradeTimeLeft} to {seconds}");
-        barsManager.GetBarScript(reservedBarID).SetTimeLeft(seconds);
-        upgradeTimeLeft = seconds;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
