@@ -16,12 +16,12 @@ public class UpgradeDurationBar : MonoBehaviour
     public bool IsCountingDown { get; private set; }
     public bool IsPaused { get; private set; }
 
-    private void Awake()
+    private void OnEnable()
     {
-        initialMaskPosition = progressMask.transform.position;
-        maskDistanceToBarPivot = Mathf.Abs(transform.position.x - initialMaskPosition.x);
+        maskDistanceToBarPivot = 8.8f * transform.localScale.x;
+        initialMaskPosition = progressMask.transform.position = transform.position + new Vector3(maskDistanceToBarPivot, 0f, 0f);
     }
-
+    
     public void ActivateBarFor(float seconds)
     {
         IsCountingDown = true;
@@ -57,10 +57,11 @@ public class UpgradeDurationBar : MonoBehaviour
     {
         Actions.OnGamePaused -= Pause;
         Actions.OnGameUnpaused -= Unpause;
-        Actions.OnTimedUpgradeExpires?.Invoke();
+
         progressMask.transform.position = initialMaskPosition;
         gameObject.SetActive(false);
-        IsCountingDown = false;
+        IsCountingDown = false; 
+        Actions.OnTimedUpgradeExpires?.Invoke();
     }
 
     public void SetTimeLeft(float seconds)
