@@ -12,6 +12,8 @@ public class ShopCoinCounter : MonoBehaviour, IDataPersistence
         coinText.text = CoinAmount.ToString();
     }
 
+    public void AddCoins(int amount) => CoinAmount += amount;
+
     public void SpendCoins(int amount)
     {
         if (CanAfford(amount))
