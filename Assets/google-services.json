@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "716160841146",
+    "project_id": "pogofish-9f872",
+    "storage_bucket": "pogofish-9f872.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:716160841146:android:4e0d75996ab079f9de5983",
+        "android_client_info": {
+          "package_name": "com.sagger.pogofish"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "716160841146-9rhuuc54gq5bm242tea6v8haveuaqiag.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmJJfBOVmYJkMEY2G6b9lCcBz0bswMwLA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "716160841146-9rhuuc54gq5bm242tea6v8haveuaqiag.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

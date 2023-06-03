@@ -8,7 +8,7 @@ public class PlatformManager : MonoBehaviour
     [SerializeField] private PlatformPooler platformPooler;
     [SerializeField] private PickableObjectPooler pickableObjectPooler;
 
-    [SerializeField] private int platformWithObjectSpawnChance = 100; //[0, 100)
+    [SerializeField] private int pickUpSpawnChance = 100; //[0, 100)
     [SerializeField] private List<SpawnChanceEntry<PlatformType>> platformSpawnChanceTable;
     [SerializeField] private List<SpawnChanceEntry<PickableObjectType>> pickableObjSpawnChanceTable;
 
@@ -28,7 +28,9 @@ public class PlatformManager : MonoBehaviour
         Actions.OnDeltaHeightChanged += ScrollActivePooledObjects;
         Actions.OnDeltaHeightChanged += CaptureDeltaHeightChange;
         Actions.OnGameLost += platformPooler.DespawnAllActiveObjects;
+        Actions.OnGameAbandoned += platformPooler.DespawnAllActiveObjects;
         Actions.OnGameLost += pickableObjectPooler.DespawnAllActiveObjects;
+        Actions.OnGameAbandoned += pickableObjectPooler.DespawnAllActiveObjects;
     }
 
     void OnDestroy()
@@ -36,12 +38,15 @@ public class PlatformManager : MonoBehaviour
         Actions.OnDeltaHeightChanged -= ScrollActivePooledObjects;
         Actions.OnDeltaHeightChanged -= CaptureDeltaHeightChange;
         Actions.OnGameLost -= platformPooler.DespawnAllActiveObjects;
+        Actions.OnGameAbandoned -= platformPooler.DespawnAllActiveObjects;
         Actions.OnGameLost -= pickableObjectPooler.DespawnAllActiveObjects;
+        Actions.OnGameAbandoned -= pickableObjectPooler.DespawnAllActiveObjects;
     }
 
     void Update()
     {
         //Difficulty increasing script
+        //TODO: TWEAK
         if ((int)GlobalAttributes.TotalGainedHeight + 1 % 25 == 0)
         {
             minX = Mathf.Clamp(minX + 0.05f, 1f, 2f);
@@ -61,7 +66,7 @@ public class PlatformManager : MonoBehaviour
                 NewRandomSpawnX();
                 platformSpawnY = platformPooler.LastPlatformsPosition.position.y + nextPlatformSpawnHeightTrigger;
                 platformPooler.SpawnObject(RandomizeNextPlatformType(), new Vector2(platformSpawnX, platformSpawnY));
-                if (UnityEngine.Random.Range(0, 100) < platformWithObjectSpawnChance)
+                if (UnityEngine.Random.Range(0, 100) < pickUpSpawnChance)
                 {
                     pickableObjectPooler.SpawnObject(
                         RandomizeNextPickableObjectType(),
@@ -76,11 +81,11 @@ public class PlatformManager : MonoBehaviour
         }
     }
 
-    void SpawnInitialSetOfPlatforms()
+    private void SpawnInitialSetOfPlatforms()
     {
         platformSpawnX = 0f;
         platformSpawnY = 0f;
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 15; i++)
         {
             NewRandomSpawnX();
             platformSpawnY += UnityEngine.Random.Range(minY, maxY);

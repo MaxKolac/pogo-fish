@@ -17,7 +17,7 @@ public class Platform : MonoBehaviour
     /// </summary>
     protected void CheckPosition()
     {
-        if (transform.position.y < GlobalAttributes.LowerScreenEdge)
+        if (transform.position.y < GlobalAttributes.DespawnBarrier)
             Actions.OnPlatformDespawn?.Invoke(Type, gameObject);
     }
 
