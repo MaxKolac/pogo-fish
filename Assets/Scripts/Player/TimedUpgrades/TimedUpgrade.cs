@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class TimedUpgrade : MonoBehaviour
 {
     [SerializeField] protected UpgradeBarsManager barsManager;
+    [SerializeField] protected Sprite upgradeIcon;
     [Header("Debugging")]
     [SerializeField] protected float upgradeTimeLeft;
     [SerializeField] protected int reservedBarID;
@@ -31,6 +32,7 @@ public abstract class TimedUpgrade : MonoBehaviour
         StartCoroutine(EffectCoroutine());
         reservedBarID = barsManager.ReserveBar();
         barsManager.GetBarScript(reservedBarID).ActivateBarFor(seconds);
+        barsManager.GetBarScript(reservedBarID).SetIconSprite(upgradeIcon);
     }
 
     /// <summary>
