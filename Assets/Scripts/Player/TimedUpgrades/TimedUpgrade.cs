@@ -25,6 +25,7 @@ public abstract class TimedUpgrade : MonoBehaviour
         CoroutineRunning = true;
         Actions.OnGamePaused += Pause;
         Actions.OnGameUnpaused += Unpause;
+        Actions.OnGameAbandoned += StopPrematurily;
 
         EnableEffect();
 
@@ -82,12 +83,14 @@ public abstract class TimedUpgrade : MonoBehaviour
     {
         Actions.OnGamePaused -= Pause;
         Actions.OnGameUnpaused -= Unpause;
+        Actions.OnGameAbandoned -= StopPrematurily;
         upgradeTimeLeft = 0f;
 
         DisableEffect();
 
         barsManager.GetBarDictionaryEntry(reservedBarID).Release();
         CoroutineRunning = false;
+        CoroutinePaused = false;
         gameObject.SetActive(false);
     }
 

@@ -29,6 +29,7 @@ public class UpgradeDurationBar : MonoBehaviour
         gameObject.SetActive(true);
         Actions.OnGamePaused += Pause;
         Actions.OnGameUnpaused += Unpause;
+        Actions.OnGameAbandoned += StopBarPrematurily;
         progressMask.transform.position = initialMaskPosition;
         initialTime = upgradeTimeLeft = seconds;
         percentageLeft = 1.0f; 
@@ -58,10 +59,12 @@ public class UpgradeDurationBar : MonoBehaviour
     {
         Actions.OnGamePaused -= Pause;
         Actions.OnGameUnpaused -= Unpause;
+        Actions.OnGameAbandoned -= StopBarPrematurily;
 
         progressMask.transform.position = initialMaskPosition;
         gameObject.SetActive(false);
         IsCountingDown = false; 
+        IsPaused = false;
         Actions.OnTimedUpgradeExpires?.Invoke();
     }
 
