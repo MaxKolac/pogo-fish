@@ -1,7 +1,7 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using GoogleMobileAds.Api;
 
 public enum GameState { TitleScreen, Playing, Paused, GameOver }
 
@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        MobileAds.Initialize(initStatus => { });
         Actions.OnGameLost += EndGame;
         if (DataPersistenceManager.Instance.HasGameData())
             DataPersistenceManager.Instance.LoadGame();

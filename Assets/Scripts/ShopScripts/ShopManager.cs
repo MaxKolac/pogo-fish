@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class ShopManager : MonoBehaviour
 {
+    [SerializeField] private MobAdManager adManager;
     [Header("Background Scroller")]
     [SerializeField] private float xScroll;
     [SerializeField] private float yScroll;
@@ -18,7 +19,11 @@ public class ShopManager : MonoBehaviour
         else
             DataPersistenceManager.Instance.NewGame();
         SwitchToSkinsPage();
+        adManager.CreateBannerView();
+        adManager.LoadBannerAd();
     }
+
+    void OnDisable() => adManager.DestroyBannerAd();
 
     void Update()
     {
