@@ -6,6 +6,7 @@ public class UpgradeDurationBar : MonoBehaviour
     [Header("References")]
     [SerializeField] private SpriteRenderer progressBar;
     [SerializeField] private SpriteMask progressMask;
+    [SerializeField] private SpriteRenderer upgradeIcon;
     [Header("Timers and Numbers")]
     [SerializeField] private float initialTime;
     [SerializeField] private float upgradeTimeLeft;
@@ -77,6 +78,8 @@ public class UpgradeDurationBar : MonoBehaviour
         upgradeTimeLeft = seconds;
         percentageLeft = seconds / initialTime;
     }
+
+    public void SetIconSprite(Sprite icon) => upgradeIcon.sprite = icon;
 
     private IEnumerator UpgradeDurationBarCoroutine()
     {

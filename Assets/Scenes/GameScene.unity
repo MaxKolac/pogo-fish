@@ -2029,6 +2029,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barsManager: {fileID: 1111389763}
+  upgradeIcon: {fileID: 21300000, guid: ab9c99ede7ec4bd42af04187e0dcfb21, type: 3}
   upgradeTimeLeft: 0
   reservedBarID: 0
   scoreCounterScript: {fileID: 442246679}
@@ -3991,6 +3992,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barsManager: {fileID: 1111389763}
+  upgradeIcon: {fileID: 21300000, guid: 55e38b5db9fa59d4cb3697bc6d2a0a1a, type: 3}
   upgradeTimeLeft: 0
   reservedBarID: 0
   magnetTrigger: {fileID: 2122273937}
