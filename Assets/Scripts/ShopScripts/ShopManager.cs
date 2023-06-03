@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class ShopManager : MonoBehaviour
 {
+    [Header("Managers")]
+    [SerializeField] private AudioManager audioManager;
     [SerializeField] private MobAdManager adManager;
     [Header("Background Scroller")]
     [SerializeField] private float xScroll;
@@ -18,12 +20,19 @@ public class ShopManager : MonoBehaviour
             DataPersistenceManager.Instance.LoadGame();
         else
             DataPersistenceManager.Instance.NewGame();
+        Actions.OnSkinClicked += audioManager.PlayClick;
+        Actions.OnUpgradeClicked += audioManager.PlayClick;
         SwitchToSkinsPage();
         adManager.CreateBannerView();
         adManager.LoadBannerAd();
     }
 
-    void OnDisable() => adManager.DestroyBannerAd();
+    void OnDisable()
+    {
+        adManager.DestroyBannerAd();
+        Actions.OnSkinClicked -= audioManager.PlayClick;
+        Actions.OnUpgradeClicked -= audioManager.PlayClick;
+    }
 
     void Update()
     {

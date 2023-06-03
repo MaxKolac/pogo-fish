@@ -189,6 +189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Cost: 150
   shopCoinCounterScript: {fileID: 0}
+  clickSound: {fileID: 0}
   costText: {fileID: 2082841779646261594}
   shopTabEntryImage: {fileID: 2082841780073286740}
   skinVarName: 

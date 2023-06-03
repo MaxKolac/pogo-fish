@@ -7,6 +7,8 @@ public enum GameState { TitleScreen, Playing, Paused, GameOver }
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Sounds")]
+    [SerializeField] private AudioSource clickSound;
     [Header("UI Screen Roots")]
     [SerializeField] private GameObject titleScreenRoot;
     [SerializeField] private GameObject ingameScreenRoot;

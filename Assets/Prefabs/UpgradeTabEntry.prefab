@@ -265,6 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ed40219a3c8be45ba963ecba0dd886, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clickSound: {fileID: 0}
   shopCoinCounterScript: {fileID: 0}
   costText: {fileID: 2587652526164756607}
   levelBarsImage: {fileID: 2587652525466286651}

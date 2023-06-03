@@ -126,3 +126,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ownCollider: {fileID: 2964170732074152427}
   Type: 0
+  IsAttractedByMagnet: 0

@@ -92,3 +92,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 1
+  breakSounds:
+  - {fileID: 0}
+  - {fileID: 0}
