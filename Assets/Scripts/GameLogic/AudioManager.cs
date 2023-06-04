@@ -40,7 +40,7 @@ public class AudioManager : MonoBehaviour
                 Play("pop");
                 break;
             case PickableObjectType.SpringBoost:
-                //Play("spring");
+                Play("spring");
                 break;
             case PickableObjectType.Magnet:
                 Play("magnet");
