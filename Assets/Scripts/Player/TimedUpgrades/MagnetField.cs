@@ -24,6 +24,7 @@ public class MagnetField : TimedUpgrade
     {
         base.OnDisable();
         Actions.OnPickableObjectPickedUp -= RemovePickedObjFromMagnetizedObjects;
+        ClearAllLists();
     }
 
     protected override void EnableEffect()
@@ -90,5 +91,15 @@ public class MagnetField : TimedUpgrade
             magnetizedObjSpeeds.RemoveAt(index);
             magnetizedObjects.Remove(pickableObject);
         }
+    }
+
+    /// <summary>
+    /// Emergency call to prevent the Magnet from not working when there is a magnetized Coin floating towards the Player, but the game is lost in the meantime, causing the Coin to never be removed.
+    /// </summary>
+    private void ClearAllLists()
+    {
+        magnetizedObjects.Clear();
+        magnetizedObjInitialPosition.Clear();
+        magnetizedObjSpeeds.Clear();
     }
 }
