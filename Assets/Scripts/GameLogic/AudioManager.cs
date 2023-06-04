@@ -43,7 +43,7 @@ public class AudioManager : MonoBehaviour
                 //Play("spring");
                 break;
             case PickableObjectType.Magnet:
-                //Play("magnet");
+                Play("magnet");
                 break;
             case PickableObjectType.ScoreMultiplier:
                 //TODO
