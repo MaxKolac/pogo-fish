@@ -14,7 +14,7 @@ public class Platform : MonoBehaviour, IPoolable
     public Enum GetPoolableType() => Type;
 
     protected virtual void OnEnable() => DespawnedByPlayer = false;
-    protected void Update() => CheckPosition();
+    protected virtual void Update() => CheckPosition();
 
     /// <summary>
     /// Checks if the <c>Platform</c> is below screen's lower edge, which means the proper <c>Actions</c> should be invoked.
