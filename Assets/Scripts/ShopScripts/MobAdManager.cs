@@ -13,7 +13,7 @@ public class MobAdManager : MonoBehaviour
 
     public void CreateBannerView()
     {
-        Debug.Log("Creating banner view");
+        //Debug.Log("Creating banner view");
         bannerAd = new BannerView(bannerAdUnitId, AdSize.Banner, AdPosition.Bottom);
     }
 
@@ -32,7 +32,7 @@ public class MobAdManager : MonoBehaviour
         adRequest.Keywords.Add("unity-admob-sample");
 
         // send the request to load the ad.
-        Debug.Log("Loading banner ad.");
+        //Debug.Log("Loading banner ad.");
         bannerAd.LoadAd(adRequest);
     }
 
@@ -43,7 +43,7 @@ public class MobAdManager : MonoBehaviour
     {
         if (bannerAd != null)
         {
-            Debug.Log("Destroying banner ad.");
+            //Debug.Log("Destroying banner ad.");
             bannerAd.Destroy();
             bannerAd = null;
         }
@@ -68,7 +68,7 @@ public class MobAdManager : MonoBehaviour
             rewardedInterstitialAd.Destroy();
             rewardedInterstitialAd = null;
         }
-        Debug.Log("Loading the rewarded interstitial ad.");
+        //Debug.Log("Loading the rewarded interstitial ad.");
 
         // create our request used to load the ad.
         var adRequest = new AdRequest();
@@ -86,8 +86,8 @@ public class MobAdManager : MonoBehaviour
                     return;
                 }
 
-                Debug.Log("Rewarded interstitial ad loaded with response : "
-                          + ad.GetResponseInfo());
+                //Debug.Log("Rewarded interstitial ad loaded with response : "
+                //          + ad.GetResponseInfo());
 
                 rewardedInterstitialAd = ad;
             });
@@ -98,8 +98,7 @@ public class MobAdManager : MonoBehaviour
     /// </summary>
     public void ShowRewardedInterstitialAd()
     {
-        const string rewardMsg =
-            "Rewarded interstitial ad rewarded the user. Type: {0}, amount: {1}.";
+        //const string rewardMsg = "Rewarded interstitial ad rewarded the user. Type: {0}, amount: {1}.";
 
         if (rewardedInterstitialAd != null && rewardedInterstitialAd.CanShowAd())
         {
@@ -107,7 +106,7 @@ public class MobAdManager : MonoBehaviour
             {
                 reward.Type = "Coins";
                 reward.Amount = 50;
-                Debug.Log(String.Format(rewardMsg, reward.Type, reward.Amount));
+                //Debug.Log(String.Format(rewardMsg, reward.Type, reward.Amount));
             });
             coinCounterScript.AddCoins(50);
         }
