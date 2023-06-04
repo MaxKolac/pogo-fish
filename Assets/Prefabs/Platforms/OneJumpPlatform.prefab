@@ -8,16 +8,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 161234941771783714, guid: 2dd990b7e0c6d6e49ba784bbfe48810a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f434c11733d35bd499e9292408f530c1, type: 3}
+    - target: {fileID: 161234941771783714, guid: 2dd990b7e0c6d6e49ba784bbfe48810a, type: 3}
       propertyPath: m_Color.b
-      value: 0.12090601
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 161234941771783714, guid: 2dd990b7e0c6d6e49ba784bbfe48810a, type: 3}
       propertyPath: m_Color.g
-      value: 0.12090601
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 161234941771783714, guid: 2dd990b7e0c6d6e49ba784bbfe48810a, type: 3}
       propertyPath: m_Color.r
-      value: 0.122641504
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 161234941771783715, guid: 2dd990b7e0c6d6e49ba784bbfe48810a, type: 3}
       propertyPath: m_RootOrder
@@ -92,6 +96,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 1
-  breakSounds:
-  - {fileID: 0}
-  - {fileID: 0}
