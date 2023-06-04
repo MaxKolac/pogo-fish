@@ -127,7 +127,7 @@ public class Player : MonoBehaviour, IDataPersistence
         ownRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
-    public void ResetToStartingPosition() => ownRigidbody.position = new Vector2(0, 1.75f);
+    public void ResetToStartingPosition() => ownRigidbody.position = new Vector2(0, 1.85f);
 
     public void SetVelocity(Vector2 velocity) => ownRigidbody.velocity = velocity;
 
