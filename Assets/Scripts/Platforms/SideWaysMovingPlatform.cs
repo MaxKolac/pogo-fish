@@ -7,13 +7,14 @@ public class SideWaysMovingPlatform : Platform
     private const float travelSpeed = 0.025f;
     private int travelDirection;
 
-    void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         initialPosition = transform.position;
         travelDirection = transform.position.x < GlobalAttributes.MiddleOfScreen.x ? 1 : -1;
     }
 
-    void FixedUpdate()
+    protected void FixedUpdate()
     {
         if (GameManager.CurrentGameState != GameState.Playing) return;
         if (travelDirection == 1 && transform.position.x > initialPosition.x + travelDistance)

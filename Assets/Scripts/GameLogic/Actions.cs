@@ -11,7 +11,7 @@ public static class Actions
     /// <summary>
     /// Action trigerred by Platform whenever it should be enqueued by <c>PlatformPooler</c> and disabled.
     /// </summary>
-    public static Action<PlatformType, GameObject> OnPlatformDespawn;
+    public static Action<Platform, GameObject> OnPlatformDespawn;
     /// <summary>
     /// Action trigerred by a PickableObject whenever it should enqueued by PickableObjectPooler and disabled.
     /// </summary>

@@ -8,7 +8,9 @@ public enum PlatformType { Default, OneJump, SideWaysMoving }
 public class Platform : MonoBehaviour
 {
     public PlatformType Type;
+    public bool DespawnedByPlayer { get; protected set; } = false;
 
+    protected virtual void OnEnable() => DespawnedByPlayer = false;
     protected void Update() => CheckPosition();
 
     /// <summary>
