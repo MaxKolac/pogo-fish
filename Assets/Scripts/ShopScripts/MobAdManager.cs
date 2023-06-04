@@ -53,6 +53,8 @@ public class MobAdManager : MonoBehaviour
     {
         LoadRewardedInterstitialAd();
         ShowRewardedInterstitialAd();
+        Actions.OnUpgradeClicked?.Invoke();
+        Actions.OnSkinClicked?.Invoke();
     }
 
     /// <summary>

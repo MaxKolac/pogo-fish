@@ -223,6 +223,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 9ebcbb24abec4e5499f7a9210b49d0da, type: 3}
     - target: {fileID: 4589042309660966429, guid: 79eaaa9d4b988ea45b37e993188f5fe8, type: 3}
+      propertyPath: effectUnit
+      value: s
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589042309660966429, guid: 79eaaa9d4b988ea45b37e993188f5fe8, type: 3}
       propertyPath: upgradeLevelVarName
       value: upgradeLvl_scoreMultiplier
       objectReference: {fileID: 0}
@@ -230,6 +234,10 @@ PrefabInstance:
       propertyPath: shopCoinCounterScript
       value: 
       objectReference: {fileID: 1037334536}
+    - target: {fileID: 4589042309660966429, guid: 79eaaa9d4b988ea45b37e993188f5fe8, type: 3}
+      propertyPath: effectImprovementPerLevel
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79eaaa9d4b988ea45b37e993188f5fe8, type: 3}
 --- !u!224 &84431616 stripped
@@ -1771,6 +1779,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 7c24a65256deba74ea72f5e89af748ad, type: 3}
     - target: {fileID: 4589042309660966429, guid: 79eaaa9d4b988ea45b37e993188f5fe8, type: 3}
+      propertyPath: effectUnit
+      value: s
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589042309660966429, guid: 79eaaa9d4b988ea45b37e993188f5fe8, type: 3}
       propertyPath: upgradeLevelVarName
       value: upgradeLvl_magnet
       objectReference: {fileID: 0}
@@ -1778,6 +1790,10 @@ PrefabInstance:
       propertyPath: shopCoinCounterScript
       value: 
       objectReference: {fileID: 1037334536}
+    - target: {fileID: 4589042309660966429, guid: 79eaaa9d4b988ea45b37e993188f5fe8, type: 3}
+      propertyPath: effectImprovementPerLevel
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79eaaa9d4b988ea45b37e993188f5fe8, type: 3}
 --- !u!224 &1709128887 stripped
@@ -2478,6 +2494,10 @@ PrefabInstance:
       propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 578507883243701400, guid: 79eaaa9d4b988ea45b37e993188f5fe8, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 12ab5f96ffb7cd8408a5ab82df2bc9d8, type: 3}
     - target: {fileID: 2587652526240589374, guid: 79eaaa9d4b988ea45b37e993188f5fe8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2567,6 +2587,10 @@ PrefabInstance:
       value: SpringUpgrade
       objectReference: {fileID: 0}
     - target: {fileID: 4589042309660966429, guid: 79eaaa9d4b988ea45b37e993188f5fe8, type: 3}
+      propertyPath: effectUnit
+      value: '%'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589042309660966429, guid: 79eaaa9d4b988ea45b37e993188f5fe8, type: 3}
       propertyPath: upgradeLevelVarName
       value: upgradeLvl_springBoost
       objectReference: {fileID: 0}
@@ -2574,5 +2598,9 @@ PrefabInstance:
       propertyPath: shopCoinCounterScript
       value: 
       objectReference: {fileID: 1037334536}
+    - target: {fileID: 4589042309660966429, guid: 79eaaa9d4b988ea45b37e993188f5fe8, type: 3}
+      propertyPath: effectImprovementPerLevel
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79eaaa9d4b988ea45b37e993188f5fe8, type: 3}

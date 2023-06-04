@@ -7,8 +7,12 @@ public class UpgradeTabEntry : MonoBehaviour, IDataPersistence
 {
     [Header("Script References")]
     [SerializeField] private ShopCoinCounter shopCoinCounterScript;
+    [Header("Description Settings")]
+    [SerializeField] private string effectUnit;
+    [SerializeField] private float effectImprovementPerLevel;
     [Header("References")]
     [SerializeField] private TMP_Text costText;
+    [SerializeField] private TMP_Text descText;
     [SerializeField] private UnityEngine.UI.Image levelBarsImage;
     [SerializeField] private UnityEngine.UI.Image buyButtonImage;
     [SerializeField] private string upgradeLevelVarName;
@@ -39,6 +43,7 @@ public class UpgradeTabEntry : MonoBehaviour, IDataPersistence
     public void RefreshSprites()
     {
         levelBarsImage.sprite = levelBars.GetSprite("upgradeitem_lvlbar_" + UpgradeLevel);
+        descText.text = $"+{UpgradeLevel * effectImprovementPerLevel}{effectUnit}";
         if (UpgradeLevel == MaxLevel)
         {
             buyButtonImage.sprite = buyButtonStates.GetSprite("upgradeitem_button_max");
