@@ -60,7 +60,10 @@ public class Player : MonoBehaviour, IDataPersistence
             if (Input.GetMouseButton(0))
             {
                 //Flip sprite only when moving
-                ownSpriteRenderer.flipX = ownRigidbody.velocity.x > 0;
+                if (ownRigidbody.velocity.x > 0)
+                    ownSpriteRenderer.flipX = true;
+                else if (ownRigidbody.velocity.x < 0)
+                    ownSpriteRenderer.flipX = false;
 
                 //Update currentTapPosition and accelerate if user is holding finger
                 currentTapPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -127,7 +130,7 @@ public class Player : MonoBehaviour, IDataPersistence
         ownRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
-    public void ResetToStartingPosition() => ownRigidbody.position = new Vector2(0, 1.85f);
+    public void ResetToStartingPosition() => ownRigidbody.position = new Vector2(0, 2f);
 
     public void SetVelocity(Vector2 velocity) => ownRigidbody.velocity = velocity;
 
