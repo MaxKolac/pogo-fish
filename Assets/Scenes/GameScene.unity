@@ -4027,7 +4027,7 @@ Rigidbody2D:
   m_AngularDrag: 0
   m_GravityScale: 1
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
@@ -4196,7 +4196,8 @@ MonoBehaviour:
   reservedBarID: 0
   magnetTrigger: {fileID: 2122273937}
   initialSpeed: 10
-  speedMultiplierPerYield: 1.05
+  speedAdditivePerYield: 0.25
+  speedLimit: 100
   magnetizedObjects: []
   magnetizedObjSpeeds: []
   magnetizedObjInitialPosition: []

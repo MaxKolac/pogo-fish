@@ -6,7 +6,9 @@ public class MagnetField : TimedUpgrade
 {
     [SerializeField] private CircleCollider2D magnetTrigger;
     [SerializeField] private float initialSpeed;
-    [SerializeField] private float speedMultiplierPerYield;
+    [SerializeField] private float speedAdditivePerYield;
+    [SerializeField] private float speedLimit;
+
     [Header("Debugging")]
     [SerializeField] private List<GameObject> magnetizedObjects = new();
     [SerializeField] private List<float> magnetizedObjSpeeds = new();
@@ -41,9 +43,9 @@ public class MagnetField : TimedUpgrade
             {
                 int index= magnetizedObjects.IndexOf(gameObj);
                 Transform objTransform = gameObj.transform;
-                Vector3 direction = objTransform.position - this.transform.position;
-                objTransform.position -= magnetizedObjSpeeds[index] * Time.deltaTime * direction.normalized;
-                magnetizedObjSpeeds[index] *= speedMultiplierPerYield;
+                Vector3 direction = this.transform.position - objTransform.position;
+                objTransform.position += magnetizedObjSpeeds[index] * Time.deltaTime * direction.normalized;
+                magnetizedObjSpeeds[index] = Mathf.Min(magnetizedObjSpeeds[index] + speedAdditivePerYield, speedLimit);
             }
 
             //Even if upgrade's time is up, keep going until all Coins caught up in magnet field get picked up by Player.
