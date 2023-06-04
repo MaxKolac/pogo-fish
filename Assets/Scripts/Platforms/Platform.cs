@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum PlatformType { Default, OneJump, SideWaysMoving }
@@ -5,10 +6,12 @@ public enum PlatformType { Default, OneJump, SideWaysMoving }
 /// <summary>
 /// Base script class of all Platforms.
 /// </summary>
-public class Platform : MonoBehaviour
+public class Platform : MonoBehaviour, IPoolable
 {
-    public PlatformType Type;
+    public PlatformType Type; 
     public bool DespawnedByPlayer { get; protected set; } = false;
+
+    public Enum GetPoolableType() => Type;
 
     protected virtual void OnEnable() => DespawnedByPlayer = false;
     protected void Update() => CheckPosition();
@@ -20,7 +23,7 @@ public class Platform : MonoBehaviour
     protected void CheckPosition()
     {
         if (transform.position.y < GlobalAttributes.DespawnBarrier)
-            Actions.OnPlatformDespawn?.Invoke(Type, gameObject);
+            Actions.OnPlatformDespawn?.Invoke(this, gameObject);
     }
 
     /// <param name="collision">The Collision2D object to check.</param>

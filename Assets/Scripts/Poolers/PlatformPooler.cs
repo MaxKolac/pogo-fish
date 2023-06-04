@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlatformPooler : GenericPooler<PlatformType>
+public class PlatformPooler : GenericPooler<PlatformType, Platform>
 {
     public Transform LastPlatformsPosition { get; private set; } = null;
 

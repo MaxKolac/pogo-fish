@@ -46,7 +46,7 @@ public class AudioManager : MonoBehaviour
                 Play("magnet");
                 break;
             case PickableObjectType.ScoreMultiplier:
-                //TODO
+                Play("scoreMultiplier");
                 break;
             default:
                 Debug.LogWarning("AudioManager doesn't recognized this PickableObject! No sound playing!");
@@ -54,18 +54,25 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void Play(PlatformType type, GameObject gameObj)
+    private void Play(Platform platformScript, GameObject gameObj)
     {
-        switch (type)
+        switch (platformScript.Type)
         {
             case PlatformType.OneJump:
+                if (platformScript.DespawnedByPlayer == true)
+                {
+                    if (Random.Range(0, 2) == 0)
+                        Play("platform_break1");
+                    else
+                        Play("platform_break2");
+                }
                 break;
             case PlatformType.SideWaysMoving:
             case PlatformType.Default:
                 //silence
                 break;
             default:
-                Debug.LogWarning("AudioManager doesn't recognized this PlatformType! No sound playing!");
+                Debug.LogWarning("AudioManager doesn't recognized this Platform.Type! No sound playing!");
                 break;
         }
     }

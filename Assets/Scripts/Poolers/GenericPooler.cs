@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 /// A generic Pooler of Unity's GameObjects with basic functionality of keeping track of active and inactive objects.
 /// </summary>
 /// <typeparam name="ObjectType">The enum type of the GameObject which describes all variants of the pooled object class.</typeparam>
-public abstract class GenericPooler<ObjectType> : MonoBehaviour where ObjectType : Enum
+public abstract class GenericPooler<ObjectType, PoolableScript> : MonoBehaviour where ObjectType : Enum where PoolableScript : MonoBehaviour, IPoolable
 {
     [Header("Debug Strings")]
     [SerializeField] protected string pooledObjectName;
@@ -77,6 +77,9 @@ public abstract class GenericPooler<ObjectType> : MonoBehaviour where ObjectType
         activeObjects[objectType].Remove(objectToDespawn);
         poolDictionary[objectType].Enqueue(objectToDespawn);
     }
+
+    //This is an ugly roundabout solution and i hate it... Too bad!
+    protected void DespawnObject(PoolableScript script, GameObject objectToDespawn) => DespawnObject((ObjectType)script.GetPoolableType(), objectToDespawn);
 
     protected GameObject InstantiateAdditionalObject(ObjectType objectType)
     {

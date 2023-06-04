@@ -1,4 +1,4 @@
-public class PickableObjectPooler : GenericPooler<PickableObjectType>
+public class PickableObjectPooler : GenericPooler<PickableObjectType, PickableObject>
 {
     protected override void Awake()
     {

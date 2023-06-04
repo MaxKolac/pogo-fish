@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class PickableObject : MonoBehaviour
+public class PickableObject : MonoBehaviour, IPoolable
 {
     [SerializeField] protected Collider2D ownCollider;
     public PickableObjectType Type;
     public bool IsAttractedByMagnet;
+
+    public Enum GetPoolableType() => Type;
 
     protected void Update()
     {
