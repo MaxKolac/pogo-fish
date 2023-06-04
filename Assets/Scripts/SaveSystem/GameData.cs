@@ -6,6 +6,8 @@
 [Serializable]
 public class GameData
 {
+    public float volume;
+
     public int coinsAmount;
     public int highscore;
 
@@ -22,6 +24,8 @@ public class GameData
     /// </summary>
     public GameData()
     {
+        volume = 1.0f;
+
         coinsAmount = 0;
         highscore = 0;
 

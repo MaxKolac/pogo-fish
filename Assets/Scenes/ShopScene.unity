@@ -2481,6 +2481,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DefaultSkin
       objectReference: {fileID: 0}
+    - target: {fileID: 4948844265772406138, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6a47270c7b54a9f46a44117cd2218ec4, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
 --- !u!1001 &2587652527347900319

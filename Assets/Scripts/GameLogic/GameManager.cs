@@ -3,18 +3,18 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using GoogleMobileAds.Api;
 
-public enum GameState { TitleScreen, Playing, Paused, GameOver }
+public enum GameState { TitleScreen, Playing, Paused, GameOver, Settings }
 
 public class GameManager : MonoBehaviour
 {
-    [Header("Sounds")]
-    [SerializeField] private AudioSource clickSound;
     [Header("UI Screen Roots")]
     [SerializeField] private GameObject titleScreenRoot;
     [SerializeField] private GameObject ingameScreenRoot;
     [SerializeField] private GameObject pauseScreenRoot;
     [SerializeField] private GameObject gameOverScreenRoot;
+    [SerializeField] private GameObject settingsScreenRoot;
     [Header("GameObject Scripts")]
+    [SerializeField] private AudioManager audioManager;
     [SerializeField] private HeightSimulator heightSimulatorScript;
     [SerializeField] private PlatformManager platformManagerScript;
     [SerializeField] private Player playerScript;
@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
         ingameScreenRoot.SetActive(false);
         pauseScreenRoot.SetActive(false);
         gameOverScreenRoot.SetActive(false);
+        settingsScreenRoot.SetActive(false);
         highscoreText.text = $"Highscore: {scoreCounterScript.Highscore}";
 
         ground.SetActive(true);
@@ -69,6 +70,7 @@ public class GameManager : MonoBehaviour
         ingameScreenRoot.SetActive(true);
         pauseScreenRoot.SetActive(false);
         gameOverScreenRoot.SetActive(false);
+        settingsScreenRoot.SetActive(false);
 
         heightSimulatorScript.gameObject.SetActive(true);
         platformManagerScript.EnablePlatformSpawning();
@@ -83,6 +85,7 @@ public class GameManager : MonoBehaviour
         ingameScreenRoot.SetActive(false);
         pauseScreenRoot.SetActive(true);
         gameOverScreenRoot.SetActive(false);
+        settingsScreenRoot.SetActive(false);
 
         playerVelocityBeforePause =
             heightSimulatorScript.IsFrozen ?
@@ -101,6 +104,7 @@ public class GameManager : MonoBehaviour
         ingameScreenRoot.SetActive(true);
         pauseScreenRoot.SetActive(false);
         gameOverScreenRoot.SetActive(false);
+        settingsScreenRoot.SetActive(false);
 
         playerScript.Unfreeze();
         playerScript.SetVelocity(playerVelocityBeforePause); 
@@ -117,6 +121,7 @@ public class GameManager : MonoBehaviour
         ingameScreenRoot.SetActive(false);
         pauseScreenRoot.SetActive(false);
         gameOverScreenRoot.SetActive(true);
+        settingsScreenRoot.SetActive(false);
 
         heightSimulatorScript.gameObject.SetActive(false);
         platformManagerScript.DisablePlatformSpawning();
@@ -133,7 +138,23 @@ public class GameManager : MonoBehaviour
 
     public void ShowSettings()
     {
-        //TODO
+        if (CurrentGameState != GameState.TitleScreen)
+            return;
+        CurrentGameState = GameState.Settings;
+        settingsScreenRoot.SetActive(true);
+        titleScreenRoot.SetActive(false);
+        ingameScreenRoot.SetActive(false);
+        pauseScreenRoot.SetActive(false);
+        gameOverScreenRoot.SetActive(false);
+    }
+
+    public void HideSettings()
+    {
+        if (CurrentGameState != GameState.Settings)
+            return;
+        DataPersistenceManager.Instance.SaveGame();
+        audioManager.AdjustVolume(audioManager.CurrentVolume);
+        ShowTitleScreen();
     }
 
     public void LoadShopScene() => SceneManager.LoadSceneAsync("ShopScene", LoadSceneMode.Single);

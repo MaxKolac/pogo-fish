@@ -1,14 +1,32 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : MonoBehaviour, IDataPersistence
 {
+    [Header("Settings References")]
+    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private TMP_Text volumeText;
+    [Header("Sounds Library")]
     [SerializeField] private List<AudioSource> audioSources;
+    private readonly List<float> initialVolumes = new();
+    public float CurrentVolume { get; private set; } = 1.0f;
 
     private void Start()
     {
         Actions.OnPickableObjectPickedUp += Play;
         Actions.OnPlatformDespawn += Play;
+        InitializeVolumeList();
+    }
+
+    private void Update()
+    {
+        if (GameManager.CurrentGameState != GameState.Settings)
+            return;
+        CurrentVolume = volumeSlider.value;
+        volumeText.text = "Volume: " + (CurrentVolume * 50f).ToString("N0") + "%";
+        AdjustVolume(CurrentVolume);
     }
 
     private void OnDisable()
@@ -76,4 +94,31 @@ public class AudioManager : MonoBehaviour
                 break;
         }
     }
+
+    public void AdjustVolume(float volume)
+    {
+        CurrentVolume = volume;
+        for (int i = 0; i < audioSources.Count; i++)
+        {
+            audioSources[i].volume = initialVolumes[i] * volume;
+        }
+    }
+
+    private void InitializeVolumeList()
+    {
+        initialVolumes.Clear();
+        foreach (AudioSource source in audioSources)
+            initialVolumes.Add(source.volume);
+    }
+
+    public void LoadData(GameData data)
+    {
+        this.CurrentVolume = data.volume;
+        if (volumeSlider != null)
+            volumeSlider.value = data.volume;
+        InitializeVolumeList();
+        AdjustVolume(CurrentVolume);
+    }
+
+    public void SaveData(ref GameData data) => data.volume = this.CurrentVolume;
 }
