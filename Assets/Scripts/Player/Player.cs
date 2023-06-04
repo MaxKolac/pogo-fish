@@ -9,6 +9,9 @@ public class Player : MonoBehaviour, IDataPersistence
     [SerializeField] private Rigidbody2D ownRigidbody;
     [SerializeField] private SpriteRenderer ownSpriteRenderer;
 
+    [Header("Skins")]
+    [SerializeField] private Sprite defaultSkin;
+
     [Header("Upgrade References")]
     [SerializeField] private MagnetField magnetField;
     [SerializeField] private ScoreMultiplier scoreMultiplierScript;
@@ -56,6 +59,9 @@ public class Player : MonoBehaviour, IDataPersistence
 
             if (Input.GetMouseButton(0))
             {
+                //Flip sprite only when moving
+                ownSpriteRenderer.flipX = ownRigidbody.velocity.x > 0;
+
                 //Update currentTapPosition and accelerate if user is holding finger
                 currentTapPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 currentTapPosition.z = 0;
@@ -121,7 +127,7 @@ public class Player : MonoBehaviour, IDataPersistence
         ownRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
-    public void ResetToStartingPosition() => ownRigidbody.position = new Vector2(0, 1.5f);
+    public void ResetToStartingPosition() => ownRigidbody.position = new Vector2(0, 1.75f);
 
     public void SetVelocity(Vector2 velocity) => ownRigidbody.velocity = velocity;
 
@@ -195,8 +201,8 @@ public class Player : MonoBehaviour, IDataPersistence
         switch (skinToEquip)
         {
             case "skin_default":
-                //Equip skin here
-                ownSpriteRenderer.color = Color.red;
+                ownSpriteRenderer.sprite = defaultSkin;
+                //ownSpriteRenderer.color = Color.red;
                 break;
             case "skin_blue":
                 //Equip skin here

@@ -131,5 +131,10 @@ public class GameManager : MonoBehaviour
         ShowTitleScreen();
     }
 
+    public void ShowSettings()
+    {
+        //TODO
+    }
+
     public void LoadShopScene() => SceneManager.LoadSceneAsync("ShopScene", LoadSceneMode.Single);
 }
