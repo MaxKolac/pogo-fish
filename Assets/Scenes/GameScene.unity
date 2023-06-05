@@ -1023,7 +1023,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -45, y: -80}
+  m_AnchoredPosition: {x: -15, y: -80}
   m_SizeDelta: {x: 104, y: 98}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &384596830
@@ -2084,8 +2084,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -468.06, y: -114.56}
-  m_SizeDelta: {x: 523, y: 100}
+  m_AnchoredPosition: {x: -400, y: -115}
+  m_SizeDelta: {x: 450, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &593837434
 MonoBehaviour:
@@ -2808,7 +2808,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   platformPooler: {fileID: 1251066028}
   pickableObjectPooler: {fileID: 1097316591}
-  pickUpSpawnChance: 100
+  pickUpSpawnChance: 45
   platformSpawnChanceTable:
   - objectType: 0
     chanceToSpawn: 60
@@ -3265,8 +3265,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -468.06, y: -221.87}
-  m_SizeDelta: {x: 522.69, y: 100}
+  m_AnchoredPosition: {x: -400, y: -220}
+  m_SizeDelta: {x: 450, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1117703988
 MonoBehaviour:
