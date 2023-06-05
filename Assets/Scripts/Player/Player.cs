@@ -107,8 +107,11 @@ public class Player : MonoBehaviour, IDataPersistence
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (ownRigidbody.velocity.y > 0 || ownRigidbody.position.y <= collision.collider.transform.position.y) return;
-        ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, jumpForce);
+        if (ownRigidbody.velocity.y <= 0 &&
+            ownRigidbody.position.y > collision.collider.transform.position.y)
+        {
+            ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, jumpForce);
+        }
     }
 
     public void Freeze()

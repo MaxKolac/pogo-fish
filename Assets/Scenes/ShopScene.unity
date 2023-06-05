@@ -2004,7 +2004,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: b6fce6cc7715f404f9dcde75c72ecf14, type: 3}
+  m_Texture: {fileID: 2800000, guid: 27e0aef9723eae64594bd702400cbe11, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -2059,7 +2059,7 @@ MonoBehaviour:
   audioManager: {fileID: 99026466}
   adManager: {fileID: 1084594748}
   xScroll: -0.45
-  yScroll: 0.1
+  yScroll: 0
   backImage: {fileID: 1790637811}
   skins: {fileID: 186814316}
   upgrade: {fileID: 1728442629}

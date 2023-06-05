@@ -63,9 +63,11 @@ public class UpgradeBarsManager : MonoBehaviour
     /// <summary>
     /// Arranges active UpgradeBars visually in a column. Call this when one of the UpgradeBars expires and leaves a gap afterwards.
     /// </summary>
+    [Obsolete]
     public void RearrangeBars()
     {
-        int i = 0;
+        //TODO: This shit doesnt work, just keep them in place
+        /*int i = 0;
         foreach (DurationBarDictionaryEntry entry in durationBarDictionary.Values)
         {
             if (entry.isReserved)
@@ -73,7 +75,7 @@ public class UpgradeBarsManager : MonoBehaviour
                 entry.SetPosition(durationBarPositions[i]);
                 i++;
             }
-        }
+        }*/
     }
 
     public DurationBarDictionaryEntry GetBarDictionaryEntry(int id) => durationBarDictionary[id];

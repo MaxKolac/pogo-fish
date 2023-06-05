@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using GoogleMobileAds.Api;
+using UnityEngine.UI;
 
 public enum GameState { TitleScreen, Playing, Paused, GameOver, Settings }
 
@@ -23,6 +24,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject ground;
     [SerializeField] private TMP_Text highscoreText;
     [SerializeField] private GameObject scoreCounter;
+    [Header("Background Settings")]
+    [SerializeField] private float xScroll;
+    [SerializeField] private float yScroll;
+    [SerializeField] private RawImage backgroundImage;
 
     public static GameState CurrentGameState { private set; get; }
 
@@ -38,6 +43,11 @@ public class GameManager : MonoBehaviour
         else
             DataPersistenceManager.Instance.NewGame();
         ShowTitleScreen();
+    }
+
+    void Update()
+    {
+        backgroundImage.uvRect = new Rect(backgroundImage.uvRect.position + new Vector2(xScroll, yScroll) * Time.deltaTime, backgroundImage.uvRect.size);
     }
 
     void OnDestroy()
@@ -152,8 +162,16 @@ public class GameManager : MonoBehaviour
     {
         if (CurrentGameState != GameState.Settings)
             return;
-        DataPersistenceManager.Instance.SaveGame();
         audioManager.AdjustVolume(audioManager.CurrentVolume);
+        DataPersistenceManager.Instance.SaveGame();
+        ShowTitleScreen();
+    }
+
+    public void EraseProgress()
+    {
+        if (CurrentGameState != GameState.Settings)
+            return;
+        DataPersistenceManager.Instance.EraseGame();
         ShowTitleScreen();
     }
 
