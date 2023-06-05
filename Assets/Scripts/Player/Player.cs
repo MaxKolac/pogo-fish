@@ -8,6 +8,7 @@ public class Player : MonoBehaviour, IDataPersistence
     [SerializeField] private HeightSimulator heightSimulator;
     [SerializeField] private Rigidbody2D ownRigidbody;
     [SerializeField] private SpriteRenderer ownSpriteRenderer;
+    [SerializeField] private AudioManager audioManager;
 
     [Header("Skins")]
     [SerializeField] private Sprite defaultSkin;
@@ -110,6 +111,7 @@ public class Player : MonoBehaviour, IDataPersistence
         if (ownRigidbody.velocity.y <= 0 &&
             ownRigidbody.position.y > collision.collider.transform.position.y)
         {
+            audioManager.Play("pogostick");
             ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, jumpForce);
         }
     }
