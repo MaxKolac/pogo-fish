@@ -17,7 +17,7 @@ public class PickableObject : MonoBehaviour, IPoolable
 
     protected void OnTriggerEnter2D(Collider2D collision)
     {
-        if (IsColliderPlayer(collision))
+        if (IsColliderPicker(collision))
         {
             Actions.OnPickableObjectPickedUp?.Invoke(this, gameObject);
             Actions.OnPickableObjectDespawn?.Invoke(Type, gameObject);
@@ -39,7 +39,17 @@ public class PickableObject : MonoBehaviour, IPoolable
     /// </summary>
     protected bool IsColliderPlayer(Collider2D collider)
     {
+        //Debug.Log("Collided with Player!");
         return (collider != null && collider.CompareTag("Player"));
+    }
+
+    /// <summary>
+    /// Returns "true" if the colliding object has the "Picker" tag.
+    /// </summary>
+    protected bool IsColliderPicker(Collider2D collider)
+    {
+        //Debug.Log("Collided with Picker!");
+        return (collider != null && collider.CompareTag("Picker"));
     }
 }
 

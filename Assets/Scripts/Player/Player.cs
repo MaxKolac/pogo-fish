@@ -7,6 +7,7 @@ public class Player : MonoBehaviour, IDataPersistence
     [Header("References")]
     [SerializeField] private HeightSimulator heightSimulator;
     [SerializeField] private Rigidbody2D ownRigidbody;
+    [SerializeField] private Collider2D ownCollider;
     [SerializeField] private SpriteRenderer ownSpriteRenderer;
     [SerializeField] private AudioManager audioManager;
 
@@ -24,12 +25,15 @@ public class Player : MonoBehaviour, IDataPersistence
     private const float maxHorizontalVelocity = 10f;
     private const float jumpForce = 10f;
     private float maxVerticalVelocity = jumpForce;
+    private Vector2 resetPosition;
     private GameData gameData;
 
     public bool IsFrozenOnX { private set; get; }
     public bool IsFrozenOnY { private set; get; }
 
     private Vector3 currentTapPosition;
+
+    void Awake() => resetPosition = transform.position;
 
     void OnEnable()
     {
@@ -108,13 +112,32 @@ public class Player : MonoBehaviour, IDataPersistence
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (ownRigidbody.velocity.y <= 0 &&
-            ownRigidbody.position.y > collision.collider.transform.position.y)
+        /*        
+         * When a Rigidbody2D falls into a Collider with high enough velocity, it sometimes goes slightly inside the Collider.
+         * Pinpoint perfect calculations of Center + -Extent don't work in this situation, because on the frame when Player's Rigidbody
+         * enters a Platform's Collider, its lower edge goes slightly inside, causing the comparisson to rightfully return false. Keeping only the center
+         * allows for the audio to sometimes play twice, but otherwise the Jumping sometimes just doesn't work, which is arguably worse.
+         *
+         * An acceptable compromise is this comparrison + keeping the playerCollider thin enough.It might need to be enlargened if player is ever
+         * allowed to reach greater velocities.
+         */
+        Bounds colliderBounds = collision.collider.bounds;
+        Bounds ownBounds = ownCollider.bounds;
+
+        bool aboveAndFalling = ownRigidbody.velocity.y <= 0 && ownBounds.center.y - ownBounds.extents.y >= colliderBounds.center.y;
+        Debug.Log($"Player entered collision. ownVelocity: {ownRigidbody.velocity.y} <= 0 " +
+                $"&& ownBoundCenter: {ownBounds.center.y} >= colliderBoundCenter: {colliderBounds.center.y}, " +
+                $"Result: {aboveAndFalling}");
+        if (aboveAndFalling)
         {
             audioManager.Play("pogostick");
-            ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, jumpForce);
+            Jump();
         }
     }
+
+     /* Movement related methods    */
+
+    public void Jump() => ownRigidbody.velocity = new Vector2(ownRigidbody.velocity.x, jumpForce);
 
     public void Freeze()
     {
@@ -135,11 +158,13 @@ public class Player : MonoBehaviour, IDataPersistence
         ownRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
-    public void ResetToStartingPosition() => ownRigidbody.position = new Vector2(0, 2f);
+    public void ResetToStartingPosition() => ownRigidbody.position = resetPosition;
 
     public void SetVelocity(Vector2 velocity) => ownRigidbody.velocity = velocity;
 
     public Vector2 GetVelocity() { return ownRigidbody.velocity; }
+
+    public float GetLowerBoundCoordinate() => ownCollider.bounds.center.y - ownCollider.bounds.extents.y;
 
         /*  Upgrades Logic   */
 
@@ -191,7 +216,7 @@ public class Player : MonoBehaviour, IDataPersistence
         this.gameData = data;
         //Switch to equipped Skin
         //Check how many had Equipped status, if there's somehow more than 1, equip the first one
-        Dictionary<string, SkinStatus> loadedSkinStatuses = new Dictionary<string, SkinStatus>
+        Dictionary<string, SkinStatus> loadedSkinStatuses = new()
         {
             { "skin_default", gameData.skin_default },
             { "skin_blue", gameData.skin_blue },
