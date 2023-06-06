@@ -45,6 +45,7 @@ public class Platform : MonoBehaviour, IPoolable
         Bounds colliderBounds = collider.bounds;
         Bounds ownBounds = ownCollider.bounds;
         
+        //if only platform effector were better, dear unity lord
         bool result = collider != null
             && collider.CompareTag("Player")
             && (colliderBounds.center.y /*- colliderBounds.extents.y*/ >= ownBounds.center.y /*+ ownBounds.extents.y*/)
