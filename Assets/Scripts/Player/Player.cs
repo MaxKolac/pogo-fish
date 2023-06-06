@@ -13,6 +13,7 @@ public class Player : MonoBehaviour, IDataPersistence
 
     [Header("Skins")]
     [SerializeField] private Sprite defaultSkin;
+    [SerializeField] private Sprite pirateSkin;
 
     [Header("Upgrade References")]
     [SerializeField] private MagnetField magnetField;
@@ -219,7 +220,7 @@ public class Player : MonoBehaviour, IDataPersistence
         Dictionary<string, SkinStatus> loadedSkinStatuses = new()
         {
             { "skin_default", gameData.skin_default },
-            { "skin_blue", gameData.skin_blue },
+            { "skin_pirate", gameData.skin_pirate },
             { "skin_green", gameData.skin_green }
         };
         string skinToEquip = "";
@@ -237,9 +238,9 @@ public class Player : MonoBehaviour, IDataPersistence
                 ownSpriteRenderer.sprite = defaultSkin;
                 //ownSpriteRenderer.color = Color.red;
                 break;
-            case "skin_blue":
-                //Equip skin here
-                ownSpriteRenderer.color = Color.blue;
+            case "skin_pirate":
+                ownSpriteRenderer.sprite = pirateSkin;
+                //ownSpriteRenderer.color = Color.blue;
                 break;
             case "skin_green":
                 //Equip skin here

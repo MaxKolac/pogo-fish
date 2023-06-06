@@ -395,7 +395,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2082841779737249832, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: skinVarName
-      value: skin_blue
+      value: skin_pirate
       objectReference: {fileID: 0}
     - target: {fileID: 2082841779737249832, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: shopCoinCounterScript
@@ -487,12 +487,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2082841779737249847, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: m_Name
-      value: BlueSkin
+      value: PirateSkin
       objectReference: {fileID: 0}
     - target: {fileID: 4948844265772406138, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 146fc8bcd3ff8de4a907edabf84ea65b, type: 3}
+      objectReference: {fileID: 21300000, guid: ad2b6bde030712f4da7941410dc82be6, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
 --- !u!224 &513975255 stripped
@@ -1425,7 +1425,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2082841779737249832, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: Cost
-      value: 50
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 2082841779737249832, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: skinVarName
@@ -2385,6 +2385,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 186814317}
     m_Modifications:
+    - target: {fileID: 2082841779737249832, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
+      propertyPath: Cost
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2082841779737249832, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: skinVarName
       value: skin_default
