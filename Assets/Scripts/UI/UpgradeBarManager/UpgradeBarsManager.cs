@@ -63,7 +63,6 @@ public class UpgradeBarsManager : MonoBehaviour
     /// <summary>
     /// Arranges active UpgradeBars visually in a column. Call this when one of the UpgradeBars expires and leaves a gap afterwards.
     /// </summary>
-    [Obsolete]
     public void RearrangeBars()
     {
         //TODO: This shit doesnt work, just keep them in place
