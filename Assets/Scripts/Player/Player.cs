@@ -14,6 +14,7 @@ public class Player : MonoBehaviour, IDataPersistence
     [Header("Skins")]
     [SerializeField] private Sprite defaultSkin;
     [SerializeField] private Sprite pirateSkin;
+    [SerializeField] private Sprite diverSkin;
 
     [Header("Upgrade References")]
     [SerializeField] private MagnetField magnetField;
@@ -126,9 +127,9 @@ public class Player : MonoBehaviour, IDataPersistence
         Bounds ownBounds = ownCollider.bounds;
 
         bool aboveAndFalling = ownRigidbody.velocity.y <= 0 && ownBounds.center.y - ownBounds.extents.y >= colliderBounds.center.y;
-        Debug.Log($"Player entered collision. ownVelocity: {ownRigidbody.velocity.y} <= 0 " +
+        /*Debug.Log($"Player entered collision. ownVelocity: {ownRigidbody.velocity.y} <= 0 " +
                 $"&& ownBoundCenter: {ownBounds.center.y} >= colliderBoundCenter: {colliderBounds.center.y}, " +
-                $"Result: {aboveAndFalling}");
+                $"Result: {aboveAndFalling}");*/
         if (aboveAndFalling)
         {
             audioManager.Play("pogostick");
@@ -221,7 +222,7 @@ public class Player : MonoBehaviour, IDataPersistence
         {
             { "skin_default", gameData.skin_default },
             { "skin_pirate", gameData.skin_pirate },
-            { "skin_green", gameData.skin_green }
+            { "skin_diver", gameData.skin_diver }
         };
         string skinToEquip = "";
         foreach (KeyValuePair<string, SkinStatus> kvp in loadedSkinStatuses)
@@ -242,9 +243,9 @@ public class Player : MonoBehaviour, IDataPersistence
                 ownSpriteRenderer.sprite = pirateSkin;
                 //ownSpriteRenderer.color = Color.blue;
                 break;
-            case "skin_green":
-                //Equip skin here
-                ownSpriteRenderer.color = Color.green;
+            case "skin_diver":
+                ownSpriteRenderer.sprite = diverSkin;
+                //ownSpriteRenderer.color = Color.green;
                 break;
             default:
                 //Equip fallback skin here

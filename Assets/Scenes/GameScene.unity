@@ -5662,6 +5662,7 @@ MonoBehaviour:
   audioManager: {fileID: 155916205}
   defaultSkin: {fileID: 21300000, guid: 8459af6380a2e914b8f8fd94463e14cb, type: 3}
   pirateSkin: {fileID: 21300000, guid: 9fd46671ad89d2242afa3e86c32384c7, type: 3}
+  diverSkin: {fileID: 21300000, guid: 9a1b9d49d1a983244aa5331d01e155ba, type: 3}
   magnetField: {fileID: 2122273936}
   scoreMultiplierScript: {fileID: 796855454}
   accelerationRate: 0.4

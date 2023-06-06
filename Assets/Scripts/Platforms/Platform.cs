@@ -52,11 +52,11 @@ public class Platform : MonoBehaviour, IPoolable
             && PlayerWasAboveMe
             //&& colliderBounds.center.y - colliderBounds.extents.y <= GetUpperBoundCoordinate()
             && (colliderRigidbody.velocity.y <= 0);
-        Debug.Log($"Collision with player. wasHeAbove?: {PlayerWasAboveMe}, " +
+        /*Debug.Log($"Collision with player. wasHeAbove?: {PlayerWasAboveMe}, " +
             //$"colliderBoundCalc: {colliderBounds.center.y - colliderBounds.extents.y} <= upperBoundCord: {GetUpperBoundCoordinate()}, " +
             $"colliderBoundCenter: {colliderBounds.center.y} >= ownBoundCenter: {ownBounds.center.y}, " +
             $"colliderVelocityCheck: {colliderRigidbody.velocity.y} <= 0, " +
-            $"methodResult: {result}");
+            $"methodResult: {result}");*/
         /*Debug.Log($"Collision with platform detected!" +
             $"colliderBoundCalc: {colliderBounds.center.y *//*- colliderBounds.extents.y*//*} >= ownBoundCalc: {ownBounds.center.y *//*+ ownBounds.extents.y*//*}, " +
             $"colliderVelocity: {colliderRigidbody.velocity.y} <= 0, " +

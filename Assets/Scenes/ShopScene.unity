@@ -1429,7 +1429,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2082841779737249832, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: skinVarName
-      value: skin_green
+      value: skin_diver
       objectReference: {fileID: 0}
     - target: {fileID: 2082841779737249832, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: shopCoinCounterScript
@@ -1521,12 +1521,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2082841779737249847, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: m_Name
-      value: GreenSkin
+      value: DiverSkin
       objectReference: {fileID: 0}
     - target: {fileID: 4948844265772406138, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f4a01cfcaf6113c459eacde409714490, type: 3}
+      objectReference: {fileID: 21300000, guid: 8fc880c0a06eab44ba25bdc41df0c6ea, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
 --- !u!224 &1581231296 stripped
