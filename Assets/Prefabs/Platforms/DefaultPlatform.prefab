@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 161234941771783714}
   - component: {fileID: 5964266763777018841}
   - component: {fileID: 9165420689321322370}
-  - component: {fileID: 3397282910840652587}
+  - component: {fileID: 1278356516419685959}
   m_Layer: 0
   m_Name: DefaultPlatform
   m_TagString: Platform
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cff4029394b62a43b2f0ccc653b8c2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 0
+  ownCollider: {fileID: 9165420689321322370}
 --- !u!61 &9165420689321322370
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -113,11 +113,11 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.1}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 6, y: 3.4}
+    oldSize: {x: 5.94, y: 1.23}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -126,7 +126,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6, y: 1.25}
   m_EdgeRadius: 0
---- !u!251 &3397282910840652587
+--- !u!251 &1278356516419685959
 PlatformEffector2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,11 +137,11 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
-  m_SurfaceArc: 170
+  m_SurfaceArc: 1
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1

@@ -25,7 +25,7 @@ public class CoinCounter : MonoBehaviour, IDataPersistence
 
     private void Update()
     {
-        coinText.text = $"{CurrentCoinAmount}";
+        coinText.text = $"Coins: {CurrentCoinAmount}";
     }
 
     public void LoadData(GameData data) => CurrentCoinAmount = data.coinsAmount;

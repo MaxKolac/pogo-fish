@@ -4,9 +4,9 @@ public class OneJumpPlatform : Platform
 {
     public Vector2 DespawnPosition { get; private set; }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    protected void OnCollisionEnter2D(Collision2D collision)
     {
-        if (IsCollidingWithPlayer(collision, true, true))
+        if (IsCollisionWithPlayerValid(collision))
         {
             DespawnedByPlayer = true;
             DespawnPosition = transform.position;

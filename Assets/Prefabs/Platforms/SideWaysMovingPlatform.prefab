@@ -95,4 +95,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff23aabd26a716d4ca55461dfec2f107, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ownCollider: {fileID: 6365759338276841854}
   Type: 2
+--- !u!61 &6365759338276841854 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 9165420689321322370, guid: 2dd990b7e0c6d6e49ba784bbfe48810a, type: 3}
+  m_PrefabInstance: {fileID: 2838857566306340604}
+  m_PrefabAsset: {fileID: 0}

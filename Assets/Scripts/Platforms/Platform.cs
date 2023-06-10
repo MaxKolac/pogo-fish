@@ -8,34 +8,62 @@ public enum PlatformType { Default, OneJump, SideWaysMoving }
 /// </summary>
 public class Platform : MonoBehaviour, IPoolable
 {
-    public PlatformType Type; 
+    public PlatformType Type;
     public bool DespawnedByPlayer { get; protected set; } = false;
+    public bool PlayerWasAboveMe { get; protected set; } = false;
+    protected Player playerScript;
+    [SerializeField] protected Collider2D ownCollider;
 
-    public Enum GetPoolableType() => Type;
+    protected void Awake() => playerScript = GameObject.Find("Player").GetComponent<Player>();
 
-    protected virtual void OnEnable() => DespawnedByPlayer = false;
+    protected virtual void OnEnable()
+    {
+        DespawnedByPlayer = false;
+        PlayerWasAboveMe = false;
+    }
+
     protected virtual void Update() => CheckPosition();
 
     /// <summary>
     /// Checks if the <c>Platform</c> is below screen's lower edge, which means the proper <c>Actions</c> should be invoked.
+    /// It also checks whether or not the player was ever above the Platform.
     /// Include this method in all subclasses' <c>Update()</c> methods, if they are different.
     /// </summary>
     protected void CheckPosition()
     {
+        PlayerWasAboveMe = PlayerWasAboveMe || (playerScript.GetLowerBoundCoordinate() >= GetUpperBoundCoordinate());
         if (transform.position.y < GlobalAttributes.DespawnBarrier)
             Actions.OnPlatformDespawn?.Invoke(this, gameObject);
     }
 
-    /// <param name="collision">The Collision2D object to check.</param>
-    /// <param name="checkIfPlayerIsAbove">If true, the analyzed object needs to be above caller's transform to return true.</param>
-    /// <param name="checkIfPlayerGoingUp">If true, the analyzed object needs to have positive Y velocity to return true.</param>
-    /// <returns>True, if the colliding GameObject has "Player" tag, and if it matches the additional checks</returns>
-    protected bool IsCollidingWithPlayer(Collision2D collision, bool checkIfPlayerIsAbove = false, bool checkIfPlayerGoingUp = false)
+    protected float GetUpperBoundCoordinate() => ownCollider.bounds.center.y + ownCollider.bounds.extents.y;
+
+    protected bool IsCollisionWithPlayerValid(Collision2D collision)
     {
-        return collision != null
-            && collision.collider.CompareTag("Player")
-            && (!checkIfPlayerIsAbove || collision.collider.transform.position.y > transform.position.y)
-            && (!checkIfPlayerGoingUp || collision.collider.GetComponent<Rigidbody2D>().velocity.y <= 0);
+        Rigidbody2D colliderRigidbody = collision.collider.GetComponent<Rigidbody2D>();
+        Collider2D collider = collision.collider;
+        Bounds colliderBounds = collider.bounds;
+        Bounds ownBounds = ownCollider.bounds;
+        
+        //if only platform effector were better, dear unity lord
+        bool result = collider != null
+            && collider.CompareTag("Player")
+            && (colliderBounds.center.y /*- colliderBounds.extents.y*/ >= ownBounds.center.y /*+ ownBounds.extents.y*/)
+            && PlayerWasAboveMe
+            //&& colliderBounds.center.y - colliderBounds.extents.y <= GetUpperBoundCoordinate()
+            && (colliderRigidbody.velocity.y <= 0);
+        /*Debug.Log($"Collision with player. wasHeAbove?: {PlayerWasAboveMe}, " +
+            //$"colliderBoundCalc: {colliderBounds.center.y - colliderBounds.extents.y} <= upperBoundCord: {GetUpperBoundCoordinate()}, " +
+            $"colliderBoundCenter: {colliderBounds.center.y} >= ownBoundCenter: {ownBounds.center.y}, " +
+            $"colliderVelocityCheck: {colliderRigidbody.velocity.y} <= 0, " +
+            $"methodResult: {result}");*/
+        /*Debug.Log($"Collision with platform detected!" +
+            $"colliderBoundCalc: {colliderBounds.center.y *//*- colliderBounds.extents.y*//*} >= ownBoundCalc: {ownBounds.center.y *//*+ ownBounds.extents.y*//*}, " +
+            $"colliderVelocity: {colliderRigidbody.velocity.y} <= 0, " +
+            $"methodResult: {result}");*/
+        return result;
     }
+
+    public Enum GetPoolableType() => Type;
 }
 

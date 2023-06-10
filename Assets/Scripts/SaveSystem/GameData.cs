@@ -12,8 +12,8 @@ public class GameData
     public int highscore;
 
     public SkinStatus skin_default;
-    public SkinStatus skin_blue;
-    public SkinStatus skin_green;
+    public SkinStatus skin_pirate;
+    public SkinStatus skin_diver;
 
     public int upgradeLvl_springBoost;
     public int upgradeLvl_magnet;
@@ -30,8 +30,8 @@ public class GameData
         highscore = 0;
 
         skin_default = SkinStatus.Equipped;
-        skin_blue = SkinStatus.Locked;
-        skin_green = SkinStatus.Locked;
+        skin_pirate = SkinStatus.Locked;
+        skin_diver = SkinStatus.Locked;
 
         upgradeLvl_springBoost = 0;
         upgradeLvl_magnet = 0;
@@ -44,8 +44,8 @@ public class GameData
         s += $"coinsAmount = {coinsAmount}";
         s += $" | highscore = {highscore}";
         s += $" | skin_default = {skin_default}";
-        s += $" | skin_blue = {skin_blue}";
-        s += $" | skin_green = {skin_green}";
+        s += $" | skin_pirate = {skin_pirate}";
+        s += $" | skin_diver = {skin_diver}";
         s += $" | upgradeLvl_springBoost = {upgradeLvl_springBoost}";
         s += $" | upgradeLvl_magnet = {upgradeLvl_magnet}";
         s += $" | upgradeLvl_scoreMultiplier = {upgradeLvl_scoreMultiplier}";

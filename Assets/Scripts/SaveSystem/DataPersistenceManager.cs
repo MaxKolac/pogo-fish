@@ -115,6 +115,16 @@ public class DataPersistenceManager : MonoBehaviour
         dataHandler.Save(gameData);
     }
 
+    /// <summary>
+    /// Creates a new GameData instance and overwrites the original save file with new copy.
+    /// </summary>
+    public void EraseGame()
+    {
+        NewGame();
+        dataHandler.Save(gameData);
+        LoadGame();
+    }
+
     /// <returns>True, if gameData isn't null. Otherwise, false.</returns>
     public bool HasGameData()
     {

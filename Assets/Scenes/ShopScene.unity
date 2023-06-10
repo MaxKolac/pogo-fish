@@ -395,7 +395,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2082841779737249832, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: skinVarName
-      value: skin_blue
+      value: skin_pirate
       objectReference: {fileID: 0}
     - target: {fileID: 2082841779737249832, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: shopCoinCounterScript
@@ -487,12 +487,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2082841779737249847, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: m_Name
-      value: BlueSkin
+      value: PirateSkin
       objectReference: {fileID: 0}
     - target: {fileID: 4948844265772406138, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 146fc8bcd3ff8de4a907edabf84ea65b, type: 3}
+      objectReference: {fileID: 21300000, guid: ad2b6bde030712f4da7941410dc82be6, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
 --- !u!224 &513975255 stripped
@@ -1425,11 +1425,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2082841779737249832, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: Cost
-      value: 50
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 2082841779737249832, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: skinVarName
-      value: skin_green
+      value: skin_diver
       objectReference: {fileID: 0}
     - target: {fileID: 2082841779737249832, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: shopCoinCounterScript
@@ -1521,12 +1521,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2082841779737249847, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: m_Name
-      value: GreenSkin
+      value: DiverSkin
       objectReference: {fileID: 0}
     - target: {fileID: 4948844265772406138, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f4a01cfcaf6113c459eacde409714490, type: 3}
+      objectReference: {fileID: 21300000, guid: 8fc880c0a06eab44ba25bdc41df0c6ea, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
 --- !u!224 &1581231296 stripped
@@ -2004,7 +2004,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: b6fce6cc7715f404f9dcde75c72ecf14, type: 3}
+  m_Texture: {fileID: 2800000, guid: 27e0aef9723eae64594bd702400cbe11, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -2059,7 +2059,7 @@ MonoBehaviour:
   audioManager: {fileID: 99026466}
   adManager: {fileID: 1084594748}
   xScroll: -0.45
-  yScroll: 0.1
+  yScroll: 0
   backImage: {fileID: 1790637811}
   skins: {fileID: 186814316}
   upgrade: {fileID: 1728442629}
@@ -2385,6 +2385,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 186814317}
     m_Modifications:
+    - target: {fileID: 2082841779737249832, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
+      propertyPath: Cost
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2082841779737249832, guid: 8652aef78471f6a4fa8ad63860a44f5c, type: 3}
       propertyPath: skinVarName
       value: skin_default
