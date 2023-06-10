@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject ground;
     [SerializeField] private TMP_Text highscoreText;
     [SerializeField] private GameObject scoreCounter;
+    [Header("Prefabs")]
+    [SerializeField] private GameObject dataPersistenceManagerPrefab;
     [Header("Background Settings")]
     [SerializeField] private float xScroll;
     [SerializeField] private float yScroll;
@@ -33,6 +35,15 @@ public class GameManager : MonoBehaviour
 
     private Vector2 playerVelocityBeforePause;
     private float simulatorVelocityBeforePause;
+
+    void Awake()
+    {
+        if (DataPersistenceManager.Instance == null)
+        {
+            GameObject dataPerManager = Instantiate(dataPersistenceManagerPrefab);
+            dataPerManager.SetActive(true);
+        }
+    }
 
     void Start()
     {
