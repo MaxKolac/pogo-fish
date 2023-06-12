@@ -2,8 +2,8 @@
     "m_SelectedDeviceId": "R5CNA0SDDMX",
     "m_SelectedPackage": {
         "deviceId": "R5CNA0SDDMX",
-        "name": "com.sagger.pogofish",
-        "processId": 26107,
+        "name": "com.sagger.PogoFish",
+        "processId": 12219,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -12,6 +12,24 @@
             "deviceId": "R5CNA0SDDMX",
             "name": "com.sagger.pogofish",
             "processId": 26107,
+            "exited": false
+        },
+        {
+            "deviceId": "R5CNA0SDDMX",
+            "name": "com.sagger.pogofish",
+            "processId": 28440,
+            "exited": false
+        },
+        {
+            "deviceId": "R5CNA0SDDMX",
+            "name": "com.sagger.pogofish",
+            "processId": 30809,
+            "exited": false
+        },
+        {
+            "deviceId": "R5CNA0SDDMX",
+            "name": "com.sagger.PogoFish",
+            "processId": 12219,
             "exited": false
         }
     ],

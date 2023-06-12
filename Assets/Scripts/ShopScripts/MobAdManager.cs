@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using GoogleMobileAds.Api;
+using UnityEngine.UI;
 
 public class MobAdManager : MonoBehaviour
 {
+    [SerializeField] private float rewardedAdTimeout;
+    [Header("References")]
     [SerializeField] private ShopCoinCounter coinCounterScript;
+    [SerializeField] private Button adButton;
     private readonly string bannerAdUnitId = "ca-app-pub-3940256099942544/6300978111"; 
     private readonly string rewardedAdUnitId = "ca-app-pub-3940256099942544/5354046379";
 
@@ -49,14 +54,6 @@ public class MobAdManager : MonoBehaviour
         }
     }
 
-    public void LoadAndShowInterstitialAd()
-    {
-        LoadRewardedInterstitialAd();
-        ShowRewardedInterstitialAd();
-        Actions.OnUpgradeClicked?.Invoke();
-        Actions.OnSkinClicked?.Invoke();
-    }
-
     /// <summary>
     /// Loads the rewarded interstitial ad.
     /// </summary>
@@ -81,16 +78,13 @@ public class MobAdManager : MonoBehaviour
                 // if error is not null, the load request failed.
                 if (error != null || ad == null)
                 {
-                    Debug.LogError("rewarded interstitial ad failed to load an ad " +
-                                   "with error : " + error);
+                    Debug.LogError("rewardedInterstitialAd failed to load an ad with error: " + error);
                     return;
                 }
-
-                //Debug.Log("Rewarded interstitial ad loaded with response : "
-                //          + ad.GetResponseInfo());
-
+                //Debug.Log("Rewarded interstitial ad loaded with response : " + ad.GetResponseInfo());
                 rewardedInterstitialAd = ad;
-            });
+            }
+            );
     }
 
     /// <summary>
@@ -98,17 +92,39 @@ public class MobAdManager : MonoBehaviour
     /// </summary>
     public void ShowRewardedInterstitialAd()
     {
-        //const string rewardMsg = "Rewarded interstitial ad rewarded the user. Type: {0}, amount: {1}.";
-
         if (rewardedInterstitialAd != null && rewardedInterstitialAd.CanShowAd())
         {
             rewardedInterstitialAd.Show((Reward reward) =>
             {
                 reward.Type = "Coins";
                 reward.Amount = 50;
+                coinCounterScript.AddCoins((int)reward.Amount);
                 //Debug.Log(String.Format(rewardMsg, reward.Type, reward.Amount));
             });
-            coinCounterScript.AddCoins(50);
+            Actions.OnUpgradeClicked?.Invoke();
+            Actions.OnSkinClicked?.Invoke();
         }
     }
+
+    private IEnumerator RewardedInterstitialCoroutine()
+    {
+        adButton.interactable = false;
+        float timer = rewardedAdTimeout;
+        LoadRewardedInterstitialAd();
+        while (!rewardedInterstitialAd.CanShowAd())
+        {
+            if (timer <= 0)
+            {
+                adButton.interactable = true;
+                Debug.LogWarning("Failed to show rewardedInterstitialAd. Time limit reached and ad still can't be shown. Aborting coroutine...");
+                yield break;
+            }
+            timer -= Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+        adButton.interactable = true;
+        ShowRewardedInterstitialAd();
+    }
+
+    public void StartAdCoroutine() => StartCoroutine(RewardedInterstitialCoroutine());
 }
